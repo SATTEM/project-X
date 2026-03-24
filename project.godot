@@ -14,6 +14,10 @@ config/name="Project X"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+BattleManager="*uid://d3ltijjgpptg8"
+
 [editor]
 
 version_control/plugin_name="GitPlugin"

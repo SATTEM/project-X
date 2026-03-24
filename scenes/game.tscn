@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bqrnme4das468"]
+
+[ext_resource type="PackedScene" uid="uid://d3ltijjgpptg8" path="res://scenes/battle_manager.tscn" id="1_uwrxv"]
+
+[node name="Game" type="Node2D" unique_id=970079019]
+
+[node name="BattleManager" parent="." unique_id=1180100741 instance=ExtResource("1_uwrxv")]
