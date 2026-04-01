@@ -1,7 +1,17 @@
 [gd_scene format=3 uid="uid://bqrnme4das468"]
 
-[ext_resource type="PackedScene" uid="uid://d3ltijjgpptg8" path="res://scenes/battle_manager.tscn" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://c0fhmqtrn364d" path="res://scenes/character.tscn" id="1_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://bhp1ritfgkcr4" path="res://scenes/card.tscn" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/card_resource.gd" id="3_lbhrr"]
+
+[sub_resource type="Resource" id="Resource_lbhrr"]
+script = ExtResource("3_lbhrr")
+effects = Array[String](["damage:2"])
+metadata/_custom_type_script = "uid://bkhjs6impq3th"
 
 [node name="Game" type="Node2D" unique_id=970079019]
 
-[node name="BattleManager" parent="." unique_id=1180100741 instance=ExtResource("1_uwrxv")]
+[node name="Character" parent="." unique_id=1996825650 instance=ExtResource("1_lnu2h")]
+
+[node name="Card" parent="Character" unique_id=1726885061 instance=ExtResource("1_yqjtg")]
+card_resource = SubResource("Resource_lbhrr")
