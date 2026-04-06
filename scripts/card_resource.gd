@@ -8,8 +8,8 @@ class_name CardResource
 
 func transeffects() -> Array[Callable]:
 	var callables: Array[Callable] = []
-	for str in effects:
-		var part = str.split(":")
+	for effect in effects:
+		var part = effect.split(":")
 		if part.size() == 2:
 			var type = part[0]
 			var value = int(part[1])

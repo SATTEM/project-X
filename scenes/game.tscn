@@ -11,7 +11,7 @@ metadata/_custom_type_script = "uid://bkhjs6impq3th"
 
 [node name="Game" type="Node2D" unique_id=970079019]
 
-[node name="Character" parent="." unique_id=1996825650 instance=ExtResource("1_lnu2h")]
+[node name="Player" parent="." unique_id=1996825650 instance=ExtResource("1_lnu2h")]
 
-[node name="Card" parent="Character" unique_id=1726885061 instance=ExtResource("1_yqjtg")]
+[node name="Card" parent="Player" unique_id=1726885061 instance=ExtResource("1_yqjtg")]
 card_resource = SubResource("Resource_lbhrr")
