@@ -1,7 +1,6 @@
 class_name BattleMananger
 extends Node
-## 战斗场景
-
+## 战斗管理器脚本
 
 # 通过注册来获取卡牌和角色的引用
 var player: Character

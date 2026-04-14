@@ -1,5 +1,6 @@
-extends Resource
 class_name CardResource
+extends Resource
+## 卡牌资源脚本，作为资源和工厂
 
 @export var card_name: String = "攻击"
 @export var cost: int = 0

@@ -1,5 +1,6 @@
-extends Node2D
 class_name Card
+extends Node2D
+## 卡牌脚本
 
 signal played(card_instance: Card)
 

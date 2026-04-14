@@ -1,5 +1,6 @@
 class_name Character
 extends Node
+## 角色脚本
 
 signal draw_required(count: int)
 signal character_died(character: Character)
