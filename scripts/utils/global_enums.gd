@@ -4,8 +4,8 @@ extends Node
 
 # 元素类型
 enum Element {
-    UNKNOW,
-    FIRE,
-    WATER,
-    SOIL,
+	UNKNOW,
+	FIRE,
+	WATER,
+	SOIL,
 }

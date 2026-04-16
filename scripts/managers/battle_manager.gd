@@ -1,4 +1,3 @@
-class_name BattleMananger
 extends Node
 ## 战斗管理器脚本
 
@@ -67,14 +66,17 @@ func register_card(card: Card) -> void:
 	return
 
 
-func register_player(character: Character) -> void:
-	player = character
+func register_character(character: Character, is_player: bool = true) -> void:
+	if is_player:
+		player = character
+	else:
+		characters.append(character)
 	# 抽牌请求
-	player.draw_required.connect(_on_player_draw_required)
+	character.draw_required.connect(_on_player_draw_required)
 	# 角色死亡
-	player.character_died.connect(_on_character_died)
+	character.character_died.connect(_on_character_died)
 	# 玩家结束回合
-	player.turn_ended.connect(_on_character_turn_ended)
+	character.turn_ended.connect(_on_character_turn_ended)
 	print("Registered: " + character.name)
 	return
 
