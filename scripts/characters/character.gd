@@ -15,7 +15,7 @@ var sprite: Sprite2D #立绘
 
 
 func _ready() -> void:
-	BattleManager.register_player(self)
+	BattleManager.register_character(self)
 	max_energy = 10
 	max_health = 100
 	health = max_health

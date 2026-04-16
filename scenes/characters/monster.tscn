@@ -1,3 +1,19 @@
 [gd_scene format=3 uid="uid://dvfgaqmdcuuke"]
 
-[node name="Monster" type="Node2D" unique_id=1686288577]
+[ext_resource type="Script" uid="uid://crbcne35iy8k2" path="res://scripts/characters/monster.gd" id="1_rvwux"]
+[ext_resource type="Texture2D" uid="uid://cyc8b4s7m7hky" path="res://icon.svg" id="2_jl15v"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8y01f"]
+
+[node name="Monster" type="AnimatableBody2D" unique_id=25191756]
+script = ExtResource("1_rvwux")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=966577405]
+shape = SubResource("CapsuleShape2D_8y01f")
+
+[node name="BodySprite" type="Sprite2D" parent="." unique_id=373817789]
+
+[node name="IntentIcon" type="Sprite2D" parent="." unique_id=885809961]
+position = Vector2(0, -55)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_jl15v")

@@ -1,4 +1,3 @@
-class_name BattleMananger
 extends Node
 ## 战斗管理器脚本
 
@@ -7,7 +6,9 @@ var player: Character
 var default_card: Card
 var characters: Array[Character]
 var test_timer: float = 0.0
+var character_visit_count: int = 0
 var turn_count: int = 0
+
 
 
 func _process(delta: float) -> void:
@@ -15,10 +16,14 @@ func _process(delta: float) -> void:
 	# 测试: 当每隔一秒开始一回合
 	test_timer += delta
 	if test_timer >= 1.0 :
-		turn_count += 1
+		if character_visit_count % len(characters) == 0:
+			turn_count += 1
+			character_visit_count = 0
+		character_visit_count += 1
+			
 		print("Turn: " + str(turn_count))
 		test_timer = 0.0
-		start_turn(player)
+		start_turn(characters.front())
 	return
 
 
@@ -57,6 +62,8 @@ func _on_character_died(character: Character) -> void:
 func _on_character_turn_ended(character: Character) -> void:
 	## 角色回合结束，决定下一个是谁的回合
 	print("Turn ended, character's health: " + str(character.health))
+	characters.pop_front()
+	characters.push_back(character)
 	return
 
 
@@ -67,14 +74,16 @@ func register_card(card: Card) -> void:
 	return
 
 
-func register_player(character: Character) -> void:
-	player = character
+func register_character(character: Character, is_player: bool = true) -> void:
+	if is_player:
+		player = character	
+	characters.append(character)
 	# 抽牌请求
-	player.draw_required.connect(_on_player_draw_required)
+	character.draw_required.connect(_on_player_draw_required)
 	# 角色死亡
-	player.character_died.connect(_on_character_died)
+	character.character_died.connect(_on_character_died)
 	# 玩家结束回合
-	player.turn_ended.connect(_on_character_turn_ended)
+	character.turn_ended.connect(_on_character_turn_ended)
 	print("Registered: " + character.name)
 	return
 
