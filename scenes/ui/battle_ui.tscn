@@ -1,3 +1,13 @@
 [gd_scene format=3 uid="uid://cvfnmh8fpsbcc"]
 
+<<<<<<< HEAD
 [node name="BattleUi" type="CanvasLayer" unique_id=944873520]
+=======
+[node name="BattleUi" type="Control" unique_id=620187974]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+>>>>>>> e4f854582575543449b8af3ead5963072e2abff9
