@@ -12,10 +12,11 @@ metadata/_custom_type_script = "uid://bkhjs6impq3th"
 
 [node name="Game" type="Node2D" unique_id=970079019]
 
-[node name="Player" parent="." unique_id=1996825650 instance=ExtResource("1_lnu2h")]
-
-[node name="Card" parent="Player" unique_id=1726885061 instance=ExtResource("1_yqjtg")]
+[node name="Card" parent="." unique_id=1726885061 instance=ExtResource("1_yqjtg")]
 card_resource = SubResource("Resource_lbhrr")
+
+[node name="Player" parent="." unique_id=1996825650 node_paths=PackedStringArray("default_card") instance=ExtResource("1_lnu2h")]
+default_card = NodePath("../Card")
 
 [node name="Monster" parent="." unique_id=25191756 instance=ExtResource("4_lbhrr")]
 position = Vector2(580, 228)

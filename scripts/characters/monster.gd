@@ -44,13 +44,3 @@ func start_turn() -> void:
 	# 执行意图并结束回合
 	execute_intent()
 	turn_ended.emit(self)
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	BattleManager.register_character(self, false)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

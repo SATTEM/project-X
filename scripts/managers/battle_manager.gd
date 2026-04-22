@@ -2,7 +2,7 @@ extends Node
 ## 战斗管理器脚本
 
 # 通过注册来获取卡牌和角色的引用
-var player: Character
+var player: Player
 var default_card: Card
 var characters: Array[Character]
 var test_timer: float = 0.0
@@ -62,8 +62,6 @@ func _on_character_died(character: Character) -> void:
 func _on_character_turn_ended(character: Character) -> void:
 	## 角色回合结束，决定下一个是谁的回合
 	print("Turn ended, character's health: " + str(character.health))
-	characters.pop_front()
-	characters.push_back(character)
 	return
 
 
@@ -74,9 +72,11 @@ func register_card(card: Card) -> void:
 	return
 
 
-func register_character(character: Character, is_player: bool = true) -> void:
+func register_character(character: Character, is_player: bool) -> void:
 	if is_player:
-		player = character	
+		player = character
+		player.init_deck()
+		
 	characters.append(character)
 	# 抽牌请求
 	character.draw_required.connect(_on_player_draw_required)
@@ -94,6 +94,9 @@ func start_turn(character: Character) -> void:
 		print("It's player's turn!")
 	else:
 		print("It's someone else's turn!")
+	# 把该角色放在队列末端
+	characters.pop_front()
+	characters.push_back(character)
 	
 	character.start_turn()
 	return
