@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bqrnme4das468"]
 
-[ext_resource type="PackedScene" uid="uid://c0fhmqtrn364d" path="res://scenes/characters/character.tscn" id="1_lnu2h"]
+[ext_resource type="Script" uid="uid://by7d7wgibiny2" path="res://scripts/managers/game_manager.gd" id="1_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bhp1ritfgkcr4" path="res://scenes/cards/card.tscn" id="1_yqjtg"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://c648wudl7a2a4" path="res://scenes/characters/player.tscn" id="4_iywne"]
 [ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="4_lbhrr"]
 
 [sub_resource type="Resource" id="Resource_lbhrr"]
@@ -11,11 +12,13 @@ effects = Array[String](["damage:2"])
 metadata/_custom_type_script = "uid://bkhjs6impq3th"
 
 [node name="Game" type="Node2D" unique_id=970079019]
+script = ExtResource("1_p57ef")
 
-[node name="Player" parent="." unique_id=1996825650 instance=ExtResource("1_lnu2h")]
-
-[node name="Card" parent="Player" unique_id=1726885061 instance=ExtResource("1_yqjtg")]
+[node name="Card" parent="." unique_id=1726885061 instance=ExtResource("1_yqjtg")]
 card_resource = SubResource("Resource_lbhrr")
 
 [node name="Monster" parent="." unique_id=25191756 instance=ExtResource("4_lbhrr")]
 position = Vector2(580, 228)
+
+[node name="Player" parent="." unique_id=1281873703 node_paths=PackedStringArray("default_card") instance=ExtResource("4_iywne")]
+default_card = NodePath("../Card")

@@ -1,47 +1,69 @@
-class_name Character
+@abstract class_name Character
 extends Node
-## 角色脚本
+## 角色基类脚本
+## 提供角色类共有方法
 
-signal draw_required(count: int)
+signal drawing(count: int)
 signal character_died(character: Character)
 signal turn_ended(character: Character)
 signal block_changed(new_block: int)
-signal energy_changed(new_energy: int)
 signal health_changed(new_health: int)
 
 var hand: Array[Card] #手牌
-var health: int
-var max_health: int
-var energy: int
-var max_energy: int
-var sprite: Sprite2D #立绘
-var block_max: int = 999 #最大格挡值
-var block: int = 0: #当前格挡值
+var _health: int = 100 # 幕后生命值变量
+var health: int = 100: # 当前生命值
+	get: return _health
 	set(value):
-		block = max(0, value)
-		block_changed.emit(block)
-	
-func add_block(amount: int) -> void:
-	block += amount
+		_health = min(health_max, max(0, value))
+		health_changed.emit(_health)
+var health_max: int = 100 # 最大生命值
+var sprite: Sprite2D # 立绘
+var block_max: int = 999 # 最大格挡值
+var _block: int = 0 # 格挡值幕后变量
+var block: int = 0: # 当前格挡值
+	get: return _block
+	set(value):
+		_block = min(block_max, max(0, value))
+		block_changed.emit(_block)
+
 
 func _ready() -> void:
-	BattleManager.register_character(self, true)
-	max_energy = 3 
-	max_health = 80
-	health = max_health
+	## 角色节点构造时的共有初始化逻辑，自动执行
+	# 暂无
 	return
 
+
+@abstract func init() -> void ## 创建角色初始化函数
+
+
 func start_turn() -> void:
-	## 开始回合：重置能量，尝试抽牌等
-	energy = max_energy
-	draw_required.emit(5)
-	# 自动打出第一张牌
-	play_card(hand[0])
+	## 开始回合逻辑，应该被派生类重写
+	## 重写时，遵循先调用父类逻辑，再调用基类逻辑的顺序(c++ style)
+	# 基类暂无回合逻辑
+	return
+
+
+func end_turn() -> void:
+	## 结束回合逻辑，应该被派生类所重写
+	## 重写时，遵循先执行完自身逻辑，再调用父类逻辑的顺序(c++ style)
+	# 发射回合结束信号
 	turn_ended.emit(self)
 	return
 
+
+@abstract func play_card(_card: Card) -> void
+## 打出卡牌方法，具体实现在派生类中
+
+func add_block(amount: int) -> void:
+	## 添加格挡。此类效果函数标记为(effect), 以后将移动到专门的工具类中
+	## 并组合入Character便于调用
+	## effect
+	block += amount
+
+
 func take_damage(amount: int) -> void:
 	## 受击扣血：先扣格挡值,格挡值减少0再减少角色血量，若血量低于0则设置为0并发出角色死亡信号
+	## effect
 	if block >= amount:
 		block -= amount 
 	else:
@@ -51,25 +73,3 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		health = 0
 		character_died.emit(self)
-
-func is_energy_enough(need: int) -> bool:
-	## 检查费用：检查角色是否有足够能量
-	return energy >= need
-
-func spend_energy(need: int) -> void:
-	# 扣除费用：扣除能量
-	energy -= need
-	if energy < 0:   
-		energy = 0  
-	energy_changed.emit(energy)
-	return
-
-func play_card(card: Card) -> void:
-	# 打出手牌：检查是否能打出，若能则扣费打出、调用其打牌方法
-	if is_energy_enough(card.cost):
-		spend_energy(card.cost)
-		card.play()
-		hand.erase(card)
-	else:
-		print("能量不足,无法打出卡牌")
-	return

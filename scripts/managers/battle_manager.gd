@@ -2,40 +2,14 @@ extends Node
 ## 战斗管理器脚本
 
 # 通过注册来获取卡牌和角色的引用
-var player: Character
 var default_card: Card
-var characters: Array[Character]
-var test_timer: float = 0.0
-var character_visit_count: int = 0
-var turn_count: int = 0
-
-
-
-func _process(delta: float) -> void:
-	## 帧循环
-	# 测试: 当每隔一秒开始一回合
-	test_timer += delta
-	if test_timer >= 1.0 :
-		if character_visit_count % len(characters) == 0:
-			turn_count += 1
-			character_visit_count = 0
-		character_visit_count += 1
-			
-		print("Turn: " + str(turn_count))
-		test_timer = 0.0
-		start_turn(characters.front())
-	return
-
-
-func _on_player_draw_required(count: int) -> void:
-	## 给玩家抽若干张牌
-	# 正式实现方法: 角色调用自己的抽牌函数
-	#character.draw_cards(count)
-	# 这里简单实现，直接添加默认牌
-	for i in range(count):
-		player.hand.append(default_card)
-		print(str(i + 1) + " card drawed: " + default_card.card_name)
-	return
+var player: Player
+var turn_queue: Array[Character]
+var active_character: Character = null
+var current_character_index: int = 0
+var battle_over: bool = false
+var turn_count: int = 1
+var is_active: bool = false
 
 
 func _on_card_played(card: Card = default_card) -> void:
@@ -50,20 +24,27 @@ func _on_card_played(card: Card = default_card) -> void:
 func _on_character_died(character: Character) -> void:
 	## 当有角色死亡时调用此方法
 	## 目前来说是检查是否为玩家，是则失败，否则胜利
+	if battle_over:
+		return
 	if character == player:
 		print("You died!")
 	else:
 		print("You win!")
-		
+	battle_over = true
 	end_game()
 	return
 
 
 func _on_character_turn_ended(character: Character) -> void:
-	## 角色回合结束，决定下一个是谁的回合
-	print("Turn ended, character's health: " + str(character.health))
-	characters.pop_front()
-	characters.push_back(character)
+	## 角色回合结束，进入下一个回合
+	if battle_over:
+		return
+	current_character_index = (current_character_index + 1) % turn_queue.size()
+	if current_character_index == 0:
+		turn_count += 1
+	print(character.name + "的回合结束")	
+	
+	start_character_turn(turn_queue[current_character_index])
 	return
 
 
@@ -74,28 +55,50 @@ func register_card(card: Card) -> void:
 	return
 
 
-func register_character(character: Character, is_player: bool = true) -> void:
-	if is_player:
-		player = character	
-	characters.append(character)
-	# 抽牌请求
-	character.draw_required.connect(_on_player_draw_required)
+func register_character(character: Character) -> void:
+	## 注册角色，并连接共有信号
+	turn_queue.append(character)
 	# 角色死亡
 	character.character_died.connect(_on_character_died)
-	# 玩家结束回合
+	# 角色结束回合
 	character.turn_ended.connect(_on_character_turn_ended)
 	print("Registered: " + character.name)
 	return
 
 
-func start_turn(character: Character) -> void:
-	## 开始某个角色的回合
-	if character == player:
-		print("It's player's turn!")
-	else:
-		print("It's someone else's turn!")
-	
+func start_battle(aPlayer: Player, enemies: Array[Monster]):
+	## 战斗初始化方法
+	## 注册战斗开始时就存在的玩家、敌人
+	## 并完成对应初始化
+	is_active = true
+	# 处理玩家
+	player = aPlayer
+	player.battle_init()
+	register_character(player)
+	# 处理敌人
+	for enemy in enemies:
+		register_character(enemy)
+	current_character_index = 0
+	start_character_turn(turn_queue[current_character_index])
+	return
+
+
+func start_character_turn(character: Character) -> void:
+	## 开始某个角色的回合，若为玩家则等待输入
+	active_character = character
 	character.start_turn()
+	if character is Player:
+		# 玩家的操作逻辑在Player内执行
+		pass
+	else:
+		character.execute_intent()
+		character.end_turn()
+
+
+func reset_battle() -> void:
+	## 重置战斗
+	get_tree().reload_current_scene()
+	is_active = true
 	return
 
 
@@ -105,6 +108,7 @@ func get_card_target() -> Character:
 
 func end_game() -> void:
 	## 结束游戏
+	is_active = false
 	print("Game end...")
 	get_tree().quit()
 	return

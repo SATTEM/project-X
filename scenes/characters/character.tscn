@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://c0fhmqtrn364d"]
 
-[ext_resource type="Script" uid="uid://ca3gol62djcp7" path="res://scripts/characters/character.gd" id="1_agfs1"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x31xa"]
 
+[node name="Character" type="AnimatableBody2D" unique_id=2010337032]
 
-[node name="Character" type="Node2D" unique_id=2087987713]
-script = ExtResource("1_agfs1")
+[node name="Coliision" type="CollisionShape2D" parent="." unique_id=389470025]
+shape = SubResource("CapsuleShape2D_x31xa")
+
+[node name="BodySprite" type="Sprite2D" parent="." unique_id=1713043699]
