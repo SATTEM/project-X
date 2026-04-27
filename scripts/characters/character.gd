@@ -27,6 +27,7 @@ var block: int = 0: # 当前格挡值
 		block_changed.emit(_block)
 
 
+
 func _ready() -> void:
 	## 角色节点构造时的共有初始化逻辑，自动执行
 	# 暂无
@@ -73,3 +74,4 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		health = 0
 		character_died.emit(self)
+
