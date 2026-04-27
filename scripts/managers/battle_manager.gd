@@ -58,6 +58,9 @@ func register_card(card: Card) -> void:
 func register_character(character: Character) -> void:
 	## 注册角色，并连接共有信号
 	turn_queue.append(character)
+	if character is Player:
+		player = character
+		player.init_deck()
 	# 角色死亡
 	character.character_died.connect(_on_character_died)
 	# 角色结束回合
@@ -86,6 +89,7 @@ func start_battle(aPlayer: Player, enemies: Array[Monster]):
 func start_character_turn(character: Character) -> void:
 	## 开始某个角色的回合，若为玩家则等待输入
 	active_character = character
+	
 	character.start_turn()
 	if character is Player:
 		# 玩家的操作逻辑在Player内执行
