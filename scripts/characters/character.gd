@@ -73,3 +73,7 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		health = 0
 		character_died.emit(self)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 23756122465652d001bad86eca26052dcfb3c137
