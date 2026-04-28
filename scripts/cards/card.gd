@@ -37,7 +37,7 @@ func play_card_on_target(user: Character, target: Character) -> void:
 
 
 func play() -> void:
-	played.emit()
+	played.emit(self)
 
 #func clicked():
 	#print("你点击了卡牌。")				

@@ -6,8 +6,8 @@ extends Node
 signal drawing(count: int)
 signal character_died(character: Character)
 signal turn_ended(character: Character)
-signal block_changed(new_block: int)
-signal health_changed(new_health: int)
+signal block_changed(character: Character, new_block: int)
+signal health_changed(character: Character, new_health: int)
 
 var hand: Array[Card] #手牌
 var _health: int = 100 # 幕后生命值变量
@@ -15,7 +15,7 @@ var health: int = 100: # 当前生命值
 	get: return _health
 	set(value):
 		_health = min(health_max, max(0, value))
-		health_changed.emit(_health)
+		health_changed.emit(self, _health)
 var health_max: int = 100 # 最大生命值
 var sprite: Sprite2D # 立绘
 var block_max: int = 999 # 最大格挡值
@@ -24,7 +24,7 @@ var block: int = 0: # 当前格挡值
 	get: return _block
 	set(value):
 		_block = min(block_max, max(0, value))
-		block_changed.emit(_block)
+		block_changed.emit(self, _block)
 
 
 
@@ -63,14 +63,13 @@ func add_block(amount: int) -> void:
 
 
 func take_damage(amount: int) -> void:
-	## 受击扣血：先扣格挡值,格挡值减少0再减少角色血量，若血量低于0则设置为0并发出角色死亡信号
+	## 受击扣血：先扣格挡值,格挡值减少，若为0则再减少角色血量，若血量低于0则设置为0并发出角色死亡信号
 	## effect
 	if block >= amount:
 		block -= amount 
 	else:
 		health -= amount - block
 		block = 0
-	health_changed.emit(health)
 	if health <= 0:
 		health = 0
 		character_died.emit(self)

@@ -2,22 +2,22 @@ extends Node
 ## 战斗管理器脚本
 
 # 通过注册来获取卡牌和角色的引用
-var default_card: Card
 var player: Player
 var turn_queue: Array[Character]
 var active_character: Character = null
 var current_character_index: int = 0
 var battle_over: bool = false
 var turn_count: int = 1
+var can_next_turn: bool = false
 var is_active: bool = false
 
 
-func _on_card_played(card: Card = default_card) -> void:
-	## 结算卡牌实例，这里使用默认卡牌
+func _on_card_played(card: Card) -> void:
+	## 结算卡牌实例
 	# 获取卡牌目标
 	var target: Character = get_card_target()
 	# 对目标使用卡牌
-	card.play_card_on_target(target)
+	card.play_card_on_target(active_character, target)
 	return
 
 
@@ -35,21 +35,26 @@ func _on_character_died(character: Character) -> void:
 	return
 
 
-func _on_character_turn_ended(character: Character) -> void:
-	## 角色回合结束，进入下一个回合
+func _on_character_turn_ended(_character: Character) -> void:
+	## 角色回合结束，标记可以进入下一个回合
 	if battle_over:
 		return
-	current_character_index = (current_character_index + 1) % turn_queue.size()
-	if current_character_index == 0:
-		turn_count += 1
-	print(character.name + "的回合结束")	
-	
-	start_character_turn(turn_queue[current_character_index])
+	can_next_turn = true	
 	return
 
 
+func _process(_delta: float) -> void:
+	## 每一帧检查按帧变化的逻辑标志
+	if can_next_turn:
+		print(active_character.name + "的回合结束")
+		current_character_index = (current_character_index + 1) % turn_queue.size()
+		if current_character_index == 0:
+			turn_count += 1
+		can_next_turn = false
+		start_character_turn(turn_queue[current_character_index])
+
+
 func register_card(card: Card) -> void:
-	default_card = card 
 	card.played.connect(_on_card_played)
 	print("Registered: " + card.card_name)
 	return
@@ -107,7 +112,18 @@ func reset_battle() -> void:
 
 
 func get_card_target() -> Character:
-	return player
+	## 选择卡牌打击对象
+	## 敌人打击玩家，玩家和随从打击敌人
+	if active_character is Player:
+		# 这里简单用玩家自己代替
+		return player
+	else:
+		if active_character.is_ally:
+			# 随从
+			return player
+		else:
+			# 敌人
+			return player
 
 
 func end_game() -> void:
