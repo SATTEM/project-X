@@ -24,6 +24,9 @@ var block: int = 0: #当前格挡值
 
 func add_block(amount: int) -> void:
 	block += amount
+	if block > block_max:
+		#格挡值不可超过上限
+		block = block_max
 
 
 func _ready() -> void:
@@ -38,9 +41,6 @@ func start_turn() -> void:
 	## 开始回合：重置能量，尝试抽牌等
 	energy = max_energy
 	draw_required.emit(5)
-	# 自动打出第一张牌
-	play_card(hand[0])
-	turn_ended.emit(self)
 	return
 
 

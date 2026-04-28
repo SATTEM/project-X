@@ -3,12 +3,30 @@ extends Character
 
 var draw_pile: Array = [] #抽牌堆
 var discard_pile: Array = []  #弃牌堆
-@export var default_card: Card
+
 
 func init_deck() -> void:
+	#初始化抽牌堆：放入5张攻击牌、3张防御牌、2张抽牌牌
 	print("玩家卡组初始化中...")
+	var attack_res = preload("res://scripts/cards/resources/attack_card.tres")
+	var defend_res = preload("res://scripts/cards/resources/defend_card.tres")
+	var draw_res = preload("res://scripts/cards/resources/draw_card.tres")
 	for i in range(5):
-		draw_pile.append(default_card)
+		var card = Card.new()
+		card.card_resource = attack_res
+		add_child(card)
+		draw_pile.append(card)
+	for i in range(3):
+		var card = Card.new()
+		card.card_resource = defend_res
+		add_child(card)
+		draw_pile.append(card)
+	for i in range(2):
+		var card = Card.new()
+		card.card_resource = draw_res
+		add_child(card)
+		draw_pile.append(card)
+	draw_pile.shuffle()
 
 
 func draw_card(amount: int) -> void:
