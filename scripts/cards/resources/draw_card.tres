@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://bbpjae5731aby"]
+
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1_y6qgl"]
+
+[resource]
+script = ExtResource("1_y6qgl")
+card_name = "抽牌"
+cost = 1
+effects = Array[String](["draw:2"])
+metadata/_custom_type_script = "uid://bkhjs6impq3th"

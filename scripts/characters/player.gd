@@ -48,6 +48,30 @@ func end_turn() -> void:
 	return
 
 
+func init_deck() -> void:
+	## 初始化抽牌堆：放入5张攻击牌、3张防御牌、2张抽牌牌
+	print("玩家卡组初始化中...")
+	var attack_res = preload("res://scripts/cards/resources/attack_card.tres")
+	var defend_res = preload("res://scripts/cards/resources/defend_card.tres")
+	var draw_res = preload("res://scripts/cards/resources/draw_card.tres")
+	for i in range(5):
+		var card = Card.new()
+		card.card_resource = attack_res
+		add_child(card)
+		draw_pile.append(card)
+	for i in range(3):
+		var card = Card.new()
+		card.card_resource = defend_res
+		add_child(card)
+		draw_pile.append(card)
+	for i in range(2):
+		var card = Card.new()
+		card.card_resource = draw_res
+		add_child(card)
+		draw_pile.append(card)
+	draw_pile.shuffle()
+
+
 func draw_card(amount: int) -> void:
 	## 从抽牌堆取牌加入手牌，若抽牌堆不足则洗入弃牌堆
 	## effect
@@ -58,14 +82,6 @@ func draw_card(amount: int) -> void:
 		if not draw_pile.is_empty():
 			var card = draw_pile.pop_back() # 拿走最后一张
 			hand.append(card)
-
-
-
-func init_deck() -> void:
-	## 初始化玩家卡组
-	print("玩家卡组初始化中...")
-	for i in range(5):
-		draw_pile.append(default_card)
 
 
 func is_energy_enough(need: int) -> bool:
