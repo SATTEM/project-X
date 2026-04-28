@@ -78,6 +78,12 @@ func start_battle(aPlayer: Player, enemies: Array[Monster]):
 	## 战斗初始化方法
 	## 注册战斗开始时就存在的玩家、敌人
 	## 并完成对应初始化
+	
+	turn_queue.clear()      # 清空上局的死人队列
+	battle_over = false     # 重置战斗结束标志
+	turn_count = 1          # 回合数归零重计
+	can_next_turn = false   # 锁住回合流转逻辑
+	
 	is_active = true
 	# 处理玩家
 	player = aPlayer
@@ -115,7 +121,9 @@ func get_card_target() -> Character:
 	## 选择卡牌打击对象
 	## 敌人打击玩家，玩家和随从打击敌人
 	if active_character is Player:
-		# 这里简单用玩家自己代替
+		for chara in turn_queue:
+			if chara is Monster : 
+				return chara
 		return player
 	else:
 		if active_character.is_ally:

@@ -4,7 +4,7 @@ extends Character
 signal energy_changed(new_energy: int)
 
 var energy: int # 当前能量
-var max_energy: int # 最大能量
+var max_energy: int = 5# 最大能量
 var draw_pile: Array = [] # 抽牌堆
 var discard_pile: Array = []  # 弃牌堆
 @export var default_card: Card
@@ -29,6 +29,7 @@ func start_turn() -> void:
 	# 初始化能量, 抽5张牌
 	energy = max_energy
 	draw_card(5)
+	energy_changed.emit(energy)
 	return
 
 

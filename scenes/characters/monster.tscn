@@ -10,6 +10,6 @@ script = ExtResource("1_rvwux")
 [node name="Character" parent="." unique_id=2010337032 instance=ExtResource("1_ttauy")]
 
 [node name="IntentIcon" type="Sprite2D" parent="." unique_id=885809961]
-position = Vector2(0, -55)
+position = Vector2(3, -64)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jl15v")

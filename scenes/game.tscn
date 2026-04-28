@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="4_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://bkrbmxfytd6wb" path="res://assets/art/intents/attack.png" id="5_p57ef"]
 [ext_resource type="Texture2D" uid="uid://cyc8b4s7m7hky" path="res://icon.svg" id="6_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://cvfnmh8fpsbcc" path="res://scenes/ui/battle_ui.tscn" id="8_gee14"]
 
 [sub_resource type="Resource" id="Resource_lbhrr"]
 script = ExtResource("3_lbhrr")
@@ -28,3 +29,5 @@ intent_textures = Dictionary[String, Texture2D]({
 
 [node name="Player" parent="." unique_id=1281873703 node_paths=PackedStringArray("default_card") instance=ExtResource("4_iywne")]
 default_card = NodePath("../Card")
+
+[node name="BattleUi" parent="." unique_id=455966288 instance=ExtResource("8_gee14")]
