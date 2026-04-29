@@ -27,7 +27,6 @@ intent_textures = Dictionary[String, Texture2D]({
 "defend": ExtResource("6_u5sy4")
 })
 
-[node name="Player" parent="." unique_id=1281873703 node_paths=PackedStringArray("default_card") instance=ExtResource("4_iywne")]
-default_card = NodePath("../Card")
+[node name="Player" parent="." unique_id=1281873703 instance=ExtResource("4_iywne")]
 
-[node name="BattleUi" parent="." unique_id=455966288 instance=ExtResource("8_gee14")]
+[node name="BattleUI" parent="." unique_id=455966288 instance=ExtResource("8_gee14")]
