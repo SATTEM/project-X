@@ -1,5 +1,6 @@
-extends Node2D
 class_name Card
+extends Node2D
+## 卡牌脚本
 
 signal played(card_instance: Card)
 
@@ -28,15 +29,15 @@ func _ready() -> void:
 	#var card_image = Sprite2D.new()
 
 
-func play_card_on_target(target: Character) -> void:
-	print("Played card: [" + card_name+"] at: [" + target.name + "]")
+func play_card_on_target(user: Character, target: Character) -> void:
+	print(user.name + " played card: [" + card_name+"] at: [" + target.name + "]")
 	for effect in effects:
-		effect.call(target)
+		effect.call(user, target)
 	return
 
 
 func play() -> void:
-	played.emit()
+	played.emit(self)
 
 #func clicked():
 	#print("你点击了卡牌。")				

@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cvfnmh8fpsbcc"]
+
+[ext_resource type="Script" uid="uid://bt83fnc62uq2r" path="res://scripts/ui/battle_ui.gd" id="1_2hywk"]
+
+[node name="BattleUi" type="Control" unique_id=455966288]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2hywk")
+
+[node name="PlayerInfo" type="Label" parent="." unique_id=1575841956]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 371.0
+offset_right = 275.0
+offset_bottom = 621.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 33
+
+[node name="EnemyInfo" type="Label" parent="." unique_id=2020774911]
+layout_mode = 0
+offset_left = 746.0
+offset_top = 120.0
+offset_right = 984.0
+offset_bottom = 298.0
+theme_override_font_sizes/font_size = 28
+
+[node name="HandContainer" type="HBoxContainer" parent="." unique_id=566937498]
+layout_mode = 0
+offset_left = 369.0
+offset_top = 424.0
+offset_right = 1030.0
+offset_bottom = 624.0
+
+[node name="EndTurnBtn" type="Button" parent="." unique_id=1960888089]
+layout_mode = 0
+offset_left = 944.0
+offset_top = 458.0
+offset_right = 1128.0
+offset_bottom = 528.0
+theme_override_font_sizes/font_size = 43
+text = "EndTurn"
+
+[node name="ReplayBtn" type="Button" parent="." unique_id=828730465]
+layout_mode = 0
+offset_left = 994.0
+offset_top = -8.0
+offset_right = 1154.0
+offset_bottom = 74.0
+theme_override_font_sizes/font_size = 44
+text = "restart"
+
+[node name="GameInfo" type="Label" parent="." unique_id=1138739910]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 95.0
+offset_right = 547.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 44
