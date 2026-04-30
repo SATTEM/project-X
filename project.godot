@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 BattleManager="*uid://colxxgb5h3anj"
 
+[display]
+
+window/size/mode=3
+
 [editor]
 
 version_control/plugin_name="GitPlugin"
