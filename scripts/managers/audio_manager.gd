@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 ## 音频管理器
 
 

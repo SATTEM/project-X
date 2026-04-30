@@ -35,13 +35,13 @@ func start_turn() -> void:
 func end_turn() -> void:
 	## 结束回合
 	# 必须是玩家回合才能结束
-	assert(BattleManager.active_character == self, "Can't end other's turn!")
+	if BattleManager.active_character != self:
+		printerr("Can't end other's turn!")
 
 	for card in hand:
-		discard_pile.append(card) #手牌全部扔进弃牌堆
-	hand.clear()    #清空手牌
+		discard_pile.append(card) # 手牌全部扔进弃牌堆
+	hand.clear()    # 清空手牌
 	
-	block = 0 #格挡值归0
 	print("玩家回合结束...")
 	# 父类结束回合逻辑
 	super.end_turn()
@@ -51,23 +51,15 @@ func end_turn() -> void:
 func init_deck() -> void:
 	## 初始化抽牌堆：放入5张攻击牌、3张防御牌、2张抽牌牌
 	print("玩家卡组初始化中...")
-	var attack_res = preload("res://scripts/cards/resources/attack_card.tres")
-	var defend_res = preload("res://scripts/cards/resources/defend_card.tres")
-	var draw_res = preload("res://scripts/cards/resources/draw_card.tres")
+	draw_pile.clear()
 	for i in range(5):
-		var card = Card.new()
-		card.card_resource = attack_res
-		add_child(card)
+		var card = CardLibrary.create_card_and_add_to_scene("attack_card", BattleManager.card_container)
 		draw_pile.append(card)
 	for i in range(3):
-		var card = Card.new()
-		card.card_resource = defend_res
-		add_child(card)
+		var card = CardLibrary.create_card_and_add_to_scene("defend_card", BattleManager.card_container)
 		draw_pile.append(card)
 	for i in range(2):
-		var card = Card.new()
-		card.card_resource = draw_res
-		add_child(card)
+		var card = CardLibrary.create_card_and_add_to_scene("draw_card", BattleManager.card_container)
 		draw_pile.append(card)
 	draw_pile.shuffle()
 
@@ -82,6 +74,7 @@ func draw_card(amount: int) -> void:
 		if not draw_pile.is_empty():
 			var card = draw_pile.pop_back() # 拿走最后一张
 			hand.append(card)
+	drawing.emit(amount)
 
 
 func is_energy_enough(need: int) -> bool:

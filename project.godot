@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 BattleManager="*uid://colxxgb5h3anj"
+CardLibrary="*uid://be287041ewb4f"
+MonsterLibrary="*uid://cjrvb2qe7ntvg"
 
 [display]
 

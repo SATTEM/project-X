@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 ## 战斗管理器脚本
 
 # 通过注册来获取卡牌和角色的引用
@@ -7,9 +7,19 @@ var turn_queue: Array[Character]
 var active_character: Character = null
 var current_character_index: int = 0
 var battle_over: bool = false
-var turn_count: int = 1
+var turn_count: int = 0
 var can_next_turn: bool = false
 var is_active: bool = false
+var card_container: Node2D
+var enemy_container: Node2D
+
+
+func _ready() -> void:
+	## 初始化战斗管理器
+	card_container = Node2D.new()
+	add_child(card_container)
+	enemy_container = Node2D.new()
+	add_child(enemy_container)
 
 
 func _on_card_played(card: Card) -> void:
@@ -48,8 +58,6 @@ func _process(_delta: float) -> void:
 	if can_next_turn:
 		print(active_character.name + "的回合结束")
 		current_character_index = (current_character_index + 1) % turn_queue.size()
-		if current_character_index == 0:
-			turn_count += 1
 		can_next_turn = false
 		start_character_turn(turn_queue[current_character_index])
 
@@ -62,10 +70,11 @@ func register_card(card: Card) -> void:
 
 func register_character(character: Character) -> void:
 	## 注册角色，并连接共有信号
-	turn_queue.append(character)
 	if character is Player:
 		player = character
-		player.init_deck()
+		turn_queue.push_front(character)
+	else:
+		turn_queue.push_back(character)
 	# 角色死亡
 	character.character_died.connect(_on_character_died)
 	# 角色结束回合
@@ -81,16 +90,22 @@ func start_battle(aPlayer: Player, enemies: Array[Monster]):
 	
 	turn_queue.clear()      # 清空上局的死人队列
 	battle_over = false     # 重置战斗结束标志
-	turn_count = 1          # 回合数归零重计
+	turn_count = 0          # 回合数归零重计
 	can_next_turn = false   # 锁住回合流转逻辑
+	# 清理敌人节点
+	for child in enemy_container.get_children():
+		child.queue_free()
 	
 	is_active = true
 	# 处理玩家
 	player = aPlayer
 	player.battle_init()
 	register_character(player)
-	# 处理敌人
+	# 处理敌人，挂载到场景树中并注册
 	for enemy in enemies:
+		enemy_container.add_child(enemy)
+		enemy.init()
+		enemy.position = Vector2(500, 300)
 		register_character(enemy)
 	current_character_index = 0
 	start_character_turn(turn_queue[current_character_index])
@@ -100,20 +115,20 @@ func start_battle(aPlayer: Player, enemies: Array[Monster]):
 func start_character_turn(character: Character) -> void:
 	## 开始某个角色的回合，若为玩家则等待输入
 	active_character = character
-	
+	if character is Player:
+		# 回合数加一
+		turn_count += 1
 	character.start_turn()
 	if character is Player:
 		# 玩家的操作逻辑在Player内执行
 		pass
 	else:
-		character.execute_intent()
 		character.end_turn()
 
 
 func reset_battle() -> void:
 	## 重置战斗
 	get_tree().reload_current_scene()
-	is_active = true
 	return
 
 

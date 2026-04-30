@@ -5,8 +5,7 @@ extends Node2D
 signal played(card_instance: Card)
 
 @export var card_resource: CardResource
-
-var effects: Array[Callable] = []
+var effects: Array[EffectResource] = []
 var card_name: String:
 	get:
 		return card_resource.card_name
@@ -17,22 +16,13 @@ var cost: int:
 
 func _ready() -> void:
 	BattleManager.register_card(self)
-	
-	effects = card_resource.transeffects()
 	return
-	#按钮
-	#var button = Button.new()
-	#button.size = Vector2(100, 100)
-	#add_child(button)
-	#点击
-	#button.pressed.connect(clicked)
-	#var card_image = Sprite2D.new()
 
 
 func play_card_on_target(user: Character, target: Character) -> void:
 	print(user.name + " played card: [" + card_name+"] at: [" + target.name + "]")
 	for effect in effects:
-		effect.call(user, target)
+		effect.apply(user, target)
 	return
 
 

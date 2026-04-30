@@ -1,5 +1,5 @@
 @abstract class_name Character
-extends Node
+extends Node2D
 ## 角色基类脚本
 ## 提供角色类共有方法
 
@@ -15,6 +15,11 @@ var health: int = 100: # 当前生命值
 	get: return _health
 	set(value):
 		_health = min(health_max, max(0, value))
+		if is_dead:
+			return
+		if _health <= 0:
+			is_dead = true
+			character_died.emit(self)
 		health_changed.emit(self, _health)
 var health_max: int = 100 # 最大生命值
 var sprite: Sprite2D # 立绘
@@ -25,12 +30,13 @@ var block: int = 0: # 当前格挡值
 	set(value):
 		_block = min(block_max, max(0, value))
 		block_changed.emit(self, _block)
-
+var is_dead: bool = false
 
 
 func _ready() -> void:
 	## 角色节点构造时的共有初始化逻辑，自动执行
-	# 暂无
+	# 清理格挡
+	block = 0
 	return
 
 
@@ -38,7 +44,7 @@ func _ready() -> void:
 
 
 func start_turn() -> void:
-	## 开始回合逻辑，应该被派生类重写
+	## 回合逻辑，应该被派生类重写
 	## 重写时，遵循先调用父类逻辑，再调用基类逻辑的顺序(c++ style)
 	# 基类暂无回合逻辑
 	return
@@ -65,11 +71,7 @@ func add_block(amount: int) -> void:
 func take_damage(amount: int) -> void:
 	## 受击扣血：先扣格挡值,格挡值减少，若为0则再减少角色血量，若血量低于0则设置为0并发出角色死亡信号
 	## effect
-	if block >= amount:
-		block -= amount 
-	else:
-		health -= amount - block
-		block = 0
-	if health <= 0:
-		health = 0
-		character_died.emit(self)
+	var retain = max(0, amount - block)
+	block -= amount
+	if retain > 0:
+		health -= retain

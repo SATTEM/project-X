@@ -6,27 +6,50 @@ signal intent_changed(type: String, value: int)
 var intent_type: String = "attack"
 var intent_value: int = 0
 var energy_slots: Dictionary[GlobalEnums.Element, int] = {GlobalEnums.Element.WATER: 1}
-var energy_slots_max: Dictionary[GlobalEnums.Element, int] = {GlobalEnums.Element.WATER: 2}
+var energy_slots_max: Dictionary[GlobalEnums.Element, int]:
+	get:
+		return monster_resource.energy_slots_max
 var is_ally: bool = false
+var monster_resource: MonsterResource
 @onready var intent_icon: Sprite2D = $IntentIcon
-@export var intent_textures: Dictionary[String, Texture2D]
+var intent_textures: Dictionary[String, Texture2D]:
+	get:
+		return monster_resource.intent_textures
 
 
 func init() -> void:
-	## 进战初始化，从资源构造怪物
-	# 暂无需实现
-	pass
+	## 进战初始化
+	for element in energy_slots:
+		energy_slots[element] = energy_slots_max[element]
+	health = health_max
+	choose_intent(1)
+	# 根据意图切换意图图标
+	var tex = intent_textures.get(intent_type)
+	if tex:
+		intent_icon.texture = tex
+	else:
+		printerr("Missing intent textures!")
+		intent_icon.texture = null
+	
+	print("Monster children: ", get_children())
 
 
 func start_turn() -> void:
-	## 开始回合逻辑: 根据回合数选择意图并广播
+	## 开始回合逻辑
+	## 执行意图、根据回合数选择意图并广播
 	# 调用父类开始回合逻辑
 	super.start_turn()
-	choose_intent(BattleManager.turn_count)
+	execute_intent()
+	# 选择下一回合的意图
+	choose_intent(BattleManager.turn_count + 1)
 	intent_changed.emit(intent_type, intent_value)
 	# 根据意图切换意图图标
-	assert(intent_textures.get(intent_type) != null, "No texture for intent type!")
-	intent_icon.texture = intent_textures.get(intent_type)
+	var tex = intent_textures.get(intent_type)
+	if tex:
+		intent_icon.texture = tex
+	else:
+		printerr("Missing intent textures!")
+		intent_icon.texture = null
 	return
 
 

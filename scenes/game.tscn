@@ -2,16 +2,13 @@
 
 [ext_resource type="Script" uid="uid://by7d7wgibiny2" path="res://scripts/managers/game_manager.gd" id="1_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bhp1ritfgkcr4" path="res://scenes/cards/card.tscn" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="3_0tnpc"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://c648wudl7a2a4" path="res://scenes/characters/player.tscn" id="4_iywne"]
-[ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="4_lbhrr"]
-[ext_resource type="Texture2D" uid="uid://bkrbmxfytd6wb" path="res://assets/art/intents/attack.png" id="5_p57ef"]
-[ext_resource type="Texture2D" uid="uid://cyc8b4s7m7hky" path="res://icon.svg" id="6_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://cvfnmh8fpsbcc" path="res://scenes/ui/battle_ui.tscn" id="8_gee14"]
 
 [sub_resource type="Resource" id="Resource_lbhrr"]
 script = ExtResource("3_lbhrr")
-effects = Array[String](["damage:2"])
 metadata/_custom_type_script = "uid://bkhjs6impq3th"
 
 [node name="Game" type="Node2D" unique_id=970079019]
@@ -19,13 +16,6 @@ script = ExtResource("1_p57ef")
 
 [node name="Card" parent="." unique_id=1726885061 instance=ExtResource("1_yqjtg")]
 card_resource = SubResource("Resource_lbhrr")
-
-[node name="Monster" parent="." unique_id=25191756 instance=ExtResource("4_lbhrr")]
-position = Vector2(580, 228)
-intent_textures = Dictionary[String, Texture2D]({
-"attack": ExtResource("5_p57ef"),
-"defend": ExtResource("6_u5sy4")
-})
 
 [node name="Player" parent="." unique_id=1281873703 instance=ExtResource("4_iywne")]
 

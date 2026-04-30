@@ -1,6 +1,7 @@
 class_name GameManager
-extends Node
+extends Node2D
 
 func _ready() -> void:
 	## 游戏初始化后启动
-	BattleManager.start_battle($Player, [$Monster])
+	var monster = MonsterLibrary.create_monster("base")
+	BattleManager.start_battle($Player, [monster])
