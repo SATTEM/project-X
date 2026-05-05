@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_pxvvh")
 base_amount = 1
+effect_name = "draw"
 metadata/_custom_type_script = "uid://d3c2mkhicllia"

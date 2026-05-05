@@ -20,9 +20,13 @@ config/icon="res://icon.svg"
 BattleManager="*uid://colxxgb5h3anj"
 CardLibrary="*uid://be287041ewb4f"
 MonsterLibrary="*uid://cjrvb2qe7ntvg"
+Settings="*uid://cd2ypylbfmivx"
+AnimationService="*uid://hkqmmsrngjo6"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/mode=3
 
 [editor]

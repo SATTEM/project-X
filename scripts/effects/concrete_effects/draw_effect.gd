@@ -10,3 +10,7 @@ func apply(user: Character, _target: Character) -> void:
 		printerr("Non-player is drawing!")
 	if user is Player:
 		user.draw_card(base_amount)
+
+
+func get_value():
+	return base_amount

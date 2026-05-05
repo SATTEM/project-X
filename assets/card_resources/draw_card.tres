@@ -3,11 +3,13 @@
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="1_47fu3"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1_y6qgl"]
 [ext_resource type="Resource" uid="uid://cmn6qfn7c88el" path="res://assets/effect_resources/draw_effect.tres" id="2_iqrp5"]
+[ext_resource type="Texture2D" uid="uid://cxg1ynv3mjxo3" path="res://assets/art/monsters/lorc/vile-fluid.png" id="4_iqrp5"]
 
 [resource]
 script = ExtResource("1_y6qgl")
 card_name = "抽牌"
 cost = 1
 effect_resources = Array[ExtResource("1_47fu3")]([ExtResource("2_iqrp5")])
+texture = ExtResource("4_iqrp5")
 card_id = "draw_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

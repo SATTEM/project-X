@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bt83fnc62uq2r" path="res://scripts/ui/battle_ui.gd" id="1_2hywk"]
 
-[node name="BattleUi" type="Control" unique_id=455966288]
+[node name="BattleUI" type="Control" unique_id=455966288]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

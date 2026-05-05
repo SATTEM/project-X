@@ -1,21 +1,21 @@
 [gd_resource type="Resource" script_class="MonsterResource" format=3 uid="uid://b4feg4icc5uxg"]
 
-[ext_resource type="Texture2D" uid="uid://bkrbmxfytd6wb" path="res://assets/art/intents/attack.png" id="1_6f1y3"]
 [ext_resource type="Script" uid="uid://23nbt0d0iqwc" path="res://scripts/characters/monsters/monster_resource.gd" id="1_lkbn4"]
-[ext_resource type="Texture2D" uid="uid://cyc8b4s7m7hky" path="res://icon.svg" id="2_3g1we"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1_pug7j"]
+[ext_resource type="Resource" uid="uid://bo3nms015agj1" path="res://assets/card_resources/attack_card.tres" id="2_lo7qt"]
 [ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="3_3g1we"]
+[ext_resource type="Resource" uid="uid://dijotk5lq86ru" path="res://assets/card_resources/defend_card.tres" id="3_8k2pm"]
+[ext_resource type="Texture2D" uid="uid://b36s0fphyto42" path="res://assets/art/monsters/lorc/imp.png" id="4_3xdrf"]
 
 [resource]
 script = ExtResource("1_lkbn4")
 monster_name = "base"
 health_max = 100
-intent_textures = Dictionary[String, Texture2D]({
-"attack": ExtResource("1_6f1y3"),
-"defend": ExtResource("2_3g1we")
-})
 energy_slots_max = Dictionary[int, int]({
 2: 5
 })
 monster_scene = ExtResource("3_3g1we")
 monster_id = "base"
+monster_texture = ExtResource("4_3xdrf")
+intent_card_resources = Array[ExtResource("1_pug7j")]([ExtResource("2_lo7qt"), ExtResource("3_8k2pm")])
 metadata/_custom_type_script = "uid://23nbt0d0iqwc"

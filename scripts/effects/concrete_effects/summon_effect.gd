@@ -11,3 +11,6 @@ func apply(user: Character, _target: Character) -> void:
 		return
 	BattleManager.summon_minion(monster_id)
 	
+
+func get_value():
+	return 1

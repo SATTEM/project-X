@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_chjed")
 base_amount = 6
+effect_name = "damage"
 metadata/_custom_type_script = "uid://d3c2mkhicllia"

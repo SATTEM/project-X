@@ -9,3 +9,4 @@ script = ExtResource("1_rvwux")
 [node name="Character" parent="." unique_id=2010337032 instance=ExtResource("1_ttauy")]
 
 [node name="IntentIcon" type="Sprite2D" parent="." unique_id=439987727]
+position = Vector2(0, -152)

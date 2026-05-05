@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_tggrd")
 monster_id = "base"
+effect_name = "summon"
 metadata/_custom_type_script = "uid://crfpydshm8fo3"

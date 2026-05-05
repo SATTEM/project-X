@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_i5nsp")
 base_amount = 5
+effect_name = "block"
 metadata/_custom_type_script = "uid://d3c2mkhicllia"

@@ -1,6 +1,9 @@
 extends Control
 class_name BattleUI
 
+var player: Player
+var monster: Monster
+
 # 抓取界面上的节点
 @onready var player_info: Label = $PlayerInfo
 @onready var enemy_info: Label = $EnemyInfo
@@ -10,39 +13,30 @@ class_name BattleUI
 @onready var game_info: Label = $GameInfo
 
 
-var player: Player
-var monster: Monster
-
-
 func _ready() -> void:
 	# 让 GameManager 先把角色注册进 BattleManager 再抓取
 	await get_tree().process_frame
 	
-	# 获取玩家和怪物引用
+	# 获取玩家引用
 	player = BattleManager.player
-	for chara in BattleManager.turn_queue:
-		if chara is Monster:
-			monster = chara
-			break
-			
-	if not player or not monster:
-		print("UI报错：找不到玩家或怪物！")
+	if not player:
+		print("UI报错：找不到玩家！")
 		return
 		
-	# 底层的 health_changed 传了两个参数 (character, new_health)
+	# 玩家相关信号
 	player.health_changed.connect(_on_player_health_changed)
 	player.block_changed.connect(_on_player_block_changed)
 	player.energy_changed.connect(_on_player_energy_changed)
-	
-	monster.health_changed.connect(_on_monster_health_changed)
-	monster.intent_changed.connect(_on_monster_intent_changed)
-	
+
 	# 按钮点击事件
 	end_turn_btn.pressed.connect(_on_end_turn_pressed)
-	
 	replay_btn.show() 
-	replay_btn.pressed.connect(func(): BattleManager.reset_battle()) # 点击就重置场景
-	
+	# 点击就重置场景
+	replay_btn.pressed.connect(func(): BattleManager.reset_battle())
+	# 游戏未结束时不显示
+	replay_btn.hide()
+	# 连接主动刷新信号
+	BattleManager.call_refresh.connect(refresh_all_info)
 	# 初始刷新一次界面
 	refresh_all_info()
 
@@ -61,38 +55,36 @@ func _on_player_energy_changed(_new_energy: int) -> void:
 	refresh_all_info()
 
 
-func _on_monster_health_changed(_character: Character, _new_health: int) -> void:
-	refresh_all_info()
-
-
-func _on_monster_intent_changed(type: String, value: int) -> void:
-	# 怪物意图更新
-	enemy_info.text = "【敌人】\n血量: %d/%d\n意图: %s (%d)" % [monster.health, monster.health_max, type, value]
-
-
-# 界面刷新核心逻辑 
 func refresh_all_info() -> void:
+	## 界面刷新逻辑
 	# 更新玩家文本
 	player_info.text = "【玩家】\n血量: %d/%d\n格挡: %d\n能量: %d/%d" % [
 		player.health, player.health_max, player.block, player.energy, player.max_energy
 	]
-	
-	# 更新怪物基础文本 (如果没有发意图信号的话)
-	if monster.intent_type == "":
-		enemy_info.text = "【敌人】\n血量: %d/%d\n意图: 未知" % [monster.health, monster.health_max]
-	else:
+
+	# 更新敌人信息
+	var enemy = _get_first_enemy()
+	if enemy:
 		enemy_info.text = "【敌人】\n血量: %d/%d\n意图: %s (%d)" % [
-			monster.health, monster.health_max, monster.intent_type, monster.intent_value]
-	
-	# 更新 gameinfo
+			enemy.health, enemy.health_max, enemy.intent_type, enemy.intent_value
+		]
+	else:
+		enemy_info.text = "【敌人】\n无"
+
+	# 更新游戏状态
 	if player.health <= 0:
 		game_info.text = "游戏结束：你倒下了！"
-	elif monster.health <= 0:
+		replay_btn.show()
+		end_turn_btn.disabled = true
+	elif enemy == null:
 		game_info.text = "游戏结束：胜利！"
+		replay_btn.show()
+		end_turn_btn.disabled = true
 	else:
 		game_info.text = "第 %d 回合" % BattleManager.turn_count
-		
-	# 刷新手牌 (每次属性变化都重新画一遍手牌，防止手牌数量不对)
+		replay_btn.hide()
+		end_turn_btn.disabled = false
+
 	_draw_hand_cards()
 
 
@@ -107,22 +99,58 @@ func _draw_hand_cards() -> void:
 		var btn = Button.new()
 		# 按钮文字显示卡牌名和费用
 		btn.text = "%s (%d费)" % [card.card_name, card.cost] 
-		
+		# 添加样式
+		btn.add_theme_color_override("font_color", Color.WHITE)
+		btn.add_theme_color_override("font_hover_color", Color.YELLOW)
+		btn.add_theme_stylebox_override("normal", _make_card_stylebox(Color(0.2, 0.2, 0.3)))
+		btn.add_theme_stylebox_override("hover", _make_card_stylebox(Color(0.3, 0.3, 0.4)))
+		btn.custom_minimum_size = Vector2(100, 60)
 		# 当按钮被按下时，执行打牌逻辑
 		btn.pressed.connect(func():
 			if (
-					player.is_energy_enough(card.cost) 
+					player.is_energy_enough(card.cost)
 					and BattleManager.active_character == player
 					and player.hand.has(card)
 			):
-				player.play_card(card)
-				refresh_all_info() # 打完牌刷新一下
-		)
+				var target = BattleManager.get_card_target()
+				if target:
+					BattleManager.request_play_card(card, player, target)
+					refresh_all_info()
+)	
 		hand_container.add_child(btn)
 
 
+func _make_card_stylebox(bg_color: Color) -> StyleBoxFlat:
+	## 创建卡牌样式
+	var style = StyleBoxFlat.new()
+	style.bg_color = bg_color
+	style.border_width_left = 2
+	style.border_width_right = 2
+	style.border_width_top = 2
+	style.border_width_bottom = 2
+	style.border_color = Color.WHITE
+	style.corner_radius_top_left = 5
+	style.corner_radius_top_right = 5
+	style.corner_radius_bottom_left = 5
+	style.corner_radius_bottom_right = 5
+	return style
+
+
 func _on_end_turn_pressed() -> void:
-	# 按钮交互
+	## 按钮交互
 	if BattleManager.active_character == player:
 		player.end_turn()
 		refresh_all_info()
+
+
+func _process(_delta: float) -> void:
+	if BattleManager.can_next_turn:
+		refresh_all_info()
+
+
+func _get_first_enemy() -> Monster:
+	## 辅助函数：获取第一个存活敌人
+	for child in BattleManager.position_rows[GlobalEnums.PositionRow.ENEMY].get_children():
+		if child is Monster and not child.is_dead:
+			return child
+	return null

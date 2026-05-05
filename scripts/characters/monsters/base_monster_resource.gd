@@ -5,10 +5,12 @@ extends Resource
 ## 共有属性
 @export var monster_name: String
 @export var health_max: int
-@export var intent_textures: Dictionary[String, Texture2D]
 @export var energy_slots_max: Dictionary[GlobalEnums.Element, int] = {GlobalEnums.Element.WATER: 2}
 @export var monster_scene: PackedScene
 @export var monster_id: String
+@export var monster_texture: Texture2D
+@export var display_size: Vector2 = Vector2(200, 200)
+@export var intent_card_resources: Array[CardResource]
 
 
 @abstract func create_monster() -> Monster

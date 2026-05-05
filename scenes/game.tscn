@@ -5,18 +5,27 @@
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="3_0tnpc"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://c648wudl7a2a4" path="res://scenes/characters/player.tscn" id="4_iywne"]
+[ext_resource type="Texture2D" uid="uid://dfqtkgrfqai0x" path="res://assets/art/monsters/caro-asercion/goblin.png" id="6_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://cvfnmh8fpsbcc" path="res://scenes/ui/battle_ui.tscn" id="8_gee14"]
 
 [sub_resource type="Resource" id="Resource_lbhrr"]
 script = ExtResource("3_lbhrr")
 metadata/_custom_type_script = "uid://bkhjs6impq3th"
 
-[node name="Game" type="Node2D" unique_id=970079019]
+[node name="Game" type="Node2D" unique_id=1334802041]
 script = ExtResource("1_p57ef")
 
 [node name="Card" parent="." unique_id=1726885061 instance=ExtResource("1_yqjtg")]
 card_resource = SubResource("Resource_lbhrr")
 
 [node name="Player" parent="." unique_id=1281873703 instance=ExtResource("4_iywne")]
+texture = ExtResource("6_u5sy4")
 
-[node name="BattleUI" parent="." unique_id=455966288 instance=ExtResource("8_gee14")]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=743492882]
+
+[node name="BattleUI" parent="UILayer" unique_id=455966288 instance=ExtResource("8_gee14")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
