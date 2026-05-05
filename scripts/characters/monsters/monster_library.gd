@@ -26,8 +26,7 @@ func _scan_and_register() -> void:
 					var file_path = path + file_name
 					var res = load(file_path)
 					if res is BaseMonsterResource:
-						# 用文件名作为ID
-						var id = res.resource_path.get_file().get_basename()
+						var id = res.monster_id
 						_factories[id] = res
 						print("Register monster factory: ", id)
 				file_name = dir.get_next()

@@ -9,3 +9,9 @@ enum Element {
 	WATER,
 	SOIL,
 }
+## 站位排列
+enum PositionRow {
+	PLAYER,
+	FRONT,
+	ENEMY,
+}

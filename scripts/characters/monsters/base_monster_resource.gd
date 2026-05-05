@@ -8,6 +8,7 @@ extends Resource
 @export var intent_textures: Dictionary[String, Texture2D]
 @export var energy_slots_max: Dictionary[GlobalEnums.Element, int] = {GlobalEnums.Element.WATER: 2}
 @export var monster_scene: PackedScene
+@export var monster_id: String
 
 
 @abstract func create_monster() -> Monster

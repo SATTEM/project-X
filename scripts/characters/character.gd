@@ -31,6 +31,8 @@ var block: int = 0: # 当前格挡值
 		_block = min(block_max, max(0, value))
 		block_changed.emit(self, _block)
 var is_dead: bool = false
+var is_ally: bool = false
+var current_row: GlobalEnums.PositionRow
 
 
 func _ready() -> void:
@@ -46,7 +48,8 @@ func _ready() -> void:
 func start_turn() -> void:
 	## 回合逻辑，应该被派生类重写
 	## 重写时，遵循先调用父类逻辑，再调用基类逻辑的顺序(c++ style)
-	# 基类暂无回合逻辑
+	# 清空格挡
+	block = 0
 	return
 
 

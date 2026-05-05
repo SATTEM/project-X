@@ -13,12 +13,14 @@ func init() -> void:
 	## 创建角色时初始化
 	# 初始化卡组
 	init_deck()
+	is_ally = true
 
 
 func battle_init() -> void:
 	## 进战初始化
 	# 临时处理: 进战时才进行角色初始化
 	init()
+	current_row = GlobalEnums.PositionRow.PLAYER
 
 
 func start_turn() -> void:
@@ -37,6 +39,7 @@ func end_turn() -> void:
 	# 必须是玩家回合才能结束
 	if BattleManager.active_character != self:
 		printerr("Can't end other's turn!")
+		return
 
 	for card in hand:
 		discard_pile.append(card) # 手牌全部扔进弃牌堆
@@ -49,17 +52,20 @@ func end_turn() -> void:
 
 
 func init_deck() -> void:
-	## 初始化抽牌堆：放入5张攻击牌、3张防御牌、2张抽牌牌
+	## 初始化抽牌堆
 	print("玩家卡组初始化中...")
 	draw_pile.clear()
-	for i in range(5):
+	for i in range(2):
 		var card = CardLibrary.create_card_and_add_to_scene("attack_card", BattleManager.card_container)
 		draw_pile.append(card)
-	for i in range(3):
+	for i in range(2):
 		var card = CardLibrary.create_card_and_add_to_scene("defend_card", BattleManager.card_container)
 		draw_pile.append(card)
 	for i in range(2):
 		var card = CardLibrary.create_card_and_add_to_scene("draw_card", BattleManager.card_container)
+		draw_pile.append(card)
+	for i in range(2):
+		var card = CardLibrary.create_card_and_add_to_scene("summon_card", BattleManager.card_container)
 		draw_pile.append(card)
 	draw_pile.shuffle()
 
@@ -106,17 +112,11 @@ func play_card(card: Card) -> void:
 
 func _input(event):
 	## 处理输入
-	# 忽略无效状态下的入
+	# 忽略无效状态
 	if not BattleManager.is_active or BattleManager.active_character != self:
 		return
 	if event.is_action_pressed("ui_accept"): #按回车键下一个回合
-		# 打出第一张牌
-		play_card(hand[0])
 		end_turn()
-	
-	if event.is_action_pressed("ui_focus_next"): #按Tab键模拟加防御
-		print("按下 Tab，增加 5 点格挡")
-		add_block(5)
 
 
 func _reshuffle_discard_to_draw() -> void:

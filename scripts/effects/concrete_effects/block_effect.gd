@@ -6,4 +6,4 @@ extends EffectResource
 
 func apply(user: Character, _target: Character) -> void:
 	## 将效果应用到user, target上
-	user.block += base_amount
+	user.add_block(base_amount)

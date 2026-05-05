@@ -17,4 +17,5 @@ energy_slots_max = Dictionary[int, int]({
 2: 5
 })
 monster_scene = ExtResource("3_3g1we")
+monster_id = "base"
 metadata/_custom_type_script = "uid://23nbt0d0iqwc"

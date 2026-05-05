@@ -110,7 +110,11 @@ func _draw_hand_cards() -> void:
 		
 		# 当按钮被按下时，执行打牌逻辑
 		btn.pressed.connect(func():
-			if player.is_energy_enough(card.cost) and BattleManager.active_character == player:
+			if (
+					player.is_energy_enough(card.cost) 
+					and BattleManager.active_character == player
+					and player.hand.has(card)
+			):
 				player.play_card(card)
 				refresh_all_info() # 打完牌刷新一下
 		)
