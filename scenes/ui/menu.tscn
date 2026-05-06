@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://db67xy14yt5yf"]
+
+[ext_resource type="Script" uid="uid://qm2af0g8k612" path="res://scripts/ui/menu.gd" id="1_7w7rl"]
+[ext_resource type="Texture2D" uid="uid://cd7vg5rnh7agv" path="res://assets/art/background/menu_background/menu_blue.png" id="2_wedc3"]
+
+[node name="Menu" type="Control" unique_id=2110864657]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(4, 4)
+pivot_offset = Vector2(-40, -80)
+script = ExtResource("1_7w7rl")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2117053532]
+layout_mode = 0
+offset_left = -28.75
+offset_top = -55.5
+offset_right = 672.25
+offset_bottom = 505.5
+texture = ExtResource("2_wedc3")
+expand_mode = 1
+stretch_mode = 6
+flip_v = true
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1755448008]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1449082322]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1312251256]
+layout_mode = 2
+text = "Continue"
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer" unique_id=890692929]
+layout_mode = 2
+text = "New Game"
+
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer" unique_id=266535685]
+layout_mode = 2
+text = "Card Catalog"
+
+[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer" unique_id=574403261]
+layout_mode = 2
+text = "Setting"
+
+[node name="Button5" type="Button" parent="MarginContainer/VBoxContainer" unique_id=647335631]
+layout_mode = 2
+text = "Save and Quit"
