@@ -30,7 +30,6 @@ var health: int = 100: # 当前生命值
 			character_died.emit(self)
 		health_changed.emit(self, _health)
 var health_max: int = 100 # 最大生命值
-var sprite: Sprite2D # 立绘
 var block_max: int = 999 # 最大格挡值
 var _block: int = 0 # 格挡值幕后变量
 var block: int = 0: # 当前格挡值
@@ -38,7 +37,7 @@ var block: int = 0: # 当前格挡值
 	set(value):
 		_block = min(block_max, max(0, value))
 		block_changed.emit(self, _block)
-var body_sprite: Sprite2D = null
+var world_ui: CharacterWorldUI = null
 
 
 @abstract func init() -> void
@@ -79,7 +78,6 @@ func add_block(amount: int) -> void:
 func take_damage(amount: int) -> void:
 	## 受击扣血：先扣格挡值,格挡值减少，若为0则再减少角色血量，若血量低于0则设置为0并发出角色死亡信号
 	## effect
-	_play_hit_animation()
 	var retain = max(0, amount - block)
 	block -= amount
 	if retain > 0:
@@ -92,25 +90,3 @@ func heal(amount: int) -> void:
 	## effect
 	health += amount
 	heal_display.emit(self, amount)
-
-
-func _play_hit_animation() -> void:
-	if not body_sprite:
-		return
-
-	# 停止之前的动画
-	if has_meta("hit_tween") and get_meta("hit_tween"):
-		(get_meta("hit_tween") as Tween).kill()
-	
-	var tween = create_tween().set_parallel(true)
-	set_meta("hit_tween", tween)
-	
-	# 闪红
-	tween.tween_property(body_sprite, "modulate", Color.RED, 0.05)
-	tween.tween_property(body_sprite, "modulate", Color.WHITE, 0.15).set_delay(0.05)
-	
-	# 震动（左右来回，回到原位）
-	var orig_pos = position
-	tween.tween_property(self, "position", orig_pos + Vector2(8, 0), 0.04)
-	tween.tween_property(self, "position", orig_pos - Vector2(8, 0), 0.04).set_delay(0.04)
-	tween.tween_property(self, "position", orig_pos, 0.08).set_delay(0.08)

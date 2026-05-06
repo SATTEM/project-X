@@ -8,10 +8,16 @@ var energy: int # 当前能量
 var max_energy: int = 5# 最大能量
 var draw_pile: Array = [] # 抽牌堆
 var discard_pile: Array = []  # 弃牌堆
+var display_size: Vector2:
+	get:
+		return Settings.ui_design_player_display_size
+var body_texture: Texture2D:
+	get:
+		return texture
 
 
 func _ready() -> void:
-	body_sprite = $Character/BodySprite
+	world_ui = $CharacterWorldUI
 
 
 func init() -> void:
@@ -25,7 +31,7 @@ func battle_init() -> void:
 	## 进战初始化
 	# 临时处理: 进战时才进行角色初始化
 	init()
-	body_sprite.texture = texture
+	world_ui.setup(self)
 	current_row = GlobalEnums.PositionRow.PLAYER
 
 

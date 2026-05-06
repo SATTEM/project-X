@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://qsmqy7ibycg4"]
+
+[ext_resource type="Script" uid="uid://d14i8eew0i607" path="res://scripts/ui/character_world_ui.gd" id="1_22b7q"]
+[ext_resource type="Texture2D" uid="uid://c8vb3mls6sx2x" path="res://assets/art/monsters/caro-asercion/cloaked-figure-on-horseback.png" id="2_4i61a"]
+
+[node name="CharacterWorldUI" type="Control" unique_id=1872879632 node_paths=PackedStringArray("body_sprite", "health_bar_bg", "health_bar_fill", "block_container", "block_icon", "block_label", "intent_container", "intent_icon", "intent_label")]
+layout_mode = 3
+script = ExtResource("1_22b7q")
+body_sprite = NodePath("BodySprite")
+health_bar_bg = NodePath("HealthBarBackground")
+health_bar_fill = NodePath("HealthBarFill")
+block_container = NodePath("BlockContainer")
+block_icon = NodePath("BlockContainer/BlockIcon")
+block_label = NodePath("BlockContainer/BlockLabel")
+intent_container = NodePath("IntentContainer")
+intent_icon = NodePath("IntentContainer/IntentIcon")
+intent_label = NodePath("IntentContainer/IntentLabel")
+
+[node name="BodySprite" type="Sprite2D" parent="." unique_id=1735109174]
+
+[node name="BlockContainer" type="Control" parent="." unique_id=1216401321]
+anchors_preset = 0
+
+[node name="BlockIcon" type="TextureRect" parent="BlockContainer" unique_id=533583047]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4i61a")
+expand_mode = 1
+
+[node name="BlockLabel" type="Label" parent="BlockContainer" unique_id=886974513]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.5
+offset_top = -11.5
+offset_right = 9.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "90"
+
+[node name="IntentContainer" type="Control" parent="." unique_id=1110697844]
+anchors_preset = 0
+offset_top = -100.0
+offset_bottom = -100.0
+
+[node name="IntentIcon" type="TextureRect" parent="IntentContainer" unique_id=1893640220]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="IntentLabel" type="Label" parent="IntentContainer" unique_id=1466693436]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "10000"
+
+[node name="HealthBarBackground" type="ColorRect" parent="." unique_id=443710483]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBarFill" type="ColorRect" parent="." unique_id=152581395]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

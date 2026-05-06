@@ -36,7 +36,8 @@ func _show_floating_text(character: Character, text: String, color: Color) -> vo
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_font_size_override("font_size", Settings.ui_design_font_size)
 	label.position = character.global_position + Vector2(0, -80)
-	label.modulate.a = 1.0   # 确保完全不透明
+	# 确保完全不透明
+	label.modulate.a = 1.0
 	_canvas_layer.add_child(label)
 
 	var tween = create_tween()

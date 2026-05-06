@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://dvfgaqmdcuuke"]
 
 [ext_resource type="Script" uid="uid://crbcne35iy8k2" path="res://scripts/characters/monsters/monster.gd" id="1_rvwux"]
-[ext_resource type="PackedScene" uid="uid://c0fhmqtrn364d" path="res://scenes/characters/character.tscn" id="1_ttauy"]
+[ext_resource type="PackedScene" uid="uid://qsmqy7ibycg4" path="res://scenes/ui/character_world_ui.tscn" id="2_rvwux"]
 
 [node name="Monster" type="Node2D" unique_id=1314423205]
 script = ExtResource("1_rvwux")
 
-[node name="Character" parent="." unique_id=2010337032 instance=ExtResource("1_ttauy")]
-
-[node name="IntentIcon" type="Sprite2D" parent="." unique_id=439987727]
-position = Vector2(0, -152)
+[node name="CharacterWorldUI" parent="." unique_id=1872879632 instance=ExtResource("2_rvwux")]
+anchors_preset = 0

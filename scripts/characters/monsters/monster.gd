@@ -12,36 +12,33 @@ var energy_slots_max: Dictionary[GlobalEnums.Element, int]:
 	get:
 		return monster_resource.energy_slots_max
 var monster_resource: MonsterResource
-var monster_texture: Texture2D:
+var body_texture: Texture2D:
 	get:
 		return monster_resource.monster_texture
 var intent_card_resources: Array[CardResource]:
 	get:
 		return monster_resource.intent_card_resources
-@onready var intent_icon: Sprite2D = $IntentIcon
+var display_size: Vector2:
+	get:
+		return monster_resource.display_size
+
 
 
 func _ready() -> void:
-	body_sprite = $Character/BodySprite
+	world_ui = $CharacterWorldUI
 
 
 func _update_intent_icon(card: Card) -> void:
-	## 设置意图图标，同时调整图标分辨率
+	## 设置意图图标
+	if not world_ui:
+		return
 	var tex: Texture2D = card.card_resource.texture if card else null
 	if tex:
-		intent_icon.texture = tex
-		# 按固定高度缩放图标
-		var tex_height = tex.get_height()
-		if tex_height > 0:
-			var target_height = float(Settings.ui_design_intent_icon_height)
-			var scale_factor = target_height / tex_height
-			intent_icon.scale = Vector2(scale_factor, scale_factor)
-		else:
-			intent_icon.scale = Vector2.ONE
+		world_ui.intent_icon.texture = tex
+		world_ui.intent_container.visible = true
 	else:
-		printerr("Missing intent texture for: " + intent_type)
-		intent_icon.texture = null
-		intent_icon.scale = Vector2.ONE
+		world_ui.intent_icon.texture = null
+		world_ui.intent_container.visible = false
 
 
 func init() -> void:
@@ -53,12 +50,8 @@ func init() -> void:
 		current_row = GlobalEnums.PositionRow.FRONT
 	else:
 		current_row = GlobalEnums.PositionRow.ENEMY
-	# 设置角色纹理
-	body_sprite.texture = monster_texture
-	if body_sprite.texture and monster_resource.display_size != Vector2.ZERO:
-		var tex_size = body_sprite.texture.get_size()
-		if tex_size.x > 0 and tex_size.y > 0:
-			body_sprite.scale = monster_resource.display_size / tex_size
+	# UI组件初始化
+	world_ui.setup(self)
 	for intent in intent_card_resources:
 		intent_cards.append(intent.create_card())
 	if intent_cards.size() > 0:

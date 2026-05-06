@@ -6,8 +6,9 @@ extends Node
 # 分辨率
 @export var ui_design_width: int = 1920
 @export var ui_design_height: int = 1080
-@export var ui_design_monster_spacing: int = 120
+@export var ui_design_monster_spacing: int = 240
 @export var ui_design_intent_icon_height: int = 128
+@export var ui_design_player_display_size: = Vector2(200, 200)
 # 特效设计
 @export var ui_design_float_duration: float = 1.0
 @export var ui_design_float_offset: float = 40.0
