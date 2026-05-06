@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://gx4dfxkmwtlf"]
+
+[ext_resource type="Script" uid="uid://ctsjhnr47wdxt" path="res://scripts/ui/card_display.gd" id="1_nve1b"]
+
+[node name="CardDisplay" type="Control" unique_id=1505606675 node_paths=PackedStringArray("background", "cost_label", "name_label", "description_label")]
+custom_minimum_size = Vector2(100, 140)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1820.0
+offset_bottom = -940.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nve1b")
+background = NodePath("Background")
+cost_label = NodePath("CostLabel")
+name_label = NodePath("NameLabel")
+description_label = NodePath("DescriptionLabel")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2032099030]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="." unique_id=607968976]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+mouse_filter = 1
+
+[node name="NameLabel" type="Label" parent="." unique_id=1613997343]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 88.0
+offset_bottom = 23.0
+mouse_filter = 1
+
+[node name="DescriptionLabel" type="Label" parent="." unique_id=552215725]
+layout_mode = 0
+offset_top = 104.0
+offset_right = 40.0
+offset_bottom = 127.0
+mouse_filter = 1

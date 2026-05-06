@@ -4,6 +4,8 @@ class_name BattleUI
 var player: Player
 var monster: Monster
 
+@export var card_display_scene: PackedScene
+
 # 抓取界面上的节点
 @onready var player_info: Label = $PlayerInfo
 @onready var enemy_info: Label = $EnemyInfo
@@ -89,51 +91,25 @@ func refresh_all_info() -> void:
 
 
 func _draw_hand_cards() -> void:
-	# 先把旧的卡牌按钮全清空
 	for child in hand_container.get_children():
 		child.queue_free()
-		
-	# 根据玩家现在手里的牌，重新生成按钮
+
 	for i in range(player.hand.size()):
 		var card = player.hand[i]
-		var btn = Button.new()
-		# 按钮文字显示卡牌名和费用
-		btn.text = "%s (%d费)" % [card.card_name, card.cost] 
-		# 添加样式
-		btn.add_theme_color_override("font_color", Color.WHITE)
-		btn.add_theme_color_override("font_hover_color", Color.YELLOW)
-		btn.add_theme_stylebox_override("normal", _make_card_stylebox(Color(0.2, 0.2, 0.3)))
-		btn.add_theme_stylebox_override("hover", _make_card_stylebox(Color(0.3, 0.3, 0.4)))
-		btn.custom_minimum_size = Vector2(100, 60)
-		# 当按钮被按下时，执行打牌逻辑
-		btn.pressed.connect(func():
+		var card_ui = card_display_scene.instantiate()
+		card_ui.set_card(card)
+		card_ui.card_pressed.connect(func(c: Card):
 			if (
-					player.is_energy_enough(card.cost)
-					and BattleManager.active_character == player
-					and player.hand.has(card)
+				player.is_energy_enough(c.cost)
+				and BattleManager.active_character == player
+				and player.hand.has(c)
 			):
 				var target = BattleManager.get_card_target()
 				if target:
-					BattleManager.request_play_card(card, player, target)
+					BattleManager.request_play_card(c, player, target)
 					refresh_all_info()
-)	
-		hand_container.add_child(btn)
-
-
-func _make_card_stylebox(bg_color: Color) -> StyleBoxFlat:
-	## 创建卡牌样式
-	var style = StyleBoxFlat.new()
-	style.bg_color = bg_color
-	style.border_width_left = 2
-	style.border_width_right = 2
-	style.border_width_top = 2
-	style.border_width_bottom = 2
-	style.border_color = Color.WHITE
-	style.corner_radius_top_left = 5
-	style.corner_radius_top_right = 5
-	style.corner_radius_bottom_left = 5
-	style.corner_radius_bottom_right = 5
-	return style
+		)
+		hand_container.add_child(card_ui)
 
 
 func _on_end_turn_pressed() -> void:
