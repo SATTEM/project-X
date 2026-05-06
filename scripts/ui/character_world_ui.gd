@@ -10,8 +10,10 @@ extends Control
 @export var intent_container: Control
 @export var intent_icon: TextureRect
 @export var intent_label: Label
+@export var energy_container: Control
 
 var _character: Character = null
+var energy_displays: Dictionary = {}
 
 
 func setup(character: Character) -> void:
@@ -52,6 +54,12 @@ func setup(character: Character) -> void:
 	block_icon.custom_minimum_size = Vector2(24, 24)
 	block_label.add_theme_font_size_override("font_size", 14)
 
+	if character is Monster:
+		_build_monster_energy_displays()
+		_update_monster_energy_display()
+	else:
+		energy_container.visible = false
+
 	# ---------- 信号 ----------
 	character.health_changed.connect(_on_health_changed)
 	character.block_changed.connect(_on_block_changed)
@@ -59,6 +67,7 @@ func setup(character: Character) -> void:
 	
 	if character is Monster:
 		character.intent_changed.connect(_on_intent_changed)
+		character.energy_changed.connect(_update_monster_energy_display)
 	else:
 		intent_container.visible = false
 	
@@ -90,3 +99,55 @@ func play_hit_animation(__character: Character, _amount: int) -> void:
 	tween.tween_property(self, "position", orig + Vector2(8, 0), 0.04)
 	tween.tween_property(self, "position", orig - Vector2(8, 0), 0.04).set_delay(0.04)
 	tween.tween_property(self, "position", orig, 0.08).set_delay(0.08)
+
+
+func _build_monster_energy_displays() -> void:
+	# 清除旧子节点
+	for child in energy_container.get_children():
+		child.queue_free()
+	energy_displays.clear()
+
+	var monster = _character as Monster
+	var element_icons = {
+		GlobalEnums.Element.WATER: preload("res://assets/art/elements/water.png"),
+		GlobalEnums.Element.FIRE: preload("res://assets/art/elements/fire.png"),
+		GlobalEnums.Element.SOIL: preload("res://assets/art/elements/soil.png")
+	}
+
+	var spacing = 24
+	var total_width = monster.energy_slots.size() * spacing
+	var start_x = -total_width / 2.0
+
+	var i = 0
+	for element in monster.energy_slots.keys():
+		var icon = TextureRect.new()
+		icon.texture = element_icons.get(element)
+		icon.expand = true
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.custom_minimum_size = Vector2(16, 16)
+		icon.position = Vector2(start_x + i * spacing, 0)
+		energy_container.add_child(icon)
+
+		var label = Label.new()
+		label.add_theme_font_size_override("font_size", 10)
+		label.add_theme_color_override("font_color", Color.WHITE)
+		label.position = icon.position + Vector2(16, 2)
+		energy_container.add_child(label)
+
+		energy_displays[element] = { "icon": icon, "label": label }
+		i += 1
+
+	# 容器位置：血条上方，居中
+	energy_container.position = Vector2(-total_width / 2.0, health_bar_bg.position.y - 20)
+
+
+func _update_monster_energy_display() -> void:
+	var monster = _character as Monster
+	for element in monster.energy_slots:
+		var data = energy_displays.get(element)
+		if data:
+			var current = monster.energy_slots[element]
+			var max_val = monster.energy_slots_max.get(element, 0)
+			data["label"].text = "%d/%d" % [current, max_val]
+			# 可调整图标透明度表示当前是否有能量
+			data["icon"].modulate.a = 1.0 if current > 0 else 0.3

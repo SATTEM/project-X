@@ -2,6 +2,7 @@ class_name Monster
 extends Character
 
 signal intent_changed(type: String, value: int)
+signal energy_changed(type: GlobalEnums.Element, value: int)
 
 var intent_cards: Array[Card] = []
 var intent_type: String = ""
@@ -90,6 +91,13 @@ func end_turn() -> void:
 	# 调用父类结束回合逻辑
 	super.end_turn()
 	return
+
+
+func set_energy(slot: GlobalEnums.Element, value: int) -> void:
+	## 设置能量并发射信号
+	var slot_max = energy_slots_max[slot]
+	energy_slots[slot] = max(slot_max, value)
+	energy_changed.emit(slot, energy_slots[slot])
 
 
 func get_intent() -> Card:

@@ -6,6 +6,7 @@ extends BaseCardFactory
 @export var cost: int = 0
 @export var effect_resources: Array[EffectResource]
 @export var texture: Texture2D
+@export var background_texture: Texture2D = preload("res://assets/art/card_arts/default_background.png")
 
 
 func create_card() -> Card:

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d14i8eew0i607" path="res://scripts/ui/character_world_ui.gd" id="1_22b7q"]
 [ext_resource type="Texture2D" uid="uid://c8vb3mls6sx2x" path="res://assets/art/monsters/caro-asercion/cloaked-figure-on-horseback.png" id="2_4i61a"]
 
-[node name="CharacterWorldUI" type="Control" unique_id=1872879632 node_paths=PackedStringArray("body_sprite", "health_bar_bg", "health_bar_fill", "block_container", "block_icon", "block_label", "intent_container", "intent_icon", "intent_label")]
+[node name="CharacterWorldUI" type="Control" unique_id=1872879632 node_paths=PackedStringArray("body_sprite", "health_bar_bg", "health_bar_fill", "block_container", "block_icon", "block_label", "intent_container", "intent_icon", "intent_label", "energy_container")]
 layout_mode = 3
 script = ExtResource("1_22b7q")
 body_sprite = NodePath("BodySprite")
@@ -15,6 +15,7 @@ block_label = NodePath("BlockContainer/BlockLabel")
 intent_container = NodePath("IntentContainer")
 intent_icon = NodePath("IntentContainer/IntentIcon")
 intent_label = NodePath("IntentContainer/IntentLabel")
+energy_container = NodePath("EnergyContainer")
 
 [node name="BodySprite" type="Sprite2D" parent="." unique_id=1735109174]
 
@@ -78,5 +79,10 @@ offset_bottom = 40.0
 
 [node name="HealthBarFill" type="ColorRect" parent="." unique_id=152581395]
 layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="EnergyContainer" type="Control" parent="." unique_id=2031746513]
+anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

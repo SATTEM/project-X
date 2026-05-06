@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcxuocqxxlus8"
-path="res://.godot/imported/tree-face.png-38704d2a9427fe06286b2c0470cd8036.ctex"
+uid="uid://cu4wkqyg1jh8t"
+path="res://.godot/imported/default_background.png-53ddbce5416d540e485a441bf6fc2834.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/monsters/cathelineau/tree-face.png"
-dest_files=["res://.godot/imported/tree-face.png-38704d2a9427fe06286b2c0470cd8036.ctex"]
+source_file="res://assets/art/card_arts/default_background.png"
+dest_files=["res://.godot/imported/default_background.png-53ddbce5416d540e485a441bf6fc2834.ctex"]
 
 [params]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ctsjhnr47wdxt" path="res://scripts/ui/card_display.gd" id="1_nve1b"]
 
-[node name="CardDisplay" type="Control" unique_id=1505606675 node_paths=PackedStringArray("background", "cost_label", "name_label", "description_label")]
+[node name="CardDisplay" type="Control" unique_id=1505606675 node_paths=PackedStringArray("background", "card_texture", "cost_label", "name_label", "description_label")]
 custom_minimum_size = Vector2(100, 140)
 layout_mode = 3
 anchors_preset = 15
@@ -14,6 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nve1b")
 background = NodePath("Background")
+card_texture = NodePath("CardTexture")
 cost_label = NodePath("CostLabel")
 name_label = NodePath("NameLabel")
 description_label = NodePath("DescriptionLabel")
@@ -47,3 +48,10 @@ offset_top = 104.0
 offset_right = 40.0
 offset_bottom = 127.0
 mouse_filter = 1
+
+[node name="CardTexture" type="TextureRect" parent="." unique_id=1642318309]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+expand_mode = 1
+stretch_mode = 5
