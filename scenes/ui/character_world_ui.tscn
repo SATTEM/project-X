@@ -5,6 +5,7 @@
 
 [node name="CharacterWorldUI" type="Control" unique_id=1872879632 node_paths=PackedStringArray("body_sprite", "health_bar_bg", "health_bar_fill", "block_container", "block_icon", "block_label", "intent_container", "intent_icon", "intent_label", "energy_container")]
 layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_22b7q")
 body_sprite = NodePath("BodySprite")
 health_bar_bg = NodePath("HealthBarBackground")

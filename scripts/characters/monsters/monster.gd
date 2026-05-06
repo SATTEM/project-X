@@ -96,7 +96,7 @@ func end_turn() -> void:
 func set_energy(slot: GlobalEnums.Element, value: int) -> void:
 	## 设置能量并发射信号
 	var slot_max = energy_slots_max[slot]
-	energy_slots[slot] = max(slot_max, value)
+	energy_slots[slot] = clamp(slot_max, 0, value)
 	energy_changed.emit(slot, energy_slots[slot])
 
 
