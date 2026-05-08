@@ -111,9 +111,9 @@ func _update_rows_position():
 	var h = Settings.ui_design_height
 	var scale_y = viewport_size.y / h
 	# 设置行节点position.y
-	position_rows[GlobalEnums.PositionRow.ENEMY].position.y = h * 0.2 * scale_y
-	position_rows[GlobalEnums.PositionRow.FRONT].position.y = h * 0.5 * scale_y
-	position_rows[GlobalEnums.PositionRow.PLAYER].position.y = h * 0.8 * scale_y
+	position_rows[GlobalEnums.PositionRow.ENEMY].position.y = h * 0.17 * scale_y
+	position_rows[GlobalEnums.PositionRow.FRONT].position.y = h * 0.39 * scale_y
+	position_rows[GlobalEnums.PositionRow.PLAYER].position.y = h * 0.57 * scale_y
 
 	# 每一行重新排列子单位
 	for row in GlobalEnums.PositionRow.values():

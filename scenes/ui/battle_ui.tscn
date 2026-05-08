@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bt83fnc62uq2r" path="res://scripts/ui/battle_ui.gd" id="1_2hywk"]
 [ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_uu5og"]
+[ext_resource type="Texture2D" uid="uid://ctsgf7uwmjkpu" path="res://assets/art/background/battle_background/battle_blue_2.png" id="3_ebl3e"]
+[ext_resource type="Texture2D" uid="uid://bjrrtncmsc86u" path="res://assets/art/background/battle_background/energy.png" id="4_uoy4w"]
+[ext_resource type="Texture2D" uid="uid://dae857awa5whm" path="res://assets/art/background/battle_background/TopStatusBar.png" id="5_2kidt"]
+[ext_resource type="Texture2D" uid="uid://dhsi2c5jyq2sh" path="res://assets/art/background/battle_background/endturnBtn.png" id="5_7sxqq"]
 
 [node name="BattleUI" type="Control" unique_id=455966288]
 layout_mode = 3
@@ -13,45 +17,89 @@ grow_vertical = 2
 script = ExtResource("1_2hywk")
 card_display_scene = ExtResource("2_uu5og")
 
+[node name="Background" type="TextureRect" parent="." unique_id=443960426]
+z_index = -10
+layout_mode = 0
+offset_left = -6.0
+offset_top = -14.0
+offset_right = 1922.0
+offset_bottom = 1086.0
+texture = ExtResource("3_ebl3e")
+expand_mode = 1
+stretch_mode = 6
+flip_h = true
+
+[node name="EneryBackground" type="TextureRect" parent="." unique_id=1215402501]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.019000001
+offset_left = 72.0
+offset_top = 643.0
+offset_right = 350.64917
+offset_bottom = 889.48
+texture = ExtResource("4_uoy4w")
+expand_mode = 1
+
+[node name="TopStatusBar" type="TextureRect" parent="." unique_id=545986702]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -47.000004
+offset_right = 2162.0
+offset_bottom = 217.0
+scale = Vector2(0.88977665, 0.3604032)
+texture = ExtResource("5_2kidt")
+
+[node name="Energy" type="Label" parent="." unique_id=2127898454]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 712.0
+offset_right = 186.0
+offset_bottom = 849.0
+theme_override_colors/font_color = Color(0.972549, 1, 0.99607843, 1)
+theme_override_font_sizes/font_size = 47
+
 [node name="PlayerInfo" type="Label" parent="." unique_id=1575841956]
 layout_mode = 0
-offset_left = 14.0
-offset_top = 371.0
-offset_right = 275.0
-offset_bottom = 621.0
+offset_left = 64.0
+offset_top = 284.0
+offset_right = 325.0
+offset_bottom = 534.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 33
 
 [node name="EnemyInfo" type="Label" parent="." unique_id=2020774911]
 layout_mode = 0
-offset_left = 746.0
-offset_top = 120.0
-offset_right = 984.0
-offset_bottom = 298.0
+offset_left = 1599.0
+offset_top = 115.0
+offset_right = 1837.0
+offset_bottom = 293.0
 theme_override_font_sizes/font_size = 28
 
 [node name="HandContainer" type="HBoxContainer" parent="." unique_id=566937498]
 layout_mode = 0
-offset_left = 369.0
-offset_top = 424.0
-offset_right = 1030.0
-offset_bottom = 624.0
+offset_left = 474.0
+offset_top = 748.0
+offset_right = 1473.0
+offset_bottom = 1041.0
 
 [node name="EndTurnBtn" type="Button" parent="." unique_id=1960888089]
 layout_mode = 0
-offset_left = 1579.0
-offset_top = 440.0
-offset_right = 1763.0
-offset_bottom = 510.0
+offset_left = 1427.0
+offset_top = 478.99997
+offset_right = 4169.0
+offset_bottom = 2023.0
+scale = Vector2(0.20297442, 0.2056891)
 theme_override_font_sizes/font_size = 43
-text = "EndTurn"
+icon = ExtResource("5_7sxqq")
+flat = true
+autowrap_mode = 3
 
 [node name="ReplayBtn" type="Button" parent="." unique_id=828730465]
 layout_mode = 0
-offset_left = 884.0
-offset_top = 13.0
-offset_right = 1037.0
-offset_bottom = 95.0
+offset_left = 284.0
+offset_top = 395.0
+offset_right = 437.0
+offset_bottom = 477.0
 theme_override_font_sizes/font_size = 44
 text = "restart"
 
@@ -62,3 +110,13 @@ offset_top = 95.0
 offset_right = 547.0
 offset_bottom = 180.0
 theme_override_font_sizes/font_size = 44
+
+[node name="BackMenuBtn" type="Button" parent="." unique_id=1059127847]
+layout_mode = 0
+offset_left = 1635.0
+offset_top = -52.0
+offset_right = 1941.0
+offset_bottom = 98.0
+theme_override_font_sizes/font_size = 45
+text = "back menu"
+flat = true

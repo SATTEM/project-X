@@ -14,7 +14,6 @@ pivot_offset = Vector2(-40, -80)
 script = ExtResource("1_7w7rl")
 
 [node name="Background" type="TextureRect" parent="." unique_id=2117053532]
-z_index = -30
 layout_mode = 0
 offset_left = -11.0
 offset_top = -3.0
@@ -26,7 +25,6 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1755448008]
-custom_minimum_size = Vector2(0, 60)
 layout_mode = 0
 offset_left = 142.03499
 offset_top = 226.0
@@ -35,8 +33,6 @@ offset_bottom = 413.0
 scale = Vector2(3.5, 3.5)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1449082322]
-clip_contents = true
-custom_minimum_size = Vector2(7, 120)
 layout_mode = 2
 theme = SubResource("Theme_wedc3")
 theme_override_constants/separation = 8

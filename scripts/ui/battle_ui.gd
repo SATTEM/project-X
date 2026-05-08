@@ -13,7 +13,8 @@ var monster: Monster
 @onready var end_turn_btn: Button = $EndTurnBtn
 @onready var replay_btn: Button = $ReplayBtn
 @onready var game_info: Label = $GameInfo
-
+@onready var back_menu_btn: Button = $BackMenuBtn
+@onready var energy_label: Label = $Energy
 
 func _ready() -> void:
 	# 让 GameManager 先把角色注册进 BattleManager 再抓取
@@ -29,6 +30,7 @@ func _ready() -> void:
 	player.health_changed.connect(_on_player_health_changed)
 	player.block_changed.connect(_on_player_block_changed)
 	player.energy_changed.connect(_on_player_energy_changed)
+	back_menu_btn.pressed.connect(_on_back_menu_pressed)
 
 	# 按钮点击事件
 	end_turn_btn.pressed.connect(_on_end_turn_pressed)
@@ -64,11 +66,14 @@ func refresh_all_info() -> void:
 		player.health, player.health_max, player.block, player.energy, player.max_energy
 	]
 
+	if energy_label:
+		energy_label.text = "%d/%d" % [player.energy, player.max_energy]
+		
 	# 更新敌人信息
 	var enemy = _get_first_enemy()
 	if enemy:
-		enemy_info.text = "【敌人】\n血量: %d/%d\n意图: %s (%d)" % [
-			enemy.health, enemy.health_max, enemy.intent_type, enemy.intent_value
+		enemy_info.text = "【敌人】\n血量: %d/%d\n格挡: %d\n意图: %s (%d)" % [
+			enemy.health, enemy.health_max, enemy.block, enemy.intent_type, enemy.intent_value
 		]
 	else:
 		enemy_info.text = "【敌人】\n无"
@@ -130,3 +135,8 @@ func _get_first_enemy() -> Monster:
 		if child is Monster and not child.is_dead:
 			return child
 	return null
+
+
+func _on_back_menu_pressed() -> void:
+	# 切换回主菜单场景
+	get_tree().change_scene_to_file("res://scenes/ui/menu.tscn")

@@ -24,9 +24,10 @@ func setup(character: Character) -> void:
 	if texture:
 		body_sprite.texture = texture
 		var display_size = character.display_size
+		var universal_shrink_factor = 0.7  #整体缩小系数 
 		var tex_size = texture.get_size()
 		if tex_size.x > 0 and tex_size.y > 0:
-			body_sprite.scale = display_size / tex_size
+			body_sprite.scale = (display_size / tex_size) * universal_shrink_factor
 	# 将 body_sprite 放在 WorldUI 原点 (0,0)，立绘居中
 	body_sprite.position = Vector2.ZERO
 
