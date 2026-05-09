@@ -51,6 +51,7 @@ func _on_character_died(character: Character) -> void:
 	if battle_over:
 		return
 	if character == player:
+		AudioManager.play_sfx("defeat")
 		print("You died!")
 		battle_over = true
 		end_game()
@@ -76,6 +77,7 @@ func _on_character_died(character: Character) -> void:
 		call_deferred("_arrange_row", dead_row)
 	
 	if current_enemies_count <= 0:
+		AudioManager.play_sfx("victory")
 		print("You win")
 		call_refresh.emit()
 		battle_over = true

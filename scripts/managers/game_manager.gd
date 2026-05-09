@@ -3,5 +3,6 @@ extends Node2D
 
 func _ready() -> void:
 	## 游戏初始化后启动
+	AudioManager.play_music("bgm_main")
 	var monster = MonsterLibrary.create_monster("base")
 	BattleManager.start_battle($Player, [monster])

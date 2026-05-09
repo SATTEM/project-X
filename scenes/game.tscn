@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://by7d7wgibiny2" path="res://scripts/managers/game_manager.gd" id="1_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bhp1ritfgkcr4" path="res://scenes/cards/card.tscn" id="1_yqjtg"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="3_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="3_gee14"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://c648wudl7a2a4" path="res://scenes/characters/player.tscn" id="4_iywne"]
 [ext_resource type="Texture2D" uid="uid://dfqtkgrfqai0x" path="res://assets/art/monsters/caro-asercion/goblin.png" id="6_u5sy4"]
@@ -24,8 +25,3 @@ texture = ExtResource("6_u5sy4")
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=743492882]
 
 [node name="BattleUI" parent="UILayer" unique_id=455966288 instance=ExtResource("8_gee14")]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2

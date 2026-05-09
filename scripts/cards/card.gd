@@ -14,7 +14,6 @@ var cost: int:
 
 func play_card_on_target(user: Character, target: Character) -> void:
 	print(user.name + " played card: [" + card_name+"] at: [" + target.name + "]")
-	
 	for effect in effects:
 		effect.apply(user, target)
 	return

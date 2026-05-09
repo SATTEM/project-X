@@ -99,6 +99,7 @@ func _draw_hand_cards() -> void:
 		var card_ui = card_display_scene.instantiate()
 		card_ui.set_card(card)
 		card_ui.card_pressed.connect(func(c: Card):
+			AudioManager.play_sfx("card_play")
 			if (
 				player.is_energy_enough(c.cost)
 				and BattleManager.active_character == player
