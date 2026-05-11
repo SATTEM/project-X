@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://bbpjae5731aby"]
 
+[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_6atnb"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="1_47fu3"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1_y6qgl"]
 [ext_resource type="Resource" uid="uid://cmn6qfn7c88el" path="res://assets/effect_resources/draw_effect.tres" id="2_iqrp5"]

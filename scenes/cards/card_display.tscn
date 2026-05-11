@@ -52,6 +52,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="DescriptionLabel" type="Label" parent="." unique_id=552215725]
+visible = false
 layout_mode = 0
 offset_top = 104.0
 offset_right = 40.0
