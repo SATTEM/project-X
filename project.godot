@@ -15,13 +15,18 @@ run/main_scene="uid://bqrnme4das468"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://blgwtr06y6x1j"
+
 [autoload]
 
 BattleManager="*uid://colxxgb5h3anj"
 CardLibrary="*uid://be287041ewb4f"
 MonsterLibrary="*uid://cjrvb2qe7ntvg"
-Settings="*uid://cd2ypylbfmivx"
+AudioManager="*uid://crwl275sxfl5u"
 AnimationService="*uid://hkqmmsrngjo6"
+Settings="*uid://c2yguvpamjy8b"
 
 [display]
 

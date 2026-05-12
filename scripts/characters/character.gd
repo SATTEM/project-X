@@ -78,6 +78,14 @@ func add_block(amount: int) -> void:
 func take_damage(amount: int) -> void:
 	## 受击扣血：先扣格挡值,格挡值减少，若为0则再减少角色血量，若血量低于0则设置为0并发出角色死亡信号
 	## effect
+	var hurt_sfx = "hurt"
+	if self is Player:
+		hurt_sfx = "hurt_player"
+	elif self is Monster and is_ally:
+		hurt_sfx = "hurt_ally"
+	elif self is Monster:
+		hurt_sfx = "hurt_monster"
+	AudioManager.play_sfx(hurt_sfx)
 	var retain = max(0, amount - block)
 	block -= amount
 	if retain > 0:
