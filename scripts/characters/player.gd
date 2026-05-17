@@ -20,17 +20,37 @@ func _ready() -> void:
 	world_ui = $CharacterWorldUI
 
 
+static func get_default_deck_ids() -> Array[String]:
+	## 硬编码默认牌组id
+	return [
+		"attack_card",
+		"attack_card",
+		"defend_card",
+		"defend_card",
+		"draw_card",
+		"draw_card",
+		"summon_card",
+		"summon_card",
+	]
+
+
 func init() -> void:
 	## 创建角色时初始化
-	# 初始化卡组
-	init_deck()
 	is_ally = true
 
 
-func battle_init() -> void:
+func battle_init(player_state: PlayerState = null) -> void:
 	## 进战初始化
 	# 临时处理: 进战时才进行角色初始化
 	init()
+	is_dead = false
+	block = 0
+	_clear_hand_and_decks()
+	if player_state:
+		apply_player_state(player_state)
+	else:
+		init_deck()
+		health = health_max
 	world_ui.setup(self)
 	current_row = GlobalEnums.PositionRow.PLAYER
 
@@ -66,19 +86,25 @@ func end_turn() -> void:
 func init_deck() -> void:
 	## 初始化抽牌堆
 	print("玩家卡组初始化中...")
-	draw_pile.clear()
-	for i in range(2):
-		var card = CardLibrary.create_card_and_add_to_scene("attack_card", BattleManager.card_container)
-		draw_pile.append(card)
-	for i in range(2):
-		var card = CardLibrary.create_card_and_add_to_scene("defend_card", BattleManager.card_container)
-		draw_pile.append(card)
-	for i in range(2):
-		var card = CardLibrary.create_card_and_add_to_scene("draw_card", BattleManager.card_container)
-		draw_pile.append(card)
-	for i in range(2):
-		var card = CardLibrary.create_card_and_add_to_scene("summon_card", BattleManager.card_container)
-		draw_pile.append(card)
+	build_deck_from_ids(get_default_deck_ids())
+
+
+func apply_player_state(player_state: PlayerState) -> void:
+	if not player_state:
+		return
+	health_max = player_state.max_hp
+	is_dead = false
+	health = clamp(player_state.current_hp, 0, health_max)
+	build_deck_from_ids(player_state.deck_ids)
+
+
+func build_deck_from_ids(deck_ids: Array[String]) -> void:
+	## 从ID列表构造卡组
+	_clear_hand_and_decks()
+	for card_id in deck_ids:
+		var card = CardLibrary.create_card_and_add_to_scene(card_id, BattleManager.card_container)
+		if card:
+			draw_pile.append(card)
 	draw_pile.shuffle()
 
 
@@ -105,7 +131,7 @@ func is_energy_enough(need: int) -> bool:
 
 
 func spend_energy(need: int) -> void:
-	# 扣除费用：扣除能量
+	## 扣除费用：扣除能量
 	energy -= need
 	if energy < 0:   
 		energy = 0  
@@ -128,3 +154,23 @@ func _reshuffle_discard_to_draw() -> void:
 	draw_pile = discard_pile.duplicate()
 	draw_pile.shuffle() # 随机打乱
 	discard_pile.clear()
+
+
+func _clear_hand_and_decks() -> void:
+	## 清理手牌和抽牌堆
+	if hand == null:
+		hand = []
+	else:
+		_queue_free_cards(hand)
+		hand.clear()
+	_queue_free_cards(draw_pile)
+	_queue_free_cards(discard_pile)
+	draw_pile.clear()
+	discard_pile.clear()
+
+
+func _queue_free_cards(cards: Array) -> void:
+	## 释放所有卡牌节点
+	for card in cards:
+		if card and is_instance_valid(card):
+			card.queue_free()

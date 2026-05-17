@@ -62,13 +62,18 @@ func setup(character: Character) -> void:
 		energy_container.visible = false
 
 	# ---------- 信号 ----------
-	character.health_changed.connect(_on_health_changed)
-	character.block_changed.connect(_on_block_changed)
-	character.damage_display.connect(play_hit_animation)
+	if not character.health_changed.is_connected(_on_health_changed):
+		character.health_changed.connect(_on_health_changed)
+	if not character.block_changed.is_connected(_on_block_changed):
+		character.block_changed.connect(_on_block_changed)
+	if not character.damage_display.is_connected(play_hit_animation):
+		character.damage_display.connect(play_hit_animation)
 	
 	if character is Monster:
-		character.intent_changed.connect(_on_intent_changed)
-		character.energy_changed.connect(_update_monster_energy_display)
+		if not character.intent_changed.is_connected(_on_intent_changed):
+			character.intent_changed.connect(_on_intent_changed)
+		if not character.energy_changed.is_connected(_update_monster_energy_display):
+			character.energy_changed.connect(_update_monster_energy_display)
 	else:
 		intent_container.visible = false
 	

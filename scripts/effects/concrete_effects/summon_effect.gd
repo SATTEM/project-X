@@ -9,6 +9,8 @@ func apply(user: Character, _target: Character) -> void:
 	if not user is Player:
 		printerr("Only player can summon monster!")
 		return
+	if not BattleManager._can_summion():
+		return
 	BattleManager.summon_minion(monster_id)
 	
 

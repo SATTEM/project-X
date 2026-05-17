@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Project X"
-run/main_scene="uid://bqrnme4das468"
+run/main_scene="uid://db67xy14yt5yf"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -27,6 +27,9 @@ MonsterLibrary="*uid://cjrvb2qe7ntvg"
 AudioManager="*uid://crwl275sxfl5u"
 AnimationService="*uid://hkqmmsrngjo6"
 Settings="*uid://c2yguvpamjy8b"
+SaveManager="*uid://sav3manag3r1x"
+GlobalUnlockManager="*uid://g1ob4lunlocks"
+CampaignManager="*uid://camp41gnmanag"
 
 [display]
 

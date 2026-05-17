@@ -15,13 +15,15 @@ func _ready() -> void:
 	new_game_btn.pressed.connect(_on_new_game_pressed)
 	quit_btn.pressed.connect(_on_quit_pressed)
 	continue_btn.pressed.connect(_on_continue_pressed) 
-	
-	if not BattleManager.is_active or BattleManager.player.health <= 0:
-		continue_btn.disabled = true
-		continue_btn.modulate.a = 0.5 
-	else:
-		continue_btn.disabled = false
-		continue_btn.modulate.a = 1.0
+
+	var saved_state = SaveManager.load_player_state()
+	var has_save = (
+		saved_state != null
+		and saved_state.current_hp > 0
+		and CampaignManager.has_next_battle(saved_state)
+	)
+	continue_btn.disabled = not has_save
+	continue_btn.modulate.a = 1.0 if has_save else 0.5
 
 	# --- 给所有按钮批量绑定鼠标悬浮效果 ---
 	var buttons = [continue_btn, new_game_btn, card_catalog_btn, setting_btn, quit_btn]
@@ -58,16 +60,21 @@ func _on_btn_unhovered(btn: Button) -> void:
 	btn.remove_theme_font_size_override("font_size")
 	# 恢复原本的缩放比例 (100%)
 	btn.scale = Vector2(1.0, 1.0)
-	
+
+
 # --- 按钮功能实现 ---
 
 func _on_new_game_pressed() -> void:
 	print("开始新游戏！正在跳转场景...")
+	BattleManager.show()
+	SaveManager.delete_player_state()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
 
 func _on_quit_pressed() -> void:
 	print("退出游戏")
 	get_tree().quit()
+
 
 func _on_continue_pressed() -> void:
 	BattleManager.show()

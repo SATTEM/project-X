@@ -7,6 +7,7 @@ signal damage_display_requested(character: Character, amount: int)
 signal block_display_requested(character: Character, amount: int)
 signal heal_display_requested(character: Character, amount: int)
 signal call_refresh()
+signal battle_finished(result: Dictionary)
 
 # 通过注册来获取卡牌和角色的引用
 # 战斗要素
@@ -47,14 +48,13 @@ func _on_window_resized():
 
 func _on_character_died(character: Character) -> void:
 	## 当有角色死亡时调用此方法
-	## 目前来说是检查是否为玩家，是则失败，否则胜利
+	## 检查是否为玩家，是则失败，否则胜利
 	if battle_over:
 		return
 	if character == player:
 		AudioManager.play_sfx("defeat")
 		print("You died!")
-		battle_over = true
-		end_game()
+		_end_battle(false)
 	else:
 		var idx = turn_queue.find(character)
 		if idx != -1:
@@ -79,8 +79,7 @@ func _on_character_died(character: Character) -> void:
 	if current_enemies_count <= 0:
 		AudioManager.play_sfx("victory")
 		print("You win")
-		call_refresh.emit()
-		battle_over = true
+		_end_battle(true)
 	return
 
 
@@ -162,18 +161,21 @@ func register_character(character: Character) -> void:
 		current_enemies_count += 1
 	# 连接信号
 	# 角色死亡
-	character.character_died.connect(_on_character_died)
+	if not character.character_died.is_connected(_on_character_died):
+		character.character_died.connect(_on_character_died)
 	# 角色结束回合
-	character.turn_ended.connect(_on_character_turn_ended)
-	# 受击特效转发
-	character.damage_display.connect(func(c: Character, a: int): damage_display_requested.emit(c, a))
-	character.block_display.connect(func(c: Character, a: int): block_display_requested.emit(c, a))
-	character.heal_display.connect(func(c: Character, a: int): heal_display_requested.emit(c, a))
+	if not character.turn_ended.is_connected(_on_character_turn_ended):
+		character.turn_ended.connect(_on_character_turn_ended)
+	# 特效转发
+	if not character.damage_display.has_connections():
+		character.damage_display.connect(func(c: Character, a: int): damage_display_requested.emit(c, a))
+		character.block_display.connect(func(c: Character, a: int): block_display_requested.emit(c, a))
+		character.heal_display.connect(func(c: Character, a: int): heal_display_requested.emit(c, a))
 	print("Registered: " + character.name)
 	return
 
 
-func start_battle(aPlayer: Player, enemies: Array[Monster]):
+func start_battle(aPlayer: Player, enemies: Array[Monster], player_state: PlayerState = null):
 	## 战斗初始化方法
 	## 注册战斗开始时就存在的玩家、敌人
 	## 并完成对应初始化
@@ -182,20 +184,24 @@ func start_battle(aPlayer: Player, enemies: Array[Monster]):
 	battle_over = false     # 重置战斗结束标志
 	turn_count = 0          # 回合数归零重计
 	can_next_turn = false   # 锁住回合流转逻辑
+	is_active = false
+	active_character = null
 	current_allies_count = 0
 	current_enemies_count = 0
+	_clear_card_container()
 	# 清理所有行上的旧单位
 	for row in position_rows:
 		for child in position_rows[row].get_children():
 			position_rows[row].remove_child(child)
-			child.queue_free()
+			if child != aPlayer:
+				child.queue_free()
 
 	# 处理玩家
 	# 将玩家节点移动到PLAYER行下
 	if aPlayer.get_parent():
 		aPlayer.get_parent().remove_child(aPlayer)
 	player = aPlayer
-	player.battle_init()
+	player.battle_init(player_state)
 	register_character(player)
 	position_rows[GlobalEnums.PositionRow.PLAYER].add_child(player)
 	
@@ -211,6 +217,11 @@ func start_battle(aPlayer: Player, enemies: Array[Monster]):
 	_update_rows_position()
 	start_character_turn(turn_queue[current_character_index])
 	return
+
+
+func start_battle_from_state(aPlayer: Player, player_state: PlayerState, enemies: Array[Monster]) -> void:
+	## 玩家从已有状态开始战斗
+	start_battle(aPlayer, enemies, player_state)
 
 
 func start_character_turn(character: Character) -> void:
@@ -231,20 +242,13 @@ func start_character_turn(character: Character) -> void:
 
 func summon_minion(monster_id: String) -> bool:
 	## 根据ID召唤一个随从
+	if not _can_summion():
+		return false
+	var target_row = GlobalEnums.PositionRow.FRONT
+	var row_node = position_rows[target_row]
 	var minion = MonsterLibrary.create_monster(monster_id)
 	if not minion:
 		printerr("Fail to create minion: ", monster_id)
-		return false
-	# 随从固定出生在FRONT行
-	var target_row = GlobalEnums.PositionRow.FRONT
-	var row_node = position_rows[target_row]
-	# 检查该行上限
-	var count_in_row = 0
-	for child in row_node.get_children():
-		if child is Monster and not child.is_dead:
-			count_in_row += 1
-	if count_in_row >= Settings.position_row_front_count:
-		print("前排已满，无法召唤")
 		return false
 	# 初始化
 	minion.is_ally = true
@@ -278,17 +282,11 @@ func request_play_card(
 	# 如果角色有弃牌堆，弃掉
 	if source.has_method("discard"):
 		source.discard(card)
-	# 发射信号，让动画模块可以播放卡牌飞行
+	# 发射信号
 	card_play_requested.emit(card, source, target)
 	# 执行结算
 	card.play_card_on_target(source, target)
 	return true
-
-
-func reset_battle() -> void:
-	## 重置战斗
-	get_tree().reload_current_scene()
-	return
 
 
 func get_card_target() -> Character:
@@ -329,8 +327,54 @@ func get_card_target() -> Character:
 	return null
 
 
+func _can_summion() -> bool:
+	## 检查是否能召唤
+	# 随从固定出生在FRONT行
+	var target_row = GlobalEnums.PositionRow.FRONT
+	var row_node = position_rows[target_row]
+	# 检查该行上限
+	var count_in_row = 0
+	for child in row_node.get_children():
+		if child is Monster and not child.is_dead:
+			count_in_row += 1
+	if count_in_row >= Settings.position_row_front_count:
+		print("前排已满，无法召唤")
+		return false
+	return true
+
+
 func end_game() -> void:
-	## 结束游戏
-	is_active = false
-	print("Game end...")
+	## 结束战斗
+	_end_battle(false)
 	return
+
+
+func _end_battle(victory: bool) -> void:
+	if battle_over:
+		return
+	battle_over = true
+	is_active = false
+	can_next_turn = false
+	active_character = null
+	call_refresh.emit()
+	var result = {
+		"victory": victory,
+		"remaining_hp": player.health if player else 0,
+		"rewards": _build_rewards(victory),
+	}
+	battle_finished.emit(result)
+	print("Game end...")
+
+
+func _build_rewards(victory: bool) -> Array[String]:
+	## 临时占位函数: 构造奖励
+	if not victory:
+		return []
+	return []
+
+
+func _clear_card_container() -> void:
+	if not card_container:
+		return
+	for child in card_container.get_children():
+		child.queue_free()

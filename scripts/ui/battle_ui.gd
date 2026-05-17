@@ -16,6 +16,7 @@ var monster: Monster
 @onready var back_menu_btn: Button = $BackMenuBtn
 @onready var energy_label: Label = $Energy
 
+
 func _ready() -> void:
 	# 让 GameManager 先把角色注册进 BattleManager 再抓取
 	await get_tree().process_frame
@@ -36,7 +37,11 @@ func _ready() -> void:
 	end_turn_btn.pressed.connect(_on_end_turn_pressed)
 	replay_btn.show() 
 	# 点击就重置场景
-	replay_btn.pressed.connect(func(): BattleManager.reset_battle())
+	replay_btn.pressed.connect(func():
+		var gm = get_tree().current_scene as GameManager
+		if gm:
+			gm.reset_game()
+	)
 	# 游戏未结束时不显示
 	replay_btn.hide()
 	# 连接主动刷新信号
@@ -46,7 +51,6 @@ func _ready() -> void:
 
 
 # 信号接收处理函数 
-
 func _on_player_health_changed(_character: Character, _new_health: int) -> void:
 	refresh_all_info()
 
