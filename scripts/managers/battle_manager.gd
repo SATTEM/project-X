@@ -15,6 +15,7 @@ var player: Player
 var turn_queue: Array[Character]
 var active_character: Character = null
 var current_character_index: int = 0
+var current_player_state: PlayerState = null
 # 战斗信息和标志
 var battle_over: bool = false
 var turn_count: int = 0
@@ -201,6 +202,7 @@ func start_battle(aPlayer: Player, enemies: Array[Monster], player_state: Player
 	if aPlayer.get_parent():
 		aPlayer.get_parent().remove_child(aPlayer)
 	player = aPlayer
+	current_player_state = player_state
 	player.battle_init(player_state)
 	register_character(player)
 	position_rows[GlobalEnums.PositionRow.PLAYER].add_child(player)
@@ -357,20 +359,44 @@ func _end_battle(victory: bool) -> void:
 	can_next_turn = false
 	active_character = null
 	call_refresh.emit()
+	var selected = ""
+	if victory:
+		# 如果是最后一场战斗，则结束后不弹奖励界面
+		var total_battles = CampaignManager.get_total_battles()
+		var is_last_battle = (current_player_state.battles_completed + 1) >= total_battles
+		if not is_last_battle:
+			var candidates = _build_rewards(true)
+			if candidates.size() > 0:
+				var battle_ui = get_tree().current_scene.get_node("UIContainer/BattleUI")
+				if battle_ui:
+					selected = await battle_ui.show_reward_and_wait(candidates, current_player_state)
 	var result = {
 		"victory": victory,
 		"remaining_hp": player.health if player else 0,
-		"rewards": _build_rewards(victory),
+		"rewards": [selected] if selected != "" else [],
 	}
 	battle_finished.emit(result)
 	print("Game end...")
 
 
 func _build_rewards(victory: bool) -> Array[String]:
-	## 临时占位函数: 构造奖励
+	## 生成奖励候选卡牌列表
 	if not victory:
 		return []
-	return []
+	# 获取本局游戏已经拥有的卡牌ID列表
+	var owned = current_player_state.deck_ids if current_player_state else []
+	# 获取全局永久解锁的卡牌ID列表
+	var unlocked = GlobalUnlockManager.get_all_unlocked()
+	print("owned:", owned, " unlocked:", unlocked)
+	# 候选池=已解锁的牌-本局已经拥有的牌
+	var candidates = unlocked.filter(func(id): return not owned.has(id))
+	# 如果拥有所有已解锁的牌，允许重复获得已有卡牌
+	if candidates.is_empty():
+		candidates = GlobalUnlockManager.get_all_unlocked()
+	print("candidates:", candidates)
+	candidates.shuffle()
+	var result = candidates.slice(0, 3)
+	return result
 
 
 func _clear_card_container() -> void:

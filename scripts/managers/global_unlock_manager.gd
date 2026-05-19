@@ -4,9 +4,15 @@ var _state: UnlockState
 
 
 func _ready() -> void:
+	# 存档存在但为空，也会重新初始化
 	_state = SaveManager.load_unlock_state()
-	if not _state:
+	if _state == null or _state.unlocked_ids.is_empty():
 		_state = UnlockState.new()
+		# 将默认卡牌加入永久解锁池
+		var default_cards = Player.get_default_deck_ids()
+		for card_id in default_cards:
+			if not _state.unlocked_ids.has(card_id):
+				_state.unlocked_ids.append(card_id)
 		SaveManager.save_unlock_state(_state)
 
 

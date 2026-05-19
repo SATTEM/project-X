@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://dm1wxhgeu65y4"]
+
+[ext_resource type="Script" uid="uid://dgclsnj0uo8up" path="res://scripts/ui/reward_scene.gd" id="1_ygm56"]
+[ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_kqg3s"]
+
+[node name="RewardScene" type="CanvasLayer" unique_id=2138101744]
+script = ExtResource("1_ygm56")
+card_display_scene = ExtResource("2_kqg3s")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1097728457]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.05, 0.2627451)
+
+[node name="Panel" type="Panel" parent="." unique_id=1304592828]
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Title" type="Label" parent="Panel" unique_id=333581025]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_right = 0.6
+anchor_bottom = 0.1
+offset_left = -56.0
+offset_right = 56.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 50
+text = "选择一张新卡牌"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardsContainer" type="HBoxContainer" parent="Panel" unique_id=457096022]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.3
+anchor_right = 0.8
+anchor_bottom = 0.7
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="SkipButton" type="Button" parent="Panel" unique_id=117985607]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.8
+anchor_right = 0.55
+anchor_bottom = 0.85
+offset_left = -20.0
+offset_top = -31.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 26
+text = "跳过"

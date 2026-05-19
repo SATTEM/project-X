@@ -145,3 +145,9 @@ func _get_first_enemy() -> Monster:
 func _on_back_menu_pressed() -> void:
 	# 切换回主菜单场景
 	get_tree().change_scene_to_file("res://scenes/ui/menu.tscn")
+	
+	
+func show_reward_and_wait(reward_ids: Array[String], player_state: PlayerState) -> Signal:
+	var reward_scene = preload("res://scenes/ui/reward_scene.tscn").instantiate()
+	add_child(reward_scene)
+	return reward_scene.setup_rewards_and_wait(reward_ids, player_state)

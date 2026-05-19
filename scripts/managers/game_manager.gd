@@ -19,6 +19,7 @@ var state: GameState = GameState.BOOT
 var player_state: PlayerState
 
 @onready var player: Player = $Player
+@onready var battle_ui: Control = $UIContainer/BattleUI
 
 
 func _ready() -> void:

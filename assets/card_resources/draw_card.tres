@@ -3,14 +3,20 @@
 [ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_6atnb"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="1_47fu3"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1_y6qgl"]
-[ext_resource type="Resource" uid="uid://cmn6qfn7c88el" path="res://assets/effect_resources/draw_effect.tres" id="2_iqrp5"]
+[ext_resource type="Script" uid="uid://cdmgo30gsv6ku" path="res://scripts/effects/concrete_effects/draw_effect.gd" id="3_6atnb"]
 [ext_resource type="Texture2D" uid="uid://cxg1ynv3mjxo3" path="res://assets/art/monsters/lorc/vile-fluid.png" id="4_iqrp5"]
+
+[sub_resource type="Resource" id="Resource_830jx"]
+script = ExtResource("3_6atnb")
+base_amount = 1
+effect_name = "draw"
+metadata/_custom_type_script = "uid://d3c2mkhicllia"
 
 [resource]
 script = ExtResource("1_y6qgl")
 card_name = "抽牌"
 cost = 1
-effect_resources = Array[ExtResource("1_47fu3")]([ExtResource("2_iqrp5")])
+effect_resources = Array[ExtResource("1_47fu3")]([SubResource("Resource_830jx")])
 texture = ExtResource("4_iqrp5")
 card_id = "draw_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

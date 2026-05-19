@@ -27,9 +27,9 @@ MonsterLibrary="*uid://cjrvb2qe7ntvg"
 AudioManager="*uid://crwl275sxfl5u"
 AnimationService="*uid://hkqmmsrngjo6"
 Settings="*uid://c2yguvpamjy8b"
-SaveManager="*uid://sav3manag3r1x"
-GlobalUnlockManager="*uid://g1ob4lunlocks"
+SaveManager="*uid://ctal81x87ba0v"
 CampaignManager="*uid://camp41gnmanag"
+GlobalUnlockManager="*uid://c6agjjxe1hgs1"
 
 [display]
 

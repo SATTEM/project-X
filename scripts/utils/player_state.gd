@@ -11,7 +11,7 @@ extends Resource
 
 
 func reset_to_defaults(default_deck_ids: Array[String], max_hp_value: int = 100) -> void:
-	## 重置为出初始存档
+	## 重置为初始存档
 	max_hp = max_hp_value
 	current_hp = max_hp_value
 	deck_ids = default_deck_ids.duplicate()
@@ -31,3 +31,6 @@ func apply_battle_result(result: Dictionary) -> void:
 			for card_id in rewards:
 				if card_id is String:
 					deck_ids.append(card_id)
+	print("查看牌库：")
+	for id in deck_ids:
+		print("  - ", id)

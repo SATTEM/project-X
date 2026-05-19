@@ -9,7 +9,7 @@ var _battle_sequence: Array = [
 
 
 func has_next_battle(player_state: PlayerState) -> bool:
-	## 判断是否还有下一场斗，若有，则按照玩家现有状态进战
+	## 判断是否还有下一场战斗，若有，则按照玩家现有状态进战
 	if not player_state:
 		return false
 	return player_state.battles_completed < _battle_sequence.size()
@@ -27,3 +27,7 @@ func get_next_battle_monsters(player_state: PlayerState) -> Array[Monster]:
 		if monster:
 			result.append(monster)
 	return result
+
+
+func get_total_battles() -> int:
+	return _battle_sequence.size()
