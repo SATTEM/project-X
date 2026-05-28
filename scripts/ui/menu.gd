@@ -6,15 +6,36 @@ extends Control
 @onready var card_catalog_btn: Button = $MarginContainer/VBoxContainer/CardCatalogBtn
 @onready var setting_btn: Button = $MarginContainer/VBoxContainer/SettingBtn
 @onready var quit_btn: Button = $MarginContainer/VBoxContainer/QuitBtn
+@onready var settings_panel: Panel = $SettingsPanel
+@onready var master_slider: HSlider = $SettingsPanel/MasterSlider
+@onready var close_settings_btn: Button = $SettingsPanel/CloseSettingsBtn
+@onready var catalog_panel: Panel = $CatalogPanel
+@onready var card_grid: GridContainer = $CatalogPanel/ScrollContainer/GridContainer
+@onready var close_catalog_btn: Button = $CatalogPanel/CloseCatalogBtn
 
+@export var card_display_scene: PackedScene# 导出卡牌 UI 场景
+
+# 这个变量用来存 Master 总线的索引（Godot 底层用来找声音通道的编号）
+var master_bus_idx: int
 
 func _ready() -> void:
 	BattleManager.hide()
+	
+	master_bus_idx = AudioServer.get_bus_index("Master")
 	
 	# 当按钮被按下时，连接到对应的功能函数
 	new_game_btn.pressed.connect(_on_new_game_pressed)
 	quit_btn.pressed.connect(_on_quit_pressed)
 	continue_btn.pressed.connect(_on_continue_pressed) 
+	setting_btn.pressed.connect(_on_setting_pressed)
+	close_settings_btn.pressed.connect(_on_close_settings_pressed)
+	master_slider.value_changed.connect(_on_master_slider_changed)
+	card_catalog_btn.pressed.connect(_on_card_catalog_pressed)
+	close_catalog_btn.pressed.connect(_on_close_catalog_pressed)
+	
+	# 真实音量是 dB，用 db_to_linear 把它转换成 0~1 的滑动条比例
+	var current_db = AudioServer.get_bus_volume_db(master_bus_idx)
+	master_slider.value = db_to_linear(current_db)
 
 	var saved_state = SaveManager.load_player_state()
 	var has_save = (
@@ -65,9 +86,13 @@ func _on_btn_unhovered(btn: Button) -> void:
 # --- 按钮功能实现 ---
 
 func _on_new_game_pressed() -> void:
-	print("开始新游戏！正在跳转场景...")
-	BattleManager.show()
+	print("开始新游戏！正在清理旧存档...")
+	
+	# 只要删了旧档，game.tscn 里的 GameManager 发现没档，就会自动执行 start_new_run() 给你发初始牌。
 	SaveManager.delete_player_state()
+	
+	# 恢复战场UI显示并切换场景
+	BattleManager.show()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
@@ -77,5 +102,71 @@ func _on_quit_pressed() -> void:
 
 
 func _on_continue_pressed() -> void:
+	print("继续游戏！正在恢复战场...")
+	
+	# 只要硬盘里有档，直接跳过去，GameManager 会自己接管一切。
 	BattleManager.show()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
+
+# --- 按钮与滑动条功能实现 ---
+
+func _on_setting_pressed() -> void:
+	## 点击设置按钮，显示设置面板
+	settings_panel.show()
+
+
+func _on_close_settings_pressed() -> void:
+	## 点击关闭按钮，隐藏设置面板
+	settings_panel.hide()
+
+
+func _on_master_slider_changed(value: float) -> void:
+	## 当滑动条被拖动时触发
+	# value 就是滑动条当前的值 (0.0 到 1.0)
+	# 用 linear_to_db 把 0~1 的线性值，转换成 Godot 需要的对数分贝值
+	var db_volume = linear_to_db(value)
+	AudioServer.set_bus_volume_db(master_bus_idx, db_volume)
+	
+	# 如果音量滑到最左边（比如小于 0.01），可以考虑直接静音，防止还有底噪
+	AudioServer.set_bus_mute(master_bus_idx, value < 0.01)
+
+
+# --- 图鉴功能实现 ---
+
+func _on_card_catalog_pressed() -> void:
+	# 显示图鉴面板
+	catalog_panel.show()
+	
+	# 清空旧的卡牌（防止每次打开重复生成）
+	for child in card_grid.get_children():
+		child.queue_free()
+		
+	# 读取全局解锁进度
+	var unlock_state = SaveManager.load_unlock_state()
+	var unlocked_ids: Array[String] = []
+	
+	if unlock_state:
+		unlocked_ids = unlock_state.unlocked_ids
+	else:
+		print("没有找到解锁存档，展示默认的基础4张牌")
+		unlocked_ids = ["base_attack", "base_defend", "base_draw", "base_summon"]
+		
+	# 生成并展示卡牌
+	for card_id in unlocked_ids:
+		
+		var card_ui = card_display_scene.instantiate() # 实例化UI框
+		var card_resource = CardLibrary.create_card(card_id)
+			
+		if card_resource:
+			card_ui.set_card(card_resource) # 把真实数据塞进 UI 里
+			card_grid.add_child(card_ui)    # 把卡牌 UI 放进网格里显示
+		else:
+			print("图鉴加载警告：找不到 ID 为 ", card_id, " 的卡牌资源！")
+		
+		card_grid.add_child(card_ui)
+
+
+func _on_close_catalog_pressed() -> void:
+	# 隐藏图鉴面板
+	catalog_panel.hide()
