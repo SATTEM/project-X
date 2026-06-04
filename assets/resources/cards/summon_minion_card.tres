@@ -1,8 +1,9 @@
 [gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://buj81ppbgyxcg"]
 
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="1_0dxw7"]
+[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_vpk42"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="2_4twpg"]
-[ext_resource type="Resource" uid="uid://dqgl12vgnxxfh" path="res://assets/effect_resources/summon_effect.tres" id="2_dppj7"]
+[ext_resource type="Resource" uid="uid://dqgl12vgnxxfh" path="res://assets/resources/effects/summon_effect.tres" id="2_dppj7"]
 [ext_resource type="Texture2D" uid="uid://bk7ywppmwej6m" path="res://assets/art/monsters/lorc/wyvern.png" id="4_dppj7"]
 
 [resource]

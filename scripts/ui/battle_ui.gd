@@ -110,7 +110,7 @@ func _draw_hand_cards() -> void:
 		card_ui.card_pressed.connect(func(c: Card):
 			AudioManager.play_sfx("card_play")
 			if (
-				player.is_energy_enough(c.cost)
+				player.is_energy_enough(c)
 				and BattleManager.active_character == player
 				and player.hand.has(c)
 			):

@@ -43,6 +43,11 @@ var world_ui: CharacterWorldUI = null
 @abstract func init() -> void
 ## 创建角色初始化函数
 
+@abstract func spend_energy(card: Card) -> void
+## 扣费方法
+
+@abstract func is_energy_enough(card: Card) -> bool
+## 检查能量否足够
 
 func _ready() -> void:
 	## 角色节点构造时的共有初始化逻辑，自动执行

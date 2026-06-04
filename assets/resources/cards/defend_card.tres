@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://dijotk5lq86ru"]
+
+[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_ucmlr"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_6lwob"]
+[ext_resource type="Resource" uid="uid://n7lccasyaj0n" path="res://assets/resources/effects/block_effect.tres" id="3_ucmlr"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="4_qs4fa"]
+[ext_resource type="Texture2D" uid="uid://dpstvn7rnqdj1" path="res://assets/art/monsters/lorc/ifrit.png" id="5_lc3sb"]
+
+[resource]
+script = ExtResource("4_qs4fa")
+card_name = "格挡"
+cost = 1
+effect_resources = Array[ExtResource("2_6lwob")]([ExtResource("3_ucmlr")])
+texture = ExtResource("5_lc3sb")
+card_id = "defend_card"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"

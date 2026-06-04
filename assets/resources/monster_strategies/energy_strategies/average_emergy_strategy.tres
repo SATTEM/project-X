@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="AverageEnergyStrategy" format=3 uid="uid://dabn8r3kyiqj5"]
+
+[ext_resource type="Script" uid="uid://d33eskrc21bc7" path="res://scripts/utils/monster_strategy/energy/concrete_strategies/average_energy_strategy.gd" id="1_wkoj4"]
+
+[resource]
+script = ExtResource("1_wkoj4")
+metadata/_custom_type_script = "uid://d33eskrc21bc7"

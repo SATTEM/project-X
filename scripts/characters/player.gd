@@ -116,7 +116,7 @@ func draw_card(amount: int) -> void:
 			_reshuffle_discard_to_draw()
 
 		if not draw_pile.is_empty():
-			var card = draw_pile.pop_back() # 拿走最后一张
+			var card = draw_pile.pop_front() # 拿走第一张
 			hand.append(card)
 
 
@@ -125,14 +125,14 @@ func discard(card: Card) -> void:
 	discard_pile.append(card)
 
 
-func is_energy_enough(need: int) -> bool:
+func is_energy_enough(card: Card) -> bool:
 	## 检查费用：检查角色是否有足够能量
-	return energy >= need
+	return energy >= card.cost
 
 
-func spend_energy(need: int) -> void:
-	## 扣除费用：扣除能量
-	energy -= need
+func spend_energy(card: Card) -> void:
+	## 扣除能量
+	energy -= card.cost
 	if energy < 0:   
 		energy = 0  
 	energy_changed.emit(energy)

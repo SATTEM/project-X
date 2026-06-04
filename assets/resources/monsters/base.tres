@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MonsterResource" format=3 uid="uid://b4feg4icc5uxg"]
+
+[ext_resource type="Resource" uid="uid://dabn8r3kyiqj5" path="res://assets/resources/monster_strategies/energy_strategies/average_emergy_strategy.tres" id="1_3kqbx"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="2_liiqp"]
+[ext_resource type="Resource" uid="uid://bhc0qx40klere" path="res://assets/resources/cards/attack_card.tres" id="3_rmlve"]
+[ext_resource type="Resource" uid="uid://dijotk5lq86ru" path="res://assets/resources/cards/defend_card.tres" id="4_a4lsi"]
+[ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="5_7p3at"]
+[ext_resource type="Texture2D" uid="uid://b36s0fphyto42" path="res://assets/art/monsters/lorc/imp.png" id="6_j06gp"]
+[ext_resource type="Script" uid="uid://23nbt0d0iqwc" path="res://scripts/characters/monsters/monster_resource.gd" id="7_it788"]
+
+[resource]
+resource_name = "base"
+script = ExtResource("7_it788")
+monster_name = "base"
+health_max = 100
+energy_elements = Array[int]([2, 1, 3])
+energy_overall_boost = 3
+monster_scene = ExtResource("5_7p3at")
+monster_id = "base"
+monster_texture = ExtResource("6_j06gp")
+intent_card_resources = Array[ExtResource("2_liiqp")]([ExtResource("3_rmlve"), ExtResource("4_a4lsi")])
+energy_strategy = ExtResource("1_3kqbx")
+metadata/_custom_type_script = "uid://23nbt0d0iqwc"

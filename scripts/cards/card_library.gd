@@ -6,7 +6,7 @@ extends Node2D
 var _factories: Dictionary[String, BaseCardFactory] = {}
 # 卡牌文件夹路径
 var paths: Array[String] = [
-	"res://assets/card_resources/",
+	"res://assets/resources/cards/",
 ]
 
 func _ready() -> void:

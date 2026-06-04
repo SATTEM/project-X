@@ -211,7 +211,7 @@ func start_battle(aPlayer: Player, enemies: Array[Monster], player_state: Player
 	for enemy in enemies:
 		position_rows[GlobalEnums.PositionRow.ENEMY].add_child(enemy)
 		register_character(enemy)
-		enemy.init()
+		enemy.battle_init()
 	
 	is_active = true
 	current_character_index = 0
@@ -255,7 +255,7 @@ func summon_minion(monster_id: String) -> bool:
 	# 初始化
 	minion.is_ally = true
 	row_node.add_child(minion)
-	minion.init()
+	minion.battle_init()
 	register_character(minion)
 	# 重排位置
 	_arrange_row(target_row)
@@ -273,11 +273,10 @@ func request_play_card(
 		return false
 	if source.is_dead or target.is_dead:
 		return false
-	if source is Player and not (source as Player).is_energy_enough(card.cost):
+	if not source.is_energy_enough(card):
 		return false
 	# 扣费
-	if source is Player:
-		(source as Player).spend_energy(card.cost)
+	source.spend_energy(card)
 	# 卡牌从手牌移除
 	if source.hand.has(card):
 		source.hand.erase(card)

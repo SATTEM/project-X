@@ -6,7 +6,7 @@ extends Node2D
 var _factories: Dictionary[String, BaseMonsterResource] = {}
 # 怪物文件夹路径
 var paths: Array[String] = [
-	"res://assets/monster_resources/",
+	"res://assets/resources/monsters/",
 ]
 
 func _ready() -> void:

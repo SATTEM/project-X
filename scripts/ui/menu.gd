@@ -163,8 +163,6 @@ func _on_card_catalog_pressed() -> void:
 			card_grid.add_child(card_ui)    # 把卡牌 UI 放进网格里显示
 		else:
 			print("图鉴加载警告：找不到 ID 为 ", card_id, " 的卡牌资源！")
-		
-		card_grid.add_child(card_ui)
 
 
 func _on_close_catalog_pressed() -> void:

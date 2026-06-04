@@ -114,11 +114,7 @@ func _build_monster_energy_displays() -> void:
 	energy_displays.clear()
 
 	var monster = _character as Monster
-	var element_icons = {
-		GlobalEnums.Element.WATER: preload("res://assets/art/elements/water.png"),
-		GlobalEnums.Element.FIRE: preload("res://assets/art/elements/fire.png"),
-		GlobalEnums.Element.SOIL: preload("res://assets/art/elements/soil.png")
-	}
+	var element_icons = GlobalEnums.ElementIcon
 
 	var spacing = 24
 	var total_width = monster.energy_slots.size() * spacing

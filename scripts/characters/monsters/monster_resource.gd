@@ -11,5 +11,5 @@ func create_monster() -> Monster:
 	var monster = monster_scene.instantiate()
 	monster.monster_resource = self
 	monster.health_max = health_max
-
+	monster.init()
 	return monster

@@ -12,6 +12,7 @@ extends Node
 # 特效设计
 @export var ui_design_float_duration: float = 1.0
 @export var ui_design_float_offset: float = 40.0
+@export var ui_design_intent_shade_alpha: float = 0.5
 # 字体
 @export var ui_design_font_size: int = 20
 
