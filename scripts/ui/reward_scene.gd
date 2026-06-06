@@ -9,6 +9,7 @@ signal reward_selected(card_id: String)
 
 var _reward_card_ids: Array[String] = []
 var _player_state: PlayerState
+var _selected: bool = false
 
 
 func setup_rewards_and_wait(reward_ids: Array[String], player_state: PlayerState) -> Signal:
@@ -21,7 +22,8 @@ func setup_rewards_and_wait(reward_ids: Array[String], player_state: PlayerState
 
 func _display_cards() -> void:
 	for child in cards_container.get_children():
-		child.queue_free()
+		if is_instance_valid(child):
+			child.queue_free()
 	
 	var display_ids = _reward_card_ids.slice(0, 3)
 	
@@ -41,11 +43,16 @@ func _display_cards() -> void:
 
 
 func _on_card_selected(card_id: String, card_display: Control) -> void:
+	if _selected:
+		return
+	_selected = true
+	
 	# 选中的卡牌淡出
 	var tween1 = create_tween()
 	tween1.tween_property(card_display, "modulate:a", 0.0, 0.4)
 	await tween1.finished
-	card_display.queue_free()
+	if is_instance_valid(card_display):
+		card_display.queue_free()
 	
 	await get_tree().create_timer(0.2).timeout
 	
@@ -57,7 +64,7 @@ func _on_card_selected(card_id: String, card_display: Control) -> void:
 			tween2.tween_property(child, "modulate:a", 0.0, 0.3)
 	await tween2.finished
 	for child in cards_container.get_children():
-		if child is Control:
+		if child is Control and is_instance_valid(child):
 			child.queue_free()
 	
 	# 发出选中的卡牌 ID
@@ -66,6 +73,10 @@ func _on_card_selected(card_id: String, card_display: Control) -> void:
 
 
 func _on_skip_button_pressed() -> void:
+	if _selected:
+		return
+	_selected = true
+	
 	print("跳过奖励界面")
 	var tween = create_tween()
 	tween.set_parallel(true)
@@ -74,7 +85,7 @@ func _on_skip_button_pressed() -> void:
 			tween.tween_property(child, "modulate:a", 0.0, 0.4)
 	await tween.finished
 	for child in cards_container.get_children():
-		if child is Control:
+		if child is Control and is_instance_valid(child):
 			child.queue_free()
 	
 	# 跳过时发出空字符串

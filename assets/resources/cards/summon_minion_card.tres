@@ -12,5 +12,6 @@ card_name = "召唤"
 cost = 1
 effect_resources = Array[ExtResource("1_0dxw7")]([ExtResource("2_dppj7")])
 texture = ExtResource("4_dppj7")
+target_type = 0
 card_id = "summon_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

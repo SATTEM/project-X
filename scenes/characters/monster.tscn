@@ -7,4 +7,3 @@
 script = ExtResource("1_rvwux")
 
 [node name="CharacterWorldUI" parent="." unique_id=1872879632 instance=ExtResource("2_rvwux")]
-anchors_preset = 0

@@ -25,7 +25,13 @@ var intent_card_resources: Array[CardResource]:
 var display_size: Vector2:
 	get:
 		return monster_resource.display_size
-
+var play_strategy: MonsterPlayStrategy:
+	get:
+		var strategy = monster_resource.play_strategy
+		if not strategy:
+			# 默认使用自私策略
+			strategy = SelfishStrategy.new()
+		return strategy
 
 
 func _ready() -> void:
@@ -111,14 +117,50 @@ func start_turn() -> void:
 	# 调用父类开始回合逻辑
 	super.start_turn()
 	boost_energy()
-	var intent_card = get_intent()
-	if not intent_card:
-		return
-	var target = BattleManager.get_card_target()
-	if intent_card and target:
-		BattleManager.request_play_card(intent_card, self, target)
+	
+	if play_strategy is FIFOStrategy:
+		# FIFO 策略：按照 intent_cards 的顺序尝试打牌
+		_play_fifo_turn()
+	else:
+		# 默认策略：只打出当前意图卡牌
+		var intent_card = get_intent()
+		if not intent_card:
+			return
+		var all_chars = BattleManager.get_all_character()
+		var target = play_strategy.choose_target(intent_card, self, all_chars)
+		if intent_card and target:
+			BattleManager.request_play_card(intent_card, self, target)
+	
 	exist_turn += 1
 	return
+
+
+func _play_fifo_turn() -> void:
+	## FIFO 策略：从当前回合索引开始，按顺序尝试打出每张意图卡牌
+	var all_chars = BattleManager.get_all_character()
+	var start_index = exist_turn % intent_cards.size()
+	for i in range(intent_cards.size()):
+		var idx = (start_index + i) % intent_cards.size()
+		var card = intent_cards[idx]
+		if not card:
+			continue
+		# 检查能量是否足够
+		if not is_energy_enough(card):
+			continue
+		# 寻找合法目标（已包含前排保护校验）
+		var target = _find_any_valid_target(card, all_chars)
+		if target and BattleManager.request_play_card(card, self, target):
+			return  # 成功打出，结束回合动作
+
+
+func _find_any_valid_target(card: Card, all_characters: Array[Character]) -> Character:
+	## 为一张卡牌寻找任意合法目标
+	for c in all_characters:
+		if c.is_dead:
+			continue
+		if BattleManager.is_valid_target(card, self, c):
+			return c
+	return null
 
 
 func end_turn() -> void:

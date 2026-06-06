@@ -15,6 +15,8 @@ extends Node
 @export var ui_design_intent_shade_alpha: float = 0.5
 # 字体
 @export var ui_design_font_size: int = 20
+# 点击检测半径
+@export var ui_design_character_click_radius: float = 100.0
 
 ## 机制全局设置
 # 每行最大单位数量

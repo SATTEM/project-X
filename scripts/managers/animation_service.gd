@@ -48,3 +48,15 @@ func _show_floating_text(character: Character, text: String, color: Color) -> vo
 	tween.tween_property(label, "modulate:a", 0.0, Settings.ui_design_float_duration)
 	# 动画结束后清理
 	tween.tween_callback(label.queue_free).set_delay(Settings.ui_design_float_duration)
+
+
+func add_highlight(character: Character) -> void:
+	## 给角色添加高光
+	var sprite = character.world_ui.body_sprite
+	sprite.modulate = Color.YELLOW
+
+
+func remove_highlight(character: Character) -> void:
+	## 消除高光
+	var sprite = character.world_ui.body_sprite
+	sprite.modulate = Color.WHITE

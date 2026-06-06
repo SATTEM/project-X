@@ -31,6 +31,6 @@ func set_card(new_card: Card) -> void:
 
 
 func _on_CardDisplay_gui_input(event: InputEvent) -> void:
-	## 点击事件
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		# 发射信号，由 BattleUI 决定是直接打出还是进入目标选择模式
 		card_pressed.emit(card)

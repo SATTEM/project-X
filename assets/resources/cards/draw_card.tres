@@ -12,5 +12,6 @@ card_name = "抽牌"
 cost = 1
 effect_resources = Array[ExtResource("2_rq3ci")]([ExtResource("3_8mje6")])
 texture = ExtResource("5_0c45e")
+target_type = 0
 card_id = "draw_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

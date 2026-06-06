@@ -10,6 +10,9 @@ var card_name: String:
 var cost: int:
 	get:
 		return card_resource.cost
+var target_type: GlobalEnums.TargetType:
+	get:
+		return card_resource.target_type
 
 
 func play_card_on_target(user: Character, target: Character) -> void:

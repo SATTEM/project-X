@@ -12,5 +12,6 @@ card_name = "格挡"
 cost = 1
 effect_resources = Array[ExtResource("2_6lwob")]([ExtResource("3_ucmlr")])
 texture = ExtResource("5_lc3sb")
+target_type = 0
 card_id = "defend_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

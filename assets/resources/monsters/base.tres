@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="5_7p3at"]
 [ext_resource type="Texture2D" uid="uid://b36s0fphyto42" path="res://assets/art/monsters/lorc/imp.png" id="6_j06gp"]
 [ext_resource type="Script" uid="uid://23nbt0d0iqwc" path="res://scripts/characters/monsters/monster_resource.gd" id="7_it788"]
+[ext_resource type="Script" uid="uid://cs2fy3ytlj6sx" path="res://scripts/utils/monster_strategy/play/concrete_strategies/FIFOStrategy.gd" id="7_liiqp"]
+
+[sub_resource type="Resource" id="Resource_rmlve"]
+script = ExtResource("7_liiqp")
+metadata/_custom_type_script = "uid://cs2fy3ytlj6sx"
 
 [resource]
 resource_name = "base"
@@ -20,4 +25,5 @@ monster_id = "base"
 monster_texture = ExtResource("6_j06gp")
 intent_card_resources = Array[ExtResource("2_liiqp")]([ExtResource("3_rmlve"), ExtResource("4_a4lsi")])
 energy_strategy = ExtResource("1_3kqbx")
+play_strategy = SubResource("Resource_rmlve")
 metadata/_custom_type_script = "uid://23nbt0d0iqwc"

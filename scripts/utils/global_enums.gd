@@ -28,3 +28,11 @@ enum PositionRow {
 	FRONT,
 	ENEMY,
 }
+## 卡牌目标类型
+enum TargetType {
+	SELF, # 对自己生效
+	ENEMY, # 对敌人生效
+	ALLY, # 对盟友生效
+	MONSTER, # 对怪物生效
+	ANY, # 对任何对象都生效
+}

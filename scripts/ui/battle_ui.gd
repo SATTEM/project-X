@@ -15,6 +15,8 @@ var monster: Monster
 @onready var game_info: Label = $GameInfo
 @onready var back_menu_btn: Button = $BackMenuBtn
 @onready var energy_label: Label = $Energy
+var _selecting_target: bool = false
+var _pending_card: Card = null
 
 
 func _ready() -> void:
@@ -63,6 +65,77 @@ func _on_player_energy_changed(_new_energy: int) -> void:
 	refresh_all_info()
 
 
+func start_target_selection(card: Card) -> void:
+	if not BattleManager.is_active or BattleManager.active_character != BattleManager.player:
+		return
+	_pending_card = card
+	_selecting_target = true
+	print("请选择卡牌 [" + card.card_name + "] 的目标")
+	# 高亮所有合法目标
+	highlight_valid_targets(card, BattleManager.player)
+
+
+func _input(event: InputEvent) -> void:
+	## 处理目标选择相关的输入
+	if not _selecting_target:
+		return
+	
+	# 右键或 ESC 取消选择
+	if event.is_action_pressed("ui_cancel") or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT):
+		print("取消目标选择")
+		exit_target_selection()
+		get_viewport().set_input_as_handled()
+		return
+	
+	# 左键点击选择目标
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and _pending_card:
+		var click_pos = get_viewport().get_mouse_position()
+		var target = _get_character_at_position(click_pos)
+		if target and BattleManager.is_valid_target(_pending_card, BattleManager.player, target):
+			# 打出卡牌
+			AudioManager.play_sfx("card_play")
+			BattleManager.request_play_card(_pending_card, BattleManager.player, target)
+			refresh_all_info()
+			exit_target_selection()
+			get_viewport().set_input_as_handled()
+
+
+func _get_character_at_position(pos: Vector2) -> Character:
+	## 根据屏幕坐标查找角色
+	var max_distance = Settings.ui_design_character_click_radius
+	for child in BattleManager.get_all_character():
+		if child.is_dead:
+			continue
+		if not child.world_ui:
+			continue
+		# 使用 world_ui 的全局位置作为点击判定中心
+		var char_pos = child.world_ui.global_position
+		if char_pos.distance_to(pos) <= max_distance:
+			return child
+	return null
+
+
+func highlight_valid_targets(card: Card, user: Character) -> void:
+	# 遍历所有场上的角色，根据 is_valid_target 结果设置高亮
+	for row in BattleManager.position_rows.values():
+		for child in row.get_children():
+			if child is Character and not child.is_dead:
+				if BattleManager.is_valid_target(card, user, child):
+					# 添加高亮效果
+					AnimationService.add_highlight(child)
+
+
+func exit_target_selection() -> void:
+	_selecting_target = false
+	_pending_card = null
+	_remove_all_highlights()
+
+
+func _remove_all_highlights() -> void:
+	for c in BattleManager.get_all_character():
+		AnimationService.remove_highlight(c)
+
+
 func refresh_all_info() -> void:
 	## 界面刷新逻辑
 	# 更新玩家文本
@@ -107,19 +180,41 @@ func _draw_hand_cards() -> void:
 		var card = player.hand[i]
 		var card_ui = card_display_scene.instantiate()
 		card_ui.set_card(card)
-		card_ui.card_pressed.connect(func(c: Card):
-			AudioManager.play_sfx("card_play")
-			if (
-				player.is_energy_enough(c)
-				and BattleManager.active_character == player
-				and player.hand.has(c)
-			):
-				var target = BattleManager.get_card_target()
-				if target:
-					BattleManager.request_play_card(c, player, target)
-					refresh_all_info()
-		)
+		card_ui.card_pressed.connect(_on_card_pressed)
 		hand_container.add_child(card_ui)
+
+
+func _on_card_pressed(card: Card) -> void:
+	## 卡牌被点击时的处理逻辑
+	if not _can_play_card(card):
+		return
+	
+	AudioManager.play_sfx("card_play")
+	
+	# SELF 类型的卡牌直接自动以自己为目标
+	if card.target_type == GlobalEnums.TargetType.SELF:
+		if BattleManager.is_valid_target(card, player, player):
+			BattleManager.request_play_card(card, player, player)
+			refresh_all_info()
+		return
+	
+	# 其他类型进入目标选择模式
+	start_target_selection(card)
+
+
+func _can_play_card(card: Card) -> bool:
+	## 检查卡牌是否可以被打出
+	if _selecting_target:
+		return false
+	if not BattleManager.is_active:
+		return false
+	if BattleManager.active_character != player:
+		return false
+	if not player.hand.has(card):
+		return false
+	if not player.is_energy_enough(card):
+		return false
+	return true
 
 
 func _on_end_turn_pressed() -> void:

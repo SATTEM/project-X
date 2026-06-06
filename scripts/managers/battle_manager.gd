@@ -275,6 +275,8 @@ func request_play_card(
 		return false
 	if not source.is_energy_enough(card):
 		return false
+	if not is_valid_target(card, source, target):
+		return false
 	# 扣费
 	source.spend_energy(card)
 	# 卡牌从手牌移除
@@ -403,3 +405,42 @@ func _clear_card_container() -> void:
 		return
 	for child in card_container.get_children():
 		child.queue_free()
+
+
+func is_valid_target(card: Card, user: Character, target: Character) -> bool:
+	## 判断卡牌对象是否有效
+	# 前排保护：敌方怪物不能越过前排直接攻击玩家
+	if _is_protected_by_front_line(user, target):
+		return false
+	
+	match card.target_type:
+		GlobalEnums.TargetType.SELF:
+			return target == user
+		GlobalEnums.TargetType.ENEMY:
+			return target.is_ally != user.is_ally
+		GlobalEnums.TargetType.ALLY:
+			return target.is_ally == user.is_ally and target != user
+		GlobalEnums.TargetType.MONSTER:
+			return target is Monster
+		GlobalEnums.TargetType.ANY:
+			return true
+	return false
+
+
+func _is_protected_by_front_line(user: Character, target: Character) -> bool:
+	## 检查目标是否被前排保护（敌方不能越过前排攻击玩家）
+	# 只有敌方怪物攻击时才触发前排保护
+	if not (user is Monster and not user.is_ally):
+		return false
+	# 只有目标是玩家时才检查
+	if target != player:
+		return false
+	# 检查 FRONT 行是否有活着的友方单位
+	for child in position_rows[GlobalEnums.PositionRow.FRONT].get_children():
+		if child is Monster and child.is_ally and not child.is_dead:
+			return true  # 前排有单位保护，不能直接打玩家
+	return false
+
+
+func get_all_character() -> Array[Character]:
+	return turn_queue

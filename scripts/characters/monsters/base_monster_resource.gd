@@ -14,6 +14,8 @@ extends Resource
 @export var display_size: Vector2 = Vector2(200, 200)
 @export var intent_card_resources: Array[CardResource]
 @export var energy_strategy: MonsterEnergyStrategy
+@export var play_strategy: MonsterPlayStrategy
+
 
 @abstract func create_monster() -> Monster
 	## 抽象创建怪物接口
