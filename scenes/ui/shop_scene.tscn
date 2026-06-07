@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://d4e4b2hr7uekl"]
+
+[ext_resource type="Script" uid="uid://cxtmhmj3lx2t6" path="res://scripts/ui/shop_scene.gd" id="1_gsvvp"]
+[ext_resource type="Texture2D" uid="uid://bsfr5uij788vp" path="res://assets/art/background/menu_background/menu_orange.png" id="2_nvsci"]
+[ext_resource type="Texture2D" uid="uid://cu1gcdi4uv81s" path="res://assets/art/monsters/cathelineau/witch-face.png" id="3_g8mgn"]
+[ext_resource type="Texture2D" uid="uid://8cboo8kcex4i" path="res://assets/art/text_box/dialogbox.png" id="4_nvsci"]
+
+[node name="ShopScene" type="CanvasLayer" unique_id=263047832]
+script = ExtResource("1_gsvvp")
+
+[node name="Background" type="TextureRect" parent="." unique_id=284074214]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_nvsci")
+
+[node name="Panel" type="Panel" parent="." unique_id=277851109]
+self_modulate = Color(1, 1, 1, 0.7372549)
+custom_minimum_size = Vector2(400, 300)
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel" unique_id=1048194432]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="CloseButton" type="Button" parent="." unique_id=765290924]
+anchors_preset = -1
+anchor_left = 0.85
+anchor_top = 0.84200007
+anchor_right = 0.95
+anchor_bottom = 0.94900006
+offset_left = 3.5199585
+offset_top = -0.3600464
+offset_right = -0.00012207031
+offset_bottom = 0.079956055
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "离开"
+
+[node name="WitchFace" type="Sprite2D" parent="." unique_id=1085777028]
+position = Vector2(250.74998, 883)
+scale = Vector2(0.6884765, 0.6601562)
+texture = ExtResource("3_g8mgn")
+
+[node name="Dialogbox" type="TextureRect" parent="." unique_id=1985584126]
+modulate = Color(0.63, 0.63, 0.63, 1)
+offset_left = 466.0
+offset_top = 895.00006
+offset_right = 1891.0
+offset_bottom = 1122.0
+scale = Vector2(0.66824555, 0.56057274)
+texture = ExtResource("4_nvsci")
+
+[node name="Text" type="Label" parent="." unique_id=194072149]
+anchors_preset = -1
+anchor_left = 0.26900002
+anchor_top = 0.86
+anchor_right = 0.56700003
+anchor_bottom = 0.919
+offset_left = -0.4800415
+offset_top = 0.2000122
+offset_right = -0.64001465
+offset_bottom = -0.52001953
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "欢迎光临……"
+
+[node name="GoldLabel" type="Label" parent="." unique_id=1238969051]
+anchors_preset = -1
+anchor_left = 0.9
+anchor_right = 1.0
+anchor_bottom = 0.1
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="." unique_id=914205948]
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.45
+anchor_right = 0.55
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+vertical_alignment = 1

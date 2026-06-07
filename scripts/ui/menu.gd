@@ -41,7 +41,7 @@ func _ready() -> void:
 	var has_save = (
 		saved_state != null
 		and saved_state.current_hp > 0
-		and CampaignManager.has_next_battle(saved_state)
+		and CampaignManager.has_next_level(saved_state)
 	)
 	continue_btn.disabled = not has_save
 	continue_btn.modulate.a = 1.0 if has_save else 0.5

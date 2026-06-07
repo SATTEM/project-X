@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://bcck3osx4bgif"]
+
+[ext_resource type="Script" uid="uid://caax8yvpi3yif" path="res://scripts/ui/rest_area.gd" id="1_8roeg"]
+[ext_resource type="Texture2D" uid="uid://dxj2p16nj0lco" path="res://assets/art/background/menu_background/menu_green.png" id="2_m138o"]
+
+[node name="RestArea" type="CanvasLayer" unique_id=1617138788]
+script = ExtResource("1_8roeg")
+
+[node name="Background" type="TextureRect" parent="." unique_id=280845000]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_m138o")
+
+[node name="Panel" type="Panel" parent="." unique_id=81502260]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=2083636198]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.15
+anchor_right = 0.8
+anchor_bottom = 0.85
+offset_left = -4.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="NormalButton" type="Button" parent="Panel/VBoxContainer" unique_id=1520839812]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+localize_numeral_system = false
+tooltip_text = "敌人：默认怪物 x1
+奖励：金币 x50"
+theme_override_font_sizes/font_size = 25
+text = "普通敌人
+"
+
+[node name="EliteAButton" type="Button" parent="Panel/VBoxContainer" unique_id=1083545429]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+tooltip_text = "敌人：默认怪物 x2
+奖励：金币 x100"
+theme_override_font_sizes/font_size = 25
+text = "精英敌人"
+
+[node name="EliteBButton" type="Button" parent="Panel/VBoxContainer" unique_id=328081510]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+tooltip_text = "敌人：默认怪物 x2
+奖励：金币 x100"
+theme_override_font_sizes/font_size = 25
+text = "精英敌人"
+
+[node name="ConfirmButton" type="Button" parent="Panel" unique_id=660020410]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.9
+anchor_right = 0.55
+anchor_bottom = 0.95
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_font_sizes/font_size = 25
+text = "确认
+"
+
+[node name="Label" type="Label" parent="Panel" unique_id=1980331156]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.15
+anchor_right = 0.6
+anchor_bottom = 0.2
+offset_right = 40.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1

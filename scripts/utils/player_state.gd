@@ -8,6 +8,8 @@ extends Resource
 @export var deck_ids: Array[String] = []
 @export var current_node_id: String = ""
 @export var battles_completed: int = 0
+@export var current_level_index: int = 0
+@export var gold: int = 100
 
 
 func reset_to_defaults(default_deck_ids: Array[String], max_hp_value: int = 100) -> void:
@@ -17,6 +19,8 @@ func reset_to_defaults(default_deck_ids: Array[String], max_hp_value: int = 100)
 	deck_ids = default_deck_ids.duplicate()
 	current_node_id = ""
 	battles_completed = 0
+	current_level_index = 0
+	gold = 99
 
 
 func apply_battle_result(result: Dictionary) -> void:
