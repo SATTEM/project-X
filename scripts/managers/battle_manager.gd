@@ -361,16 +361,14 @@ func _end_battle(victory: bool) -> void:
 	active_character = null
 	call_refresh.emit()
 	var selected = ""
-	if victory:
-		# 如果是最后一场战斗，则结束后不弹奖励界面
-		var total_battles = CampaignManager.get_total_battles()
-		var is_last_battle = (current_player_state.battles_completed + 1) >= total_battles
-		if not is_last_battle:
-			var candidates = _build_rewards(true)
-			if candidates.size() > 0:
-				var battle_ui = get_tree().current_scene.get_node("UIContainer/BattleUI")
-				if battle_ui:
-					selected = await battle_ui.show_reward_and_wait(candidates, current_player_state)
+	var is_last_battle = (current_player_state.current_level_index == CampaignManager.campaign.size() - 1)
+	if victory and not is_last_battle:
+		# 有下一关，才弹奖励
+		var candidates = _build_rewards(true)
+		if candidates.size() > 0:
+			var battle_ui = get_tree().current_scene.get_node("UIContainer/BattleUI")
+			if battle_ui:
+				selected = await battle_ui.show_reward_and_wait(candidates, current_player_state)
 	var result = {
 		"victory": victory,
 		"remaining_hp": player.health if player else 0,
