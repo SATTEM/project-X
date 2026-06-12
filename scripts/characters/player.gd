@@ -5,7 +5,8 @@ signal energy_changed(new_energy: int)
 
 @export var texture: Texture2D
 var energy: int # 当前能量
-var max_energy: int = 5# 最大能量
+var max_energy: int = 5 # 最大能量
+var hand: Array[Card] = [] # 手牌
 var draw_pile: Array = [] # 抽牌堆
 var discard_pile: Array = []  # 弃牌堆
 var display_size: Vector2:

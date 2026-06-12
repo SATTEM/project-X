@@ -14,7 +14,6 @@ signal turn_ended(character: Character)
 signal block_changed(character: Character, new_block: int)
 signal health_changed(character: Character, new_health: int)
 
-var hand: Array[Card] #手牌
 var is_dead: bool = false
 var is_ally: bool = false
 var current_row: GlobalEnums.PositionRow
@@ -39,6 +38,7 @@ var block: int = 0: # 当前格挡值
 		block_changed.emit(self, _block)
 var world_ui: CharacterWorldUI = null
 var buff_pool: Array[BuffResource] = []
+
 
 @abstract func init() -> void
 ## 创建角色初始化函数

@@ -12,7 +12,11 @@ extends Resource
 @export var monster_id: String
 @export var monster_texture: Texture2D
 @export var display_size: Vector2 = Vector2(200, 200)
-@export var intent_card_resources: Array[CardResource]
+## 牌组循环回合数，怪物按此循环抽牌
+@export var play_loop_count: int = 1
+## 按出现回合组织的牌组字典，Dictionary[int, Array[CardResource]]
+## key 为 appear_turn（在循环内的第几回合出现），value 为该回合可抽到的卡牌资源列表
+@export var intent_card_map: Dictionary = {}
 @export var energy_strategy: MonsterEnergyStrategy
 @export var play_strategy: MonsterPlayStrategy
 

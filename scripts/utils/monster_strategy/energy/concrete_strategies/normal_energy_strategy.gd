@@ -4,13 +4,20 @@ extends MonsterEnergyStrategy
 
 func energy_startegy_assign(monster: Monster) -> void:
 	## 根据比例分配每个属性的元素点最大值和回复量
-	for card in monster.intent_cards:
-		monster.energy_slots_max[card.element] += 1
-		monster.energy_slots_boost[card.element] += 1
+	var total_card_count := 0
+	for turn_cards in monster.card_pool.values():
+		for card in turn_cards:
+			monster.energy_slots_max[card.element] += 1
+			monster.energy_slots_boost[card.element] += 1
+			total_card_count += 1
+	
+	if total_card_count == 0:
+		return
+	
 	var max_left = monster.monster_resource.energy_overall_max
 	var boost_left = monster.monster_resource.energy_overall_boost
 	for element in monster.energy_slots_max:
-		var radio: float = monster.energy_slots_max[element] as float / monster.intent_cards.size()
+		var radio: float = monster.energy_slots_max[element] as float / total_card_count
 		var max_value := radio * monster.monster_resource.energy_overall_max as int
 		var boost_value := radio * monster.monster_resource.energy_overall_boost as int
 		if radio > 0 and max_value == 0:
