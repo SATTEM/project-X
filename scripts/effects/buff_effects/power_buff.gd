@@ -4,6 +4,7 @@ extends BuffResource
 
 @export var bonus_damage: int = 3 # 增加的攻击力数值
 
+
 func apply_to_card(card: Card) -> Card:
 	## 拦截并修改临时卡牌
 	for effect in card.effects:

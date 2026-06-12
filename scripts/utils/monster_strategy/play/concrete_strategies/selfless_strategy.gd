@@ -1,7 +1,24 @@
 class_name SelflessStrategy
 extends MonsterPlayStrategy
 ## 无私策略
+## 选牌优先级：ALLY > ANY > ENEMY > SELF > MONSTER
 ## 优先对盟友打牌，再对敌人打牌，最后对自己打牌
+
+
+func select_card(hand: Array[ElementCard], _monster: Monster) -> ElementCard:
+	## 按无私倾向选择卡牌
+	var priority = [
+		GlobalEnums.TargetType.ALLY,
+		GlobalEnums.TargetType.ANY,
+		GlobalEnums.TargetType.ENEMY,
+		GlobalEnums.TargetType.SELF,
+		GlobalEnums.TargetType.MONSTER,
+	]
+	for target_type in priority:
+		for card in hand:
+			if card.target_type == target_type:
+				return card
+	return hand.front() if not hand.is_empty() else null
 
 
 static func _first_valid(card: Card, monster: Monster, list: Array[Character]) -> Character:

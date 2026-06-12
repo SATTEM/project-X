@@ -4,7 +4,6 @@ extends Character
 signal intent_changed(type: String, value: int)
 signal energy_changed()
 
-var intent_cards: Array[ElementCard] = []
 var intent_type: String = ""
 var intent_value: int = 0
 var exist_turn: int = 0
@@ -18,9 +17,9 @@ var monster_resource: MonsterResource
 var body_texture: Texture2D:
 	get:
 		return monster_resource.monster_texture
-var intent_card_resources: Array[CardResource]:
+var play_loop_count: int:
 	get:
-		return monster_resource.intent_card_resources
+		return monster_resource.play_loop_count
 
 var display_size: Vector2:
 	get:
@@ -34,6 +33,9 @@ var play_strategy: MonsterPlayStrategy:
 		return strategy
 var disabled_elements: Array[GlobalEnums.Element] = [] # 记录当前被禁用的元素
 var energy_threshold: int = 5  # 能量爆气阈值，达到此数值触发清空与增幅
+var card_pool: Dictionary[int, Array] = {} # 运行时牌池，Array[ElementCard]
+var hand: Array[ElementCard] = []
+
 
 func _ready() -> void:
 	world_ui = $CharacterWorldUI
@@ -89,23 +91,33 @@ func battle_init() -> void:
 	energy_slots = energy_slots_max.duplicate()
 	energy_changed.emit()
 	# 初始化第一轮意图
-	if intent_cards.size() > 0:
+	if not card_pool.is_empty():
 		var first_card = get_intent()
-		var info = _get_intent_description(first_card)
-		_update_intent_icon(first_card)
-		intent_type = info["type"]
-		intent_value = info["value"]
-		intent_changed.emit(intent_type, intent_value)	
+		if first_card:
+			var info = _get_intent_description(first_card)
+			_update_intent_icon(first_card)
+			intent_type = info["type"]
+			intent_value = info["value"]
+			intent_changed.emit(intent_type, intent_value)
 
 
 func init_cards() -> void:
-	## 初始化怪物卡组
-	for intent in intent_card_resources:
-		# 根据基础卡牌生成指定范围内随机属性的元素卡牌
-		var normal_card: Card = intent.create_card()
-		var element = energy_elements[randi() % energy_elements.size()]
-		var element_card = ElementCard.build_from_card(normal_card, element)
-		intent_cards.append(element_card)
+	## 初始化怪物牌池：从 intent_card_map 构建 card_pool
+	card_pool.clear()
+	var card_map = monster_resource.intent_card_map
+	for appear_turn in card_map:
+		var card_resources: Array = card_map[appear_turn]
+		if card_resources.is_empty():
+			continue
+		var cards: Array[ElementCard] = []
+		for card_resource in card_resources:
+			if not card_resource:
+				continue
+			var normal_card: Card = card_resource.create_card()
+			var element = energy_elements[randi() % energy_elements.size()]
+			var element_card = ElementCard.build_from_card(normal_card, element, appear_turn)
+			cards.append(element_card)
+		card_pool[appear_turn] = cards
 
 
 func init_energy() -> void:
@@ -114,66 +126,54 @@ func init_energy() -> void:
 
 func start_turn() -> void:
 	## 开始回合逻辑
-	## 执行意图、根据回合数选择意图并广播
-	# 调用父类开始回合逻辑
+	## 1. 把当前回合的牌抽到手上 2. 按策略逐张尝试打出
 	super.start_turn()
 	boost_energy()
 	
-	if play_strategy is FIFOStrategy:
-		# FIFO 策略：按照 intent_cards 的顺序尝试打牌
-		_play_fifo_turn()
-	else:
-		# 默认策略：只打出当前意图卡牌
-		var intent_card = get_intent()
-		if not intent_card:
-			return
-		var all_chars = BattleManager.get_all_character()
-		var target = play_strategy.choose_target(intent_card, self, all_chars)
-		if intent_card and target:
-			BattleManager.request_play_card(intent_card, self, target)
+	_try_play_hand(play_strategy)
 	
 	exist_turn += 1
 	return
 
 
-func _play_fifo_turn() -> void:
-	## FIFO 策略：从当前回合索引开始，按顺序尝试打出每张意图卡牌
+func _draw_hand() -> void:
+	## 抽牌：从 card_pool 取出当前 appear_turn 对应的所有卡牌
+	var turn_in_loop = exist_turn % play_loop_count
+	hand = []
+	if card_pool.has(turn_in_loop):
+		hand = card_pool[turn_in_loop].duplicate()
+
+
+func _try_play_hand(strategy: MonsterPlayStrategy) -> bool:
+	## 按策略从手牌中选牌尝试打出，直到成功或遍历完
+	_draw_hand()
+	if hand.is_empty():
+		return false
+	var remaining = hand.duplicate()
 	var all_chars = BattleManager.get_all_character()
-	var start_index = exist_turn % intent_cards.size()
-	for i in range(intent_cards.size()):
-		var idx = (start_index + i) % intent_cards.size()
-		var card = intent_cards[idx]
+	while not remaining.is_empty():
+		var card = strategy.select_card(remaining, self)
 		if not card:
-			continue
-		# 检查能量是否足够
+			break
+		remaining.erase(card)
 		if not is_energy_enough(card):
 			continue
-		# 寻找合法目标（已包含前排保护校验）
-		var target = _find_any_valid_target(card, all_chars)
-		if target and BattleManager.request_play_card(card, self, target):
-			return  # 成功打出，结束回合动作
-
-
-func _find_any_valid_target(card: Card, all_characters: Array[Character]) -> Character:
-	## 为一张卡牌寻找任意合法目标
-	for c in all_characters:
-		if c.is_dead:
-			continue
-		if BattleManager.is_valid_target(card, self, c):
-			return c
-	return null
+		var target = strategy.choose_target(card, self, all_chars)
+		if target:
+			BattleManager.request_play_card(card, self, target)
+			return true
+	return false
 
 
 func end_turn() -> void:
 	## 结束回合
 	var intent_card = get_intent()
-	if not intent_card:
-		return
-	var info = _get_intent_description(intent_card)
-	_update_intent_icon(intent_card)
-	intent_type = info["type"]
-	intent_value = info["value"]
-	intent_changed.emit(intent_type, intent_value)
+	if intent_card:
+		var info = _get_intent_description(intent_card)
+		_update_intent_icon(intent_card)
+		intent_type = info["type"]
+		intent_value = info["value"]
+		intent_changed.emit(intent_type, intent_value)
 	# 调用父类结束回合逻辑
 	super.end_turn()
 	return
@@ -215,10 +215,15 @@ func spend_energy(card: Card) -> void:
 
 
 func get_intent() -> ElementCard:
-	## 获得意图卡牌，按照固定策略循环
-	if intent_cards.is_empty():
+	## 获得意图卡牌，从 card_pool 按 appear_turn 查找
+	if card_pool.is_empty():
 		return null
-	return intent_cards[exist_turn % intent_cards.size()]
+	var turn_in_loop = exist_turn % play_loop_count
+	if card_pool.has(turn_in_loop):
+		var cards: Array = card_pool[turn_in_loop]
+		if not cards.is_empty():
+			return cards[0]
+	return null
 
 
 func _get_intent_description(card: ElementCard) -> Dictionary:

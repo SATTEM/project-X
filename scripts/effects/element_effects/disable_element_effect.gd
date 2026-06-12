@@ -4,9 +4,11 @@ extends EffectResource
 
 @export var target_element: GlobalEnums.Element = GlobalEnums.Element.FIRE
 
+
 func apply(_user: Character, target: Character) -> void:
 	if target is Monster and target.has_method("disable_element"):
 		target.disable_element(target_element)
+
 
 func get_value() -> int:
 	return 0

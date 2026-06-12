@@ -1,5 +1,23 @@
 class_name SelfishStrategy
 extends MonsterPlayStrategy
+## 自私策略
+## 选牌优先级：SELF > ENEMY > ANY > ALLY > MONSTER
+
+
+func select_card(hand: Array[ElementCard], _monster: Monster) -> ElementCard:
+	## 按自私倾向选择卡牌
+	var priority = [
+		GlobalEnums.TargetType.SELF,
+		GlobalEnums.TargetType.ENEMY,
+		GlobalEnums.TargetType.ANY,
+		GlobalEnums.TargetType.ALLY,
+		GlobalEnums.TargetType.MONSTER,
+	]
+	for target_type in priority:
+		for card in hand:
+			if card.target_type == target_type:
+				return card
+	return hand.front() if not hand.is_empty() else null
 
 
 func choose_target(card: Card, monster: Monster, all_characters: Array[Character]) -> Character:

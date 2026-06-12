@@ -1,7 +1,11 @@
 class_name FIFOStrategy
 extends MonsterPlayStrategy
 ## 先入先出策略
-## 按照抽到的顺序尝试打牌，遍历所有意图卡牌，找到第一个可以打出（有足够能量且存在合法目标）的卡牌
+## 按手牌顺序依次尝试打出
+
+
+func select_card(hand: Array[ElementCard], _monster: Monster) -> ElementCard:
+	return hand.front() if not hand.is_empty() else null
 
 
 func choose_target(card: Card, monster: Monster, all_characters: Array[Character]) -> Character:
