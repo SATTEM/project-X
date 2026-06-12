@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://drdrr3ubmp3sw"]
+
+[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_u5r52"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_hgnkw"]
+[ext_resource type="Resource" uid="uid://cqaw8jg17f66p" path="res://assets/resources/effects/element_effects/effect_seal_fire.tres" id="3_6vgss"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="4_av5ge"]
+
+[resource]
+script = ExtResource("4_av5ge")
+cost = 2
+effect_resources = Array[ExtResource("2_hgnkw")]([ExtResource("3_6vgss")])
+metadata/_custom_type_script = "uid://bkhjs6impq3th"

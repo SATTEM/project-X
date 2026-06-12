@@ -293,13 +293,50 @@ func _check_energy_threshold(element: GlobalEnums.Element) -> void:
 
 
 func _apply_element_buff(element: GlobalEnums.Element) -> void:
-	## 给予怪物增幅的具体逻辑
-	## 注意：由于我们稍后才会做 BuffPool，这里暂时用基类的“加护盾”作为增幅表现
-	print(" 怪物获得了元素增幅！")
+	## 给予怪物增幅的具体逻辑：完美对接 BuffPool，三系专属机制！
+	print("🚀 怪物能量爆满！触发 [", element, "] 系专属增幅！")
 	
-	# 这里后续可以改成：add_buff(FireBuffResource.new())
-	if self.has_method("add_block"):
-		self.add_block(10) # 临时增幅效果：获得 10 点格挡
+	var burst_buff: BuffResource = null
+	
+	# 根据你们设定的三大元素，动态生成对应的 Buff
+	match element:
+		GlobalEnums.Element.FIRE:
+			# 火系爆气：获得力量增幅
+			var fire_buff = PowerBuff.new()
+			fire_buff.buff_name = "烈火·狂暴"
+			fire_buff.bonus_damage = 5  # 伤害 +5
+			fire_buff.duration = 2
+			burst_buff = fire_buff
+			
+		GlobalEnums.Element.SOIL:
+			# 土系爆气：获得吸血附魔
+			var soil_buff = LifestealBuff.new()
+			soil_buff.buff_name = "厚土·汲取"
+			soil_buff.heal_value = 3    # 吸血 +3
+			soil_buff.duration = 2
+			burst_buff = soil_buff
+			
+		GlobalEnums.Element.WATER:
+			# 水系爆气：获得减费增幅
+			var water_buff = CostReductionBuff.new()
+			water_buff.buff_name = "流水·轻灵"
+			water_buff.cost_reduction = 1 # 下一张牌耗能 -1
+			water_buff.duration = 1
+			burst_buff = water_buff
+			
+		_:
+			# UNKNOWN 或异常情况：兜底加护盾
+			if self.has_method("add_block"):
+				self.add_block(10)
+				print("获得无属性共鸣：10点格挡")
+				
+	# 如果成功生成了 Buff，就塞进流水线里
+	if burst_buff != null:
+		if "buff_pool" in self:
+			self.buff_pool.append(burst_buff)
+			print("成功挂载 Buff：", burst_buff.buff_name, "，当前 Buff 池数量：", self.buff_pool.size())
+		else:
+			printerr("错误：角色身上没有 buff_pool 数组！")
 
 
 func sacrifice_minion() -> void:

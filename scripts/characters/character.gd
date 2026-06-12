@@ -67,6 +67,10 @@ func start_turn() -> void:
 func end_turn() -> void:
 	## 结束回合逻辑，应该被派生类所重写
 	## 重写时，遵循先执行完自身逻辑，再调用父类逻辑的顺序(c++ style)
+	# 回合结束直接把池子里的 Buff 全扔进垃圾桶
+	if "buff_pool" in self and not buff_pool.is_empty():
+		buff_pool.clear()
+		print("回合结束，", self.name, " 的临时增幅已全部清空！")
 	# 发射回合结束信号
 	turn_ended.emit(self)
 	return
@@ -100,9 +104,17 @@ func take_damage(amount: int) -> void:
 
 func heal(amount: int) -> void:
 	## 治疗
-	## effect
-	health += amount
-	heal_display.emit(self, amount)
+	# 死人不能被治疗
+	if health <= 0:
+		return 
+	
+	var actual_heal = min(amount,health_max - health)
+	if actual_heal <= 0:
+		return 
+	health += actual_heal
+	heal_display.emit(self, actual_heal)
+		
+	print( self.name, " 恢复了 ", actual_heal, " 点生命，当前生命: ", health, "/", health_max)
 
 
 func process_card_through_buffs(original_card: Card) -> Card:

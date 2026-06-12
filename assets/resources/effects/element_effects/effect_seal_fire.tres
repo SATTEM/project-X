@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ModifyElementEffect" format=3 uid="uid://cqaw8jg17f66p"]
+
+[ext_resource type="Script" uid="uid://dp4wvn7x7raro" path="res://scripts/effects/element_effects/modify_element_effect.gd" id="1_f1ieo"]
+
+[resource]
+script = ExtResource("1_f1ieo")
+change_amount = 0
+metadata/_custom_type_script = "uid://dp4wvn7x7raro"

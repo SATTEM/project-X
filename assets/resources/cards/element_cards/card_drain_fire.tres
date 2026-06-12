@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://b1kyqxdb0oivk"]
+
+[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_6u7h4"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_e3w7u"]
+[ext_resource type="Resource" uid="uid://drr677epbbx3q" path="res://assets/resources/effects/element_effects/effect_drain_fire.tres" id="3_e3w7u"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_saifx"]
+
+[resource]
+script = ExtResource("3_saifx")
+card_name = "釜底抽薪"
+cost = 1
+effect_resources = Array[ExtResource("2_e3w7u")]([ExtResource("3_e3w7u")])
+card_id = "card_drain_fire"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"
