@@ -38,7 +38,7 @@ var block: int = 0: # 当前格挡值
 		_block = min(block_max, max(0, value))
 		block_changed.emit(self, _block)
 var world_ui: CharacterWorldUI = null
-
+var buff_pool: Array[BuffResource] = []
 
 @abstract func init() -> void
 ## 创建角色初始化函数
@@ -103,3 +103,18 @@ func heal(amount: int) -> void:
 	## effect
 	health += amount
 	heal_display.emit(self, amount)
+
+
+func process_card_through_buffs(original_card: Card) -> Card:
+	## 让打出的卡牌按顺序流经所有的 Buff
+	if buff_pool.is_empty():
+		return original_card
+		
+	# 制造一张替身卡牌用于魔改 
+	var modified_card = original_card.create_buffed_copy()
+	
+	# 依次经过增幅池
+	for buff in buff_pool:
+		modified_card = buff.apply_to_card(modified_card)
+		
+	return modified_card

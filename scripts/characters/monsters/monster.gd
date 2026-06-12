@@ -32,7 +32,8 @@ var play_strategy: MonsterPlayStrategy:
 			# 默认使用自私策略
 			strategy = SelfishStrategy.new()
 		return strategy
-
+var disabled_elements: Array[GlobalEnums.Element] = [] # 记录当前被禁用的元素
+var energy_threshold: int = 5  # 能量爆气阈值，达到此数值触发清空与增幅
 
 func _ready() -> void:
 	world_ui = $CharacterWorldUI
@@ -181,10 +182,16 @@ func end_turn() -> void:
 func boost_energy() -> void:
 	## 回合开始时回复能量
 	for element in energy_elements:
+		# 如果该元素被禁用了，就跳过它的能量回复
+		if disabled_elements.has(element):
+			continue
+			
 		energy_slots[element] = min(
 				energy_slots[element] + energy_slots_boost[element],
 				energy_slots_max[element]
 		)
+		# 每次自然回蓝后检查阈值
+		_check_energy_threshold(element)
 	energy_changed.emit()
 
 
@@ -223,3 +230,98 @@ func _get_intent_description(card: ElementCard) -> Dictionary:
 	var type = effect.effect_name if effect.effect_name != "" else "unknown"
 	var value = effect.get_value()
 	return {"type": type, "value": value}
+
+
+func upgrade_attribute(stat_name: String, bonus_value: int) -> void:
+	## 供商店/事件调用：花钱提升随从的属性（例如最大生命值）
+	if stat_name == "max_hp":
+		health_max += bonus_value
+		# 提升上限的同时，把当前的血量也加上去
+		health += bonus_value 
+		print("随从 ", self.name, " 升级了最大生命值！当前最大生命: ", health_max)
+	else:
+		print(" 未知的随从属性修改请求: ", stat_name)
+
+
+func modify_energy_recovery_manually(slot: GlobalEnums.Element, bonus_amount: int) -> void:
+	## 供商店/事件调用：花钱永久提升随从某个元素每回合的能量恢复数值
+	# 检查怪物当前持有的策略是不是平均恢复策略
+	if monster_resource and monster_resource.energy_strategy is AverageEnergyStrategy:
+		var strategy = monster_resource.energy_strategy as AverageEnergyStrategy
+		strategy.recovery_amount += bonus_amount
+		print(" 随从 ", self.name, " 的元素 [", slot, "] 回复效率提升了！当前每回合回复: ", strategy.recovery_amount)
+	else:
+		print(" 当前随从的能量恢复策略不支持直接修改数值")
+
+
+# === 元素卡牌交互机制 ===
+
+func modify_element_points(element: GlobalEnums.Element, amount: int) -> void:
+	## 供外部卡牌调用：增加或减少特定元素点
+	if not energy_slots.has(element):
+		return
+	
+	# 修改能量点，并确保不低于0，不高于上限
+	energy_slots[element] = clamp(energy_slots[element] + amount, 0, energy_slots_max[element])
+	# 如果是增加能量（充能），检查是否触发阈值
+	if amount > 0:
+		_check_energy_threshold(element)
+
+	energy_changed.emit()
+	print(self.name, " 的 [", element, "] 元素点变化了 ", amount, "，当前为: ", energy_slots[element])
+
+
+func disable_element(element: GlobalEnums.Element) -> void:
+	## 供外部卡牌调用：直接禁用某个元素
+	if not disabled_elements.has(element):
+		disabled_elements.append(element)
+		# 禁用时，顺便清空该属性现有的能量
+		if energy_slots.has(element):
+			energy_slots[element] = 0
+			energy_changed.emit()
+		print(self.name, " 的 [", element, "] 属性被卡牌禁用了！")
+
+
+func _check_energy_threshold(element: GlobalEnums.Element) -> void:
+	## 检查单项能量是否达到阈值
+	if energy_slots[element] >= energy_threshold:
+		print(self.name, " 的 [", element, "] 能量达到满值！触发爆气！")
+		# 清空该属性的能量
+		energy_slots[element] = 0
+		# 给予该怪物增幅
+		_apply_element_buff(element)
+
+
+func _apply_element_buff(element: GlobalEnums.Element) -> void:
+	## 给予怪物增幅的具体逻辑
+	## 注意：由于我们稍后才会做 BuffPool，这里暂时用基类的“加护盾”作为增幅表现
+	print(" 怪物获得了元素增幅！")
+	
+	# 这里后续可以改成：add_buff(FireBuffResource.new())
+	if self.has_method("add_block"):
+		self.add_block(10) # 临时增幅效果：获得 10 点格挡
+
+
+func sacrifice_minion() -> void:
+	## 玩家主动清理/献祭随从，使其立即死亡并返回能量
+	if not is_ally:
+		print(" 只能清理己方随从！")
+		return
+		
+	print("献祭随从 ", self.name, " 被清理/献祭了")
+	
+	# 返回一定能量点给玩家
+	var return_energy: int = 2 # 献祭返回的能量点数
+	if BattleManager.player:
+		# 增加玩家当前能量，但不能超过最大能量上限
+		BattleManager.player.energy = min(
+			BattleManager.player.energy + return_energy, 
+			BattleManager.player.max_energy
+		)
+		# 发射玩家能量变动信号，通知 UI 更新数值
+		BattleManager.player.energy_changed.emit(BattleManager.player.energy)
+		print("献祭成功，返回了 ", return_energy, " 点能量，当前玩家能量: ", BattleManager.player.energy)
+	
+	# 使其立即死亡
+	# 直接将生命值设为 0，底层的 character.gd 会自动触发死亡信号并清理战场节点
+	self.health = 0

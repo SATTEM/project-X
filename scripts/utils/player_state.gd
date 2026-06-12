@@ -38,3 +38,19 @@ func apply_battle_result(result: Dictionary) -> void:
 	print("查看牌库：")
 	for id in deck_ids:
 		print("  - ", id)
+
+func add_card_to_run_deck(card_id: String) -> void:
+	## 获取卡牌奖励
+	deck_ids.append(card_id)
+	print(" 已将卡牌添加到本局牌组: ", card_id)
+
+
+func remove_card_from_run_deck(card_id: String) -> bool:
+	## 商店删牌服务调用
+	# erase 只会删除找到的第一张，符合删牌规则
+	if deck_ids.has(card_id):	
+		deck_ids.erase(card_id)
+		print(" 已从本局牌组移除卡牌: ", card_id)
+		return true
+	print(" 牌组中不存在该卡牌: ", card_id)
+	return false

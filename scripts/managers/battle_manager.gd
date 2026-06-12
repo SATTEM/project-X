@@ -273,22 +273,42 @@ func request_play_card(
 		return false
 	if source.is_dead or target.is_dead:
 		return false
-	if not source.is_energy_enough(card):
+		
+	# 在检查费用之前，先让卡牌生成克隆并经过增幅池
+	var final_card = card
+	if source.has_method("process_card_through_buffs"):
+		final_card = source.process_card_through_buffs(card)
+
+	if not source.is_energy_enough(final_card):
+		# 如果费用不够打不出，清理临时卡
+		if final_card != card:
+			final_card.queue_free()
 		return false
-	if not is_valid_target(card, source, target):
+		
+	if not is_valid_target(final_card, source, target):
+		if final_card != card:
+			final_card.queue_free()
 		return false
-	# 扣费
-	source.spend_energy(card)
-	# 卡牌从手牌移除
+		
+	# 扣费 (使用的是被 Buff 修改后的费用)
+	source.spend_energy(final_card)
+	
+	# 卡牌从手牌移除 (移除的是玩家手里原始的牌，而不是克隆牌)
 	if source.hand.has(card):
 		source.hand.erase(card)
 	# 如果角色有弃牌堆，弃掉
 	if source.has_method("discard"):
 		source.discard(card)
+		
 	# 发射信号
-	card_play_requested.emit(card, source, target)
+	card_play_requested.emit(final_card, source, target)
 	# 执行结算
-	card.play_card_on_target(source, target)
+	final_card.play_card_on_target(source, target)
+	
+	# 结算完成后，把用完的临时克隆卡扔进垃圾桶
+	if final_card != card:
+		final_card.queue_free()
+		
 	return true
 
 
