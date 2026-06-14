@@ -27,7 +27,6 @@ var current_enemies_count: int = 0
 var card_container: Node2D
 var position_rows: Dictionary[GlobalEnums.PositionRow, Node2D] = {}
 
-
 func _ready() -> void:
 	## 初始化战斗管理器
 	card_container = Node2D.new()
@@ -399,22 +398,58 @@ func _end_battle(victory: bool) -> void:
 
 
 func _build_rewards(victory: bool) -> Array[String]:
-	## 生成奖励候选卡牌列表
+	## 生成奖励候选卡牌列表 (60%概率来自已解锁, 40% 未解锁)
 	if not victory:
 		return []
-	# 获取本局游戏已经拥有的卡牌ID列表
-	var owned = current_player_state.deck_ids if current_player_state else []
-	# 获取全局永久解锁的卡牌ID列表
-	var unlocked = GlobalUnlockManager.get_all_unlocked()
-	print("owned:", owned, " unlocked:", unlocked)
-	# 候选池=已解锁的牌-本局已经拥有的牌
-	var candidates = unlocked.filter(func(id): return not owned.has(id))
-	# 如果拥有所有已解锁的牌，允许重复获得已有卡牌
-	if candidates.is_empty():
-		candidates = GlobalUnlockManager.get_all_unlocked()
-	print("candidates:", candidates)
-	candidates.shuffle()
-	var result = candidates.slice(0, 3)
+		
+	# 获取全局所有的卡牌ID 和 已经解锁的卡牌ID
+	var all_cards: Array[String] = []
+	if CardLibrary.has_method("get_all_card_ids"):
+		all_cards = CardLibrary.get_all_card_ids()
+		
+	var unlocked_cards = GlobalUnlockManager.get_all_unlocked()
+
+	# 将所有卡牌分配进两个抽卡池
+	var locked_pool: Array[String] = []
+	var unlocked_pool: Array[String] = []
+	
+	for id in all_cards:
+		if unlocked_cards.has(id):
+			unlocked_pool.append(id)
+		else:
+			locked_pool.append(id)
+
+	var result: Array[String] = []
+
+	# 循环抽取 3 张不一样的卡牌
+	for i in range(3):
+		# 如果两个池子都被抽空了（极端情况：游戏总卡牌数不足 3 张），直接结束
+		if locked_pool.is_empty() and unlocked_pool.is_empty():
+			break
+			
+		var pick_unlocked = false
+		
+		# 规则校验
+		if locked_pool.is_empty():
+			# 如果未解锁池空了（全部都已经解锁），无视规则，强制从已解锁池抽取
+			pick_unlocked = true
+		elif unlocked_pool.is_empty():
+			# 如果已解锁池空了（玩家初始可能没有任何解锁卡），只能从未解锁池抽取
+			pick_unlocked = false
+		else:
+			# 正常情况：掷骰子，randf() 会生成 0.0 到 1.0 的小数
+			# 小于 0.6 即代表 60% 概率
+			pick_unlocked = (randf() < 0.6)
+
+		# 执行抽取，抽走后用 pop_front 剔除该卡，保证这三张牌绝对不一样
+		if pick_unlocked:
+			unlocked_pool.shuffle()
+			result.append(unlocked_pool.pop_front())
+		else:
+			locked_pool.shuffle()
+			result.append(locked_pool.pop_front())
+
+	print("生成的奖励卡牌: ", result)
 	return result
 
 
