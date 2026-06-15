@@ -313,19 +313,11 @@ func request_play_card(
 
 func get_card_target() -> Character:
 	## 选择卡牌打击对象
-	## 玩家和随从打击敌人
+	## 随从打击敌人
 	## 敌人先尝试打击前排，前排没有单位则打击玩家
 	if not active_character:
 		return null
 	var attacker = active_character
-	# 玩家: 在ENEMY或FRONT行找一个活着的敌人
-	# 后续改为玩家自选
-	if attacker is Player:
-		for row in [GlobalEnums.PositionRow.ENEMY, GlobalEnums.PositionRow.FRONT]:
-			for child in position_rows[row].get_children():
-				if child is Monster and not child.is_ally and not child.is_dead:
-					return child
-		return null
 	# 怪物
 	if attacker is Monster:
 		# 己方随从攻击ENEMY行敌人

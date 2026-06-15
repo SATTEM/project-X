@@ -9,5 +9,6 @@ func apply(_user: Character, target: Character) -> void:
 	if target and target.has_method("heal"):
 		target.heal(base_amount)
 
+
 func get_value():
 	return base_amount

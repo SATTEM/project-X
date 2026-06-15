@@ -2,6 +2,7 @@ class_name MulticastBuff
 extends BuffResource
 ## 连击增幅：使卡牌里的伤害效果触发两次
 
+
 func apply_to_card(card: Card) -> Card:
 	var new_effects: Array[EffectResource] = []
 	var triggered = false

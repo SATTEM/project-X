@@ -4,6 +4,7 @@ extends BuffResource
 
 @export var cost_reduction: int = 1
 
+
 func apply_to_card(card: Card) -> Card:
 	## 卡牌克隆时候使用了深拷贝, 所以直接修改克隆体的资源费用是绝对安全的，不会污染原牌库
 	if card.card_resource:

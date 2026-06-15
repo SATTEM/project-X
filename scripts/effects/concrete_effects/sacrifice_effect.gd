@@ -2,7 +2,8 @@ class_name SacrificeEffect
 extends EffectResource
 ## 献祭效果：处决一个友方随从，并根据其费用返还能量
 
-func apply(user: Character, target: Character) -> void:
+
+func apply(_user: Character, target: Character) -> void:
 	# 安全校验：确保目标是怪物，且是己方随从
 	if target is Monster and target.is_ally:
 		# 计算返还能量（随从基础召唤费用的一半，向下取整）
@@ -21,6 +22,7 @@ func apply(user: Character, target: Character) -> void:
 		target.health = 0
 	else:
 		print("目标不合法，献祭失败！")
+
 
 func get_value() -> int:
 	## 满足 EffectResource 基类的抽象方法要求

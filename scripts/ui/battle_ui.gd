@@ -88,7 +88,8 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	# 左键点击选择目标
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and _pending_card:
+	var is_left_mouse_pressed: bool = event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT
+	if is_left_mouse_pressed and _pending_card:
 		var click_pos = get_viewport().get_mouse_position()
 		var target = _get_character_at_position(click_pos)
 		if target and BattleManager.is_valid_target(_pending_card, BattleManager.player, target):
@@ -98,6 +99,8 @@ func _input(event: InputEvent) -> void:
 			refresh_all_info()
 			exit_target_selection()
 			get_viewport().set_input_as_handled()
+		else:
+			exit_target_selection()
 
 
 func _get_character_at_position(pos: Vector2) -> Character:

@@ -306,7 +306,7 @@ func _apply_element_buff(element: GlobalEnums.Element) -> void:
 	
 	var burst_buff: BuffResource = null
 	
-	# 根据你们设定的三大元素，动态生成对应的 Buff
+	# 根据设定的三大元素，动态生成对应的 Buff
 	match element:
 		GlobalEnums.Element.FIRE:
 			# 火系爆气：获得力量增幅
