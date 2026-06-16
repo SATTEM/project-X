@@ -18,7 +18,7 @@ func init_campaign():
 	battle2.level_type = "battle"
 	battle2.set_enemies([])
 	
-	var shop = ShopLevel.new()
+	var shop = preload("res://assets/resources/shops/shop_1.tres")
 	shop.level_name = "商店"
 	shop.level_type = "shop"
 

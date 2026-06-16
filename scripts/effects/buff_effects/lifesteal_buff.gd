@@ -12,10 +12,12 @@ func apply_to_card(card: Card) -> Card:
 			has_damage = true
 			break
 			
-	# 如果这张牌有伤害，就它加一个治疗效果
+	# 如果这张牌有伤害，就给它加一个治疗效果
 	if has_damage:
 		var extra_heal = HealEffect.new()
 		extra_heal.base_amount = heal_value
+		# 治疗使用者，而不是攻击对象
+		extra_heal.heal_self = true
 		card.effects.append(extra_heal)
 		print("吸血附魔触发！为该卡牌临时追加了 ", heal_value, " 点治疗效果！")
 		

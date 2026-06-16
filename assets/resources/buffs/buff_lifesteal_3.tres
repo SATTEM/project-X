@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LifestealBuff" format=3 uid="uid://dlpdma4axb6pr"]
+
+[ext_resource type="Script" uid="uid://r7r71i64juc" path="res://scripts/effects/buff_effects/lifesteal_buff.gd" id="1_xmdf6"]
+
+[resource]
+script = ExtResource("1_xmdf6")
+heal_value = 3
+buff_name = "吸血"
+duration = 2
+metadata/_custom_type_script = "uid://bm7xoobl581bb"
