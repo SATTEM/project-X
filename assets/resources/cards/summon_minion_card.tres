@@ -9,7 +9,7 @@
 [resource]
 script = ExtResource("2_4twpg")
 card_name = "召唤"
-cost = 1
+cost = 2
 effect_resources = Array[ExtResource("1_0dxw7")]([ExtResource("2_dppj7")])
 texture = ExtResource("4_dppj7")
 target_type = 0

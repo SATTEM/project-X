@@ -67,10 +67,8 @@ func start_turn() -> void:
 func end_turn() -> void:
 	## 结束回合逻辑，应该被派生类所重写
 	## 重写时，遵循先执行完自身逻辑，再调用父类逻辑的顺序(c++ style)
-	# 回合结束直接把池子里的 Buff 全扔进垃圾桶
-	if "buff_pool" in self and not buff_pool.is_empty():
-		buff_pool.clear()
-		print("回合结束，", self.name, " 的临时增幅已全部清空！")
+
+	process_buffs_on_turn_end()  # 调用回合衰减逻辑
 	# 发射回合结束信号
 	turn_ended.emit(self)
 	return
@@ -130,3 +128,24 @@ func process_card_through_buffs(original_card: Card) -> Card:
 		modified_card = buff.apply_to_card(modified_card)
 		
 	return modified_card
+
+
+func process_buffs_on_turn_end() -> void:
+	## 处理增幅池的回合衰减
+	if not "buff_pool" in self or buff_pool.is_empty():
+		return
+		
+	# 倒序遍历数组，移除失效的 Buff
+	var i = buff_pool.size() - 1
+	while i >= 0:
+		var buff = buff_pool[i]
+		
+		# 调用基类的生命周期函数，让 Buff 自己管理寿命
+		buff.on_turn_end()
+		
+		# 检查如果寿命归 0 了，就把这个 Buff 踢出池子
+		if buff.duration <= 0:
+			print("增幅 [", buff.buff_name, "] 持续时间结束，已自动移除！")
+			buff_pool.remove_at(i)
+			
+		i -= 1

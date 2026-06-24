@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GainBuffEffect" format=3 uid="uid://beadgfg5cbx2l"]
+
+[ext_resource type="Script" uid="uid://fxgny3cqaebf" path="res://scripts/effects/gain_buff_effect.gd" id="1_5exdg"]
+[ext_resource type="Resource" uid="uid://lj1hru8gjlj3" path="res://assets/resources/buffs/buff_power_3.tres" id="1_icvjd"]
+
+[resource]
+script = ExtResource("1_5exdg")
+buff_to_apply = ExtResource("1_icvjd")
+effect_name = "获得力量"
+metadata/_custom_type_script = "uid://fxgny3cqaebf"

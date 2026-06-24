@@ -36,6 +36,9 @@ var energy_threshold: int = 5  # 能量爆气阈值，达到此数值触发清�
 var card_pool: Dictionary[int, Array] = {} # 运行时牌池，Array[ElementCard]
 var hand: Array[ElementCard] = []
 
+@export var summon_cost: int = 2  # 随从基础召唤费用,默认为2
+
+
 
 func _ready() -> void:
 	world_ui = $CharacterWorldUI
@@ -299,18 +302,18 @@ func _check_energy_threshold(element: GlobalEnums.Element) -> void:
 
 func _apply_element_buff(element: GlobalEnums.Element) -> void:
 	## 给予怪物增幅的具体逻辑：完美对接 BuffPool，三系专属机制！
-	print("🚀 怪物能量爆满！触发 [", element, "] 系专属增幅！")
+	print(" 怪物能量爆满！触发 [", element, "] 系专属增幅！")
 	
 	var burst_buff: BuffResource = null
 	
-	# 根据你们设定的三大元素，动态生成对应的 Buff
+	# 根据设定的三大元素，动态生成对应的 Buff
 	match element:
 		GlobalEnums.Element.FIRE:
 			# 火系爆气：获得力量增幅
 			var fire_buff = PowerBuff.new()
 			fire_buff.buff_name = "烈火·狂暴"
 			fire_buff.bonus_damage = 5  # 伤害 +5
-			fire_buff.duration = 2
+			fire_buff.duration = 3  # 设定为 3 回合
 			burst_buff = fire_buff
 			
 		GlobalEnums.Element.SOIL:
@@ -318,7 +321,7 @@ func _apply_element_buff(element: GlobalEnums.Element) -> void:
 			var soil_buff = LifestealBuff.new()
 			soil_buff.buff_name = "厚土·汲取"
 			soil_buff.heal_value = 3    # 吸血 +3
-			soil_buff.duration = 2
+			soil_buff.duration = 3  # 设定为 3 回合
 			burst_buff = soil_buff
 			
 		GlobalEnums.Element.WATER:
@@ -326,7 +329,7 @@ func _apply_element_buff(element: GlobalEnums.Element) -> void:
 			var water_buff = CostReductionBuff.new()
 			water_buff.buff_name = "流水·轻灵"
 			water_buff.cost_reduction = 1 # 下一张牌耗能 -1
-			water_buff.duration = 1
+			water_buff.duration = 1  # 设定为 1 回合
 			burst_buff = water_buff
 			
 		_:
@@ -342,28 +345,3 @@ func _apply_element_buff(element: GlobalEnums.Element) -> void:
 			print("成功挂载 Buff：", burst_buff.buff_name, "，当前 Buff 池数量：", self.buff_pool.size())
 		else:
 			printerr("错误：角色身上没有 buff_pool 数组！")
-
-
-func sacrifice_minion() -> void:
-	## 玩家主动清理/献祭随从，使其立即死亡并返回能量
-	if not is_ally:
-		print(" 只能清理己方随从！")
-		return
-		
-	print("献祭随从 ", self.name, " 被清理/献祭了")
-	
-	# 返回一定能量点给玩家
-	var return_energy: int = 2 # 献祭返回的能量点数
-	if BattleManager.player:
-		# 增加玩家当前能量，但不能超过最大能量上限
-		BattleManager.player.energy = min(
-			BattleManager.player.energy + return_energy, 
-			BattleManager.player.max_energy
-		)
-		# 发射玩家能量变动信号，通知 UI 更新数值
-		BattleManager.player.energy_changed.emit(BattleManager.player.energy)
-		print("献祭成功，返回了 ", return_energy, " 点能量，当前玩家能量: ", BattleManager.player.energy)
-	
-	# 使其立即死亡
-	# 直接将生命值设为 0，底层的 character.gd 会自动触发死亡信号并清理战场节点
-	self.health = 0
