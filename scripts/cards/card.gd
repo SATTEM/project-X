@@ -16,6 +16,7 @@ var target_type: GlobalEnums.TargetType:
 
 
 func play_card_on_target(user: Character, target: Character) -> void:
+	## 结算卡牌效果
 	print(user.name + " played card: [" + card_name+"] at: [" + target.name + "]")
 	for effect in effects:
 		effect.apply(user, target)

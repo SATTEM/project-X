@@ -46,6 +46,7 @@ func create_card(card_id: String) -> Card:
 
 
 func create_card_and_add_to_scene(card_id: String, parent: Node) -> Card:
+	## 创建卡牌后添加到场景
 	var card = create_card(card_id)
 	if card:
 		parent.add_child(card)

@@ -8,6 +8,7 @@ var appear_turn: int = 0
 
 
 static func build_from_card(card: Card, e: GlobalEnums.Element, p_appear_turn: int = 0) -> ElementCard:
+	## 根据传入的元素和出现回合数，将一般卡牌转化为怪物用的元素卡牌
 	var element_card: ElementCard = ElementCard.new()
 	element_card.card_resource = card.card_resource
 	element_card.effects = card.effects

@@ -75,8 +75,7 @@ func end_turn() -> void:
 
 
 func add_block(amount: int) -> void:
-	## 添加格挡。此类效果函数标记为(effect), 以后将移动到专门的工具类中
-	## 并组合入Character便于调用
+	## 添加格挡。此类效果函数标记为(effect)
 	## effect
 	block += amount
 	block_display.emit(self, amount)
@@ -102,6 +101,7 @@ func take_damage(amount: int) -> void:
 
 func heal(amount: int) -> void:
 	## 治疗
+	## effect
 	# 死人不能被治疗
 	if health <= 0:
 		return 
@@ -149,3 +149,15 @@ func process_buffs_on_turn_end() -> void:
 			buff_pool.remove_at(i)
 			
 		i -= 1
+
+
+func add_buff(buff: BuffResource) -> void:
+	if not buff:
+		return
+	if not buff_pool:
+		buff_pool = []
+	
+	# 复制一份，防止不同角色共享同一个buff实例
+	var buff_instance = buff.duplicate()
+	buff_pool.append(buff_instance)
+	print("添加buff：", buff_instance.buff_name)

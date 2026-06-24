@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://caax8yvpi3yif" path="res://scripts/ui/other/rest_area.gd" id="1_8roeg"]
 [ext_resource type="Texture2D" uid="uid://dxj2p16nj0lco" path="res://assets/art/background/menu_background/menu_green.png" id="2_m138o"]
 
-
 [node name="RestArea" type="CanvasLayer" unique_id=1617138788]
 script = ExtResource("1_8roeg")
 
@@ -43,7 +42,7 @@ localize_numeral_system = false
 tooltip_text = "敌人：默认怪物 x1
 奖励：金币 x50"
 theme_override_font_sizes/font_size = 25
-text = "普通敌人
+text = "简单敌人
 "
 
 [node name="EliteAButton" type="Button" parent="Panel/VBoxContainer" unique_id=1083545429]
@@ -52,7 +51,7 @@ layout_mode = 2
 tooltip_text = "敌人：默认怪物 x2
 奖励：金币 x100"
 theme_override_font_sizes/font_size = 25
-text = "精英敌人"
+text = "普通敌人"
 
 [node name="EliteBButton" type="Button" parent="Panel/VBoxContainer" unique_id=328081510]
 custom_minimum_size = Vector2(0, 70)
@@ -60,7 +59,7 @@ layout_mode = 2
 tooltip_text = "敌人：默认怪物 x2
 奖励：金币 x100"
 theme_override_font_sizes/font_size = 25
-text = "精英敌人"
+text = "困难敌人"
 
 [node name="ConfirmButton" type="Button" parent="Panel" unique_id=660020410]
 layout_mode = 1

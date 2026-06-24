@@ -18,6 +18,9 @@ enum GameState {
 var state: GameState = GameState.BOOT
 var player_state: PlayerState
 var pending_gold_reward: int = 0
+# 无尽模式
+var infinity_mode: bool = true
+
 
 @onready var player: Player = $Player
 @onready var battle_ui: Control = $UIContainer/BattleUI
@@ -53,6 +56,9 @@ func start_new_run() -> void:
 func _process_current_level():
 	print("处理关卡，当前索引：", player_state.current_level_index)
 	var level = CampaignManager.get_current_level(player_state)
+	if level == null and infinity_mode:
+		CampaignManager.new_loop()
+		level = CampaignManager.get_current_level(player_state)
 	print("当前关卡类型：", level.level_type if level else "null")
 	if level == null:
 		_enter_state(GameState.VICTORY)
@@ -73,6 +79,7 @@ func reset_game() -> void:
 
 
 func _start_new_run() -> void:
+	## 开始新游戏，重置玩家状态
 	player_state = PlayerState.new()
 	player_state.reset_to_defaults(Player.get_default_deck_ids(), player.health_max)
 	SaveManager.save_player_state(player_state)
@@ -89,6 +96,7 @@ func _start_next_battle() -> void:
 	if battle_level.enemies.is_empty():
 		return
 	pending_gold_reward = battle_level.reward_gold
+	# 根据关卡设置创建怪物实例
 	var monsters: Array[Monster] = []
 	for id in battle_level.enemies:
 		var m = MonsterLibrary.create_monster(id)
@@ -122,7 +130,7 @@ func _open_shop():
 	var level = CampaignManager.get_current_level(player_state)
 	if level is ShopLevel:
 		var shop = preload("res://scenes/ui/shop_scene.tscn").instantiate()
-		shop.setup(level)
+		shop.setup(level, player)
 		add_child(shop)
 		shop.shop_closed.connect(_on_shop_closed)
 

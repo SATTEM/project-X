@@ -1,22 +1,25 @@
 extends Panel
 
-signal buy_clicked(item_id)
+signal buy_clicked(item_resource: ShopItemResource)
 
-@export var item_name: String = ""
-@export var item_detail: String = ""
-@export var price: int = 0
-@export var item_icon: Texture2D
+var item_resource: ShopItemResource
 
-func setup(i_name, detail, price_val, icon_tex):
-	item_name = i_name
-	item_detail = detail
-	price = price_val
-	item_icon = icon_tex
-	$VBoxContainer/Name.text = item_name
-	$VBoxContainer/Detail.text = item_detail
-	$VBoxContainer/BuyButton.text = str(price) + "金币"
-	$VBoxContainer/Icon.texture = item_icon
-
-func _ready():
-	$VBoxContainer/BuyButton.pressed.connect(func(): buy_clicked.emit(item_name))
+func setup(item: ShopItemResource):
+	item_resource = item
 	
+	var name_label = get_node("VBoxContainer/Name")
+	var detail_label = get_node("VBoxContainer/Detail")
+	var buy_button = get_node("VBoxContainer/BuyButton")
+	var icon_rect = get_node("VBoxContainer/Icon")
+	
+	name_label.text = item.item_name
+	detail_label.text = item.item_detail
+	buy_button.text = str(item.price) + "金币"
+	if item.icon:
+		icon_rect.texture = item.icon
+	
+	buy_button.pressed.connect(_on_buy)
+
+
+func _on_buy():
+	buy_clicked.emit(item_resource)
