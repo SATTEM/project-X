@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://d4e4b2hr7uekl"]
 
-[ext_resource type="Script" uid="uid://cxtmhmj3lx2t6" path="res://scripts/ui/shop_scene.gd" id="1_gsvvp"]
+[ext_resource type="Script" uid="uid://cxtmhmj3lx2t6" path="res://scripts/ui/shop/shop_scene.gd" id="1_gsvvp"]
 [ext_resource type="Texture2D" uid="uid://bsfr5uij788vp" path="res://assets/art/background/menu_background/menu_orange.png" id="2_nvsci"]
 [ext_resource type="Texture2D" uid="uid://cu1gcdi4uv81s" path="res://assets/art/monsters/cathelineau/witch-face.png" id="3_g8mgn"]
 [ext_resource type="Texture2D" uid="uid://8cboo8kcex4i" path="res://assets/art/text_box/dialogbox.png" id="4_nvsci"]
+
 
 [node name="ShopScene" type="CanvasLayer" unique_id=263047832]
 script = ExtResource("1_gsvvp")

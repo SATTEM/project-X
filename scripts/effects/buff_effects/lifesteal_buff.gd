@@ -4,6 +4,7 @@ extends BuffResource
 
 @export var heal_value: int = 5 # 每次造成的吸血量
 
+
 func apply_to_card(card: Card) -> Card:
 	var has_damage = false
 	for effect in card.effects:

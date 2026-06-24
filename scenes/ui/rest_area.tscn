@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://bcck3osx4bgif"]
 
-[ext_resource type="Script" uid="uid://caax8yvpi3yif" path="res://scripts/ui/rest_area.gd" id="1_8roeg"]
+[ext_resource type="Script" uid="uid://caax8yvpi3yif" path="res://scripts/ui/other/rest_area.gd" id="1_8roeg"]
 [ext_resource type="Texture2D" uid="uid://dxj2p16nj0lco" path="res://assets/art/background/menu_background/menu_green.png" id="2_m138o"]
+
 
 [node name="RestArea" type="CanvasLayer" unique_id=1617138788]
 script = ExtResource("1_8roeg")

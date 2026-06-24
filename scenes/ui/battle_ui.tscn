@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://cvfnmh8fpsbcc"]
 
-[ext_resource type="Script" uid="uid://bt83fnc62uq2r" path="res://scripts/ui/battle_ui.gd" id="1_2hywk"]
+[ext_resource type="Script" uid="uid://bt83fnc62uq2r" path="res://scripts/ui/battle/battle_ui.gd" id="1_2hywk"]
 [ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_uu5og"]
 [ext_resource type="Texture2D" uid="uid://ctsgf7uwmjkpu" path="res://assets/art/background/battle_background/battle_blue_2.png" id="3_ebl3e"]
 [ext_resource type="Texture2D" uid="uid://bjrrtncmsc86u" path="res://assets/art/background/battle_background/energy.png" id="4_uoy4w"]
 [ext_resource type="Texture2D" uid="uid://dae857awa5whm" path="res://assets/art/background/battle_background/TopStatusBar.png" id="5_2kidt"]
+
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7sxqq"]
 load_path = "res://.godot/imported/endturnBtn.png-ecf2cba6f5e6aeb2fb8b03bbb9e8b487.ctex"

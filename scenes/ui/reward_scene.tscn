@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://dm1wxhgeu65y4"]
 
-[ext_resource type="Script" uid="uid://dgclsnj0uo8up" path="res://scripts/ui/reward_scene.gd" id="1_ygm56"]
+[ext_resource type="Script" uid="uid://dgclsnj0uo8up" path="res://scripts/ui/other/reward_scene.gd" id="1_ygm56"]
 [ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_kqg3s"]
+
 
 [node name="RewardScene" type="CanvasLayer" unique_id=2138101744]
 script = ExtResource("1_ygm56")

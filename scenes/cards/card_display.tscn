@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://gx4dfxkmwtlf"]
 
-[ext_resource type="Script" uid="uid://ctsjhnr47wdxt" path="res://scripts/ui/card_display.gd" id="1_nve1b"]
+[ext_resource type="Script" uid="uid://ctsjhnr47wdxt" path="res://scripts/ui/battle/card_display.gd" id="1_nve1b"]
+
 
 [node name="CardDisplay" type="Control" unique_id=1505606675 node_paths=PackedStringArray("background", "card_texture", "cost_label", "name_label", "description_label")]
 custom_minimum_size = Vector2(200, 280)

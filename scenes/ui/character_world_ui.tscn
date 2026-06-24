@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://qsmqy7ibycg4"]
 
-[ext_resource type="Script" uid="uid://d14i8eew0i607" path="res://scripts/ui/character_world_ui.gd" id="1_22b7q"]
+[ext_resource type="Script" uid="uid://d14i8eew0i607" path="res://scripts/ui/battle/character_world_ui.gd" id="1_22b7q"]
 [ext_resource type="Texture2D" uid="uid://c8vb3mls6sx2x" path="res://assets/art/monsters/caro-asercion/cloaked-figure-on-horseback.png" id="2_4i61a"]
+
 
 [node name="CharacterWorldUI" type="Control" unique_id=1872879632 node_paths=PackedStringArray("body_sprite", "health_bar_bg", "health_bar_fill", "block_container", "block_icon", "block_label", "intent_container", "intent_icon", "intent_label", "energy_container")]
 layout_mode = 3
