@@ -122,7 +122,7 @@ func _open_shop():
 	var level = CampaignManager.get_current_level(player_state)
 	if level is ShopLevel:
 		var shop = preload("res://scenes/ui/shop_scene.tscn").instantiate()
-		shop.setup(level)
+		shop.setup(level, player)
 		add_child(shop)
 		shop.shop_closed.connect(_on_shop_closed)
 

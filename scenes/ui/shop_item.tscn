@@ -4,7 +4,7 @@
 
 
 [node name="ShopItem" type="Panel" unique_id=604955887]
-custom_minimum_size = Vector2(140, 250)
+custom_minimum_size = Vector2(250, 350)
 layout_direction = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Icon" type="TextureRect" parent="VBoxContainer" unique_id=651848840]

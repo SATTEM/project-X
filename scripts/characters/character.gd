@@ -149,3 +149,15 @@ func process_buffs_on_turn_end() -> void:
 			buff_pool.remove_at(i)
 			
 		i -= 1
+
+
+func add_buff(buff: BuffResource) -> void:
+	if not buff:
+		return
+	if not buff_pool:
+		buff_pool = []
+	
+	# 复制一份，防止不同角色共享同一个buff实例
+	var buff_instance = buff.duplicate()
+	buff_pool.append(buff_instance)
+	print("添加buff：", buff_instance.buff_name)

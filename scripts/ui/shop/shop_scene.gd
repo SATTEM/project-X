@@ -5,14 +5,16 @@ signal shop_closed
 var grid: GridContainer
 var shop_level: ShopLevel
 var original_message_pos: Vector2
+var player: Player
 
 func _ready():
 	original_message_pos = $MessageLabel.position
 	$CloseButton.pressed.connect(_on_continue)
 
 
-func setup(level: ShopLevel):
+func setup(level: ShopLevel, current_player: Player):
 	shop_level = level
+	player = current_player
 	update_gold_display()
 	grid = $Panel/GridContainer
 	if not grid:
@@ -23,26 +25,30 @@ func setup(level: ShopLevel):
 		add_item(item)
 
 
-func add_item(item_data):
+func add_item(item: ShopItemResource):
 	var item_ui = preload("res://scenes/ui/shop_item.tscn").instantiate()
-	item_ui.setup(
-		item_data["item_name"],
-		item_data["item_detail"],
-		item_data["price"],
-		item_data.get("item_icon", null)
-	)
-	item_ui.buy_clicked.connect(func(item_name): _on_buy(item_name, item_data["price"]))
 	grid.add_child(item_ui)
+	item_ui.setup(item)
+	item_ui.buy_clicked.connect(_on_buy)
 
 
-func _on_buy(item_name, price):
-	if GameManager.spend_gold(price):
-		print("购买成功：", item_name)
-		show_message("购买成功！")
-		update_gold_display()
-	else:
-		print("金币不足，无法购买：", item_name)
+func _on_buy(item: ShopItemResource):
+	var state = SaveManager.load_player_state()
+	if not state or state.gold < item.price:
 		show_message("金币不足！")
+		return
+	state.gold -= item.price
+	SaveManager.save_player_state(state)
+	update_gold_display()
+	
+	# 应用效果
+	for effect in item.effects:
+		effect.apply(player, player)
+	
+	for buff in item.buffs:
+		player.add_buff(buff)
+	
+	show_message("购买成功：" + item.item_name)
 
 
 func _on_continue():
