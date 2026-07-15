@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://bjrrtncmsc86u" path="res://assets/art/background/battle_background/energy.png" id="4_uoy4w"]
 [ext_resource type="Texture2D" uid="uid://dae857awa5whm" path="res://assets/art/background/battle_background/TopStatusBar.png" id="5_2kidt"]
 
-
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7sxqq"]
 load_path = "res://.godot/imported/endturnBtn.png-ecf2cba6f5e6aeb2fb8b03bbb9e8b487.ctex"
 
@@ -21,6 +20,9 @@ script = ExtResource("1_2hywk")
 card_display_scene = ExtResource("2_uu5og")
 
 [node name="Background" type="TextureRect" parent="." unique_id=443960426]
+visible = false
+light_mask = 64
+visibility_layer = 64
 z_index = -10
 layout_mode = 0
 offset_left = -6.0
