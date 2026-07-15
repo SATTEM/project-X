@@ -5,6 +5,8 @@ var player: Player
 var monster: Monster
 
 @export var card_display_scene: PackedScene
+@export var deck_preview_overlay_scene: PackedScene
+@export var settings_overlay_scene: PackedScene
 
 # 抓取界面上的节点
 @onready var player_info: Label = $PlayerInfo
@@ -14,9 +16,14 @@ var monster: Monster
 @onready var replay_btn: Button = $ReplayBtn
 @onready var game_info: Label = $GameInfo
 @onready var back_menu_btn: Button = $BackMenuBtn
+@onready var settings_btn: Button = $SettingsBtn
 @onready var energy_label: Label = $Energy
+@onready var draw_pile_button: CardPileButton = $DrawPileButton
+@onready var discard_pile_button: CardPileButton = $DiscardPileButton
 var _selecting_target: bool = false
 var _pending_card: Card = null
+var _pile_preview_open: bool = false
+var _settings_overlay: BattleSettingsOverlay = null
 
 
 func _ready() -> void:
@@ -33,10 +40,16 @@ func _ready() -> void:
 	player.health_changed.connect(_on_player_health_changed)
 	player.block_changed.connect(_on_player_block_changed)
 	player.energy_changed.connect(_on_player_energy_changed)
+	player.piles_changed.connect(_on_player_piles_changed)
 	back_menu_btn.pressed.connect(_on_back_menu_pressed)
+	settings_btn.pressed.connect(_on_settings_pressed)
+	_setup_nav_button(back_menu_btn)
+	_setup_nav_button(settings_btn)
 
 	# 按钮点击事件
 	end_turn_btn.pressed.connect(_on_end_turn_pressed)
+	draw_pile_button.pressed.connect(_on_draw_pile_pressed)
+	discard_pile_button.pressed.connect(_on_discard_pile_pressed)
 	replay_btn.show() 
 	# 点击就重置场景
 	replay_btn.pressed.connect(func():
@@ -65,6 +78,11 @@ func _on_player_energy_changed(_new_energy: int) -> void:
 	refresh_all_info()
 
 
+func _on_player_piles_changed(draw_count: int, discard_count: int) -> void:
+	draw_pile_button.set_card_count(draw_count)
+	discard_pile_button.set_card_count(discard_count)
+
+
 func start_target_selection(card: Card) -> void:
 	if not BattleManager.is_active or BattleManager.active_character != BattleManager.player:
 		return
@@ -77,6 +95,8 @@ func start_target_selection(card: Card) -> void:
 
 func _input(event: InputEvent) -> void:
 	## 处理目标选择相关的输入
+	if _pile_preview_open:
+		return
 	if not _selecting_target:
 		return
 	
@@ -145,6 +165,7 @@ func refresh_all_info() -> void:
 
 	if energy_label:
 		energy_label.text = "%d/%d" % [player.energy, player.max_energy]
+	_on_player_piles_changed(player.draw_pile.size(), player.discard_pile.size())
 		
 	# 更新敌人信息
 	var enemy = _get_first_enemy()
@@ -224,6 +245,24 @@ func _on_end_turn_pressed() -> void:
 		refresh_all_info()
 
 
+func _on_draw_pile_pressed() -> void:
+	_show_pile_preview("抽牌堆", player.draw_pile)
+
+
+func _on_discard_pile_pressed() -> void:
+	_show_pile_preview("弃牌堆", player.discard_pile)
+
+
+func _show_pile_preview(title: String, cards: Array) -> void:
+	if not deck_preview_overlay_scene:
+		return
+	var preview := deck_preview_overlay_scene.instantiate() as DeckPreviewOverlay
+	_pile_preview_open = true
+	preview.tree_exited.connect(func(): _pile_preview_open = false)
+	add_child(preview)
+	preview.show_pile(title, cards)
+
+
 func _process(_delta: float) -> void:
 	if BattleManager.can_next_turn:
 		refresh_all_info()
@@ -240,6 +279,31 @@ func _get_first_enemy() -> Monster:
 func _on_back_menu_pressed() -> void:
 	# 切换回主菜单场景
 	get_tree().change_scene_to_file("res://scenes/ui/menu.tscn")
+
+
+func _on_settings_pressed() -> void:
+	if not settings_overlay_scene:
+		return
+	if _settings_overlay and is_instance_valid(_settings_overlay):
+		return
+	if _selecting_target:
+		exit_target_selection()
+	_settings_overlay = settings_overlay_scene.instantiate() as BattleSettingsOverlay
+	add_child(_settings_overlay)
+	_settings_overlay.closed.connect(func(): _settings_overlay = null)
+	get_tree().paused = true
+
+
+func _setup_nav_button(button: Button) -> void:
+	button.mouse_entered.connect(func():
+		button.pivot_offset = button.size * 0.5
+		button.modulate = Color(1.15, 1.15, 1.15, 1.0)
+		button.scale = Vector2(1.05, 1.05)
+	)
+	button.mouse_exited.connect(func():
+		button.modulate = Color.WHITE
+		button.scale = Vector2.ONE
+	)
 	
 	
 func show_reward_and_wait(reward_ids: Array[String], player_state: PlayerState) -> Signal:

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://qm2af0g8k612" path="res://scripts/ui/menu.gd" id="1_7w7rl"]
 [ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_c2n5p"]
-[ext_resource type="Texture2D" uid="uid://cdkdiaine3wq0" path="res://assets/art/background/menu_background/menu_blue3.png" id="2_wedc3"]
+[ext_resource type="Texture2D" uid="uid://b26refgn2ntj0" path="res://assets/art/background/menu_background/menu_blue_4x.png" id="3_c2n5p"]
 
 [sub_resource type="Theme" id="Theme_wedc3"]
 
@@ -23,49 +23,66 @@ offset_top = -3.0
 offset_right = 472.0
 offset_bottom = 272.75
 scale = Vector2(4, 4)
-texture = ExtResource("2_wedc3")
+texture = ExtResource("3_c2n5p")
 expand_mode = 1
 stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1755448008]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(500, 60)
 layout_mode = 0
-offset_left = 142.03499
-offset_top = 226.0
-offset_right = 288.28497
-offset_bottom = 413.0
-scale = Vector2(3.5, 3.5)
+offset_left = 185.03499
+offset_top = 259.0
+offset_right = 685.035
+offset_bottom = 854.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1449082322]
-clip_contents = true
 custom_minimum_size = Vector2(7, 120)
+clip_contents = true
 layout_mode = 2
 theme = SubResource("Theme_wedc3")
-theme_override_constants/separation = 8
+theme_override_constants/separation = 35
 
 [node name="ContinueBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1312251256]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0.2901961, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
 text = "Continue"
 flat = true
 
 [node name="NewGameBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=890692929]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0.2901961, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
 text = "New Game"
 flat = true
 
 [node name="CardCatalogBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=266535685]
 layout_mode = 2
-text = "Card Catalog"
+theme_override_colors/font_outline_color = Color(0, 0, 0.2901961, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
+text = "Card Catalog
+"
 flat = true
 
 [node name="SettingBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=574403261]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0.2901961, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
 text = "Setting"
 flat = true
 
 [node name="QuitBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=647335631]
 layout_mode = 2
-text = "Quit"
+theme_override_colors/font_outline_color = Color(0, 0, 0.2901961, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
+text = "Quit
+
+"
 flat = true
 
 [node name="SettingsPanel" type="Panel" parent="." unique_id=2038785652]
@@ -94,6 +111,7 @@ offset_right = 241.0
 offset_bottom = 671.0
 theme_override_font_sizes/font_size = 60
 text = "返回"
+flat = true
 
 [node name="MasterSlider" type="HSlider" parent="SettingsPanel" unique_id=1715159300]
 layout_mode = 0
@@ -103,6 +121,27 @@ offset_right = 686.0
 offset_bottom = 121.0
 max_value = 1.0
 step = 0.01
+
+[node name="FullscreenCheck" type="CheckBox" parent="SettingsPanel" unique_id=1370832018]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+text = "全屏模式
+"
+
+[node name="FastModeCheck" type="CheckBox" parent="SettingsPanel" unique_id=575112917]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+text = "加速模式
+
+"
+
+[node name="ResetSaveBtn" type="Button" parent="SettingsPanel" unique_id=1417202054]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "清空存档"
 
 [node name="CatalogPanel" type="Panel" parent="." unique_id=382106765]
 visible = false
@@ -130,3 +169,4 @@ offset_right = 1921.0
 offset_bottom = 1104.0
 theme_override_font_sizes/font_size = 60
 text = "返回"
+flat = true
