@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bt83fnc62uq2r" path="res://scripts/ui/battle/battle_ui.gd" id="1_2hywk"]
 [ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_uu5og"]
-[ext_resource type="Texture2D" uid="uid://ctsgf7uwmjkpu" path="res://assets/art/background/battle_background/battle_blue_2.png" id="3_ebl3e"]
+[ext_resource type="Texture2D" uid="uid://dus0g0kd07a6s" path="res://assets/art/background/battle_background/battle_blue_5x.png" id="3_7sxqq"]
 [ext_resource type="Texture2D" uid="uid://bjrrtncmsc86u" path="res://assets/art/background/battle_background/energy.png" id="4_uoy4w"]
 [ext_resource type="Texture2D" uid="uid://dae857awa5whm" path="res://assets/art/background/battle_background/TopStatusBar.png" id="5_2kidt"]
+[ext_resource type="PackedScene" path="res://scenes/ui/card_pile_button.tscn" id="6_pile"]
+[ext_resource type="PackedScene" path="res://scenes/ui/deck_preview_overlay.tscn" id="7_preview"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/battle_nav/back_menu_button.svg" id="8_back"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/battle_nav/settings_button.svg" id="9_settings"]
+[ext_resource type="PackedScene" path="res://scenes/ui/battle_settings_overlay.tscn" id="10_settings_overlay"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7sxqq"]
 load_path = "res://.godot/imported/endturnBtn.png-ecf2cba6f5e6aeb2fb8b03bbb9e8b487.ctex"
@@ -18,6 +23,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2hywk")
 card_display_scene = ExtResource("2_uu5og")
+deck_preview_overlay_scene = ExtResource("7_preview")
+settings_overlay_scene = ExtResource("10_settings_overlay")
 
 [node name="Background" type="TextureRect" parent="." unique_id=443960426]
 visible = false
@@ -29,7 +36,7 @@ offset_left = -6.0
 offset_top = -14.0
 offset_right = 1922.0
 offset_bottom = 1086.0
-texture = ExtResource("3_ebl3e")
+texture = ExtResource("3_7sxqq")
 expand_mode = 1
 stretch_mode = 6
 flip_h = true
@@ -87,6 +94,21 @@ offset_top = 748.0
 offset_right = 1473.0
 offset_bottom = 1041.0
 
+[node name="DrawPileButton" parent="." unique_id=1927532117 instance=ExtResource("6_pile")]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 871.0
+offset_right = 163.0
+offset_bottom = 1055.0
+
+[node name="DiscardPileButton" parent="." unique_id=1360955520 instance=ExtResource("6_pile")]
+layout_mode = 0
+offset_left = 1757.0
+offset_top = 863.0
+offset_right = 1881.0
+offset_bottom = 1047.0
+pile_kind = "discard"
+
 [node name="EndTurnBtn" type="Button" parent="." unique_id=1960888089]
 layout_mode = 0
 offset_left = 1427.0
@@ -118,10 +140,42 @@ theme_override_font_sizes/font_size = 44
 
 [node name="BackMenuBtn" type="Button" parent="." unique_id=1059127847]
 layout_mode = 0
-offset_left = 1635.0
-offset_top = -52.0
-offset_right = 1941.0
-offset_bottom = 98.0
-theme_override_font_sizes/font_size = 45
-text = "back menu"
+offset_left = 1814.0
+offset_top = 14.0
+offset_right = 1888.0
+offset_bottom = 88.0
 flat = true
+tooltip_text = "返回主菜单"
+
+[node name="Background" type="TextureRect" parent="BackMenuBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_back")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SettingsBtn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1726.0
+offset_top = 14.0
+offset_right = 1800.0
+offset_bottom = 88.0
+flat = true
+tooltip_text = "打开设置"
+
+[node name="Background" type="TextureRect" parent="SettingsBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_settings")
+expand_mode = 1
+stretch_mode = 6

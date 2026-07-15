@@ -1,0 +1,21 @@
+<svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="88" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15394A"/>
+      <stop offset="0.55" stop-color="#0A1C29"/>
+      <stop offset="1" stop-color="#06121C"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="88" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9BD78"/>
+      <stop offset="0.5" stop-color="#9A582B"/>
+      <stop offset="1" stop-color="#F1D292"/>
+    </linearGradient>
+  </defs>
+  <path d="M18 3H70L85 18V70L70 85H18L3 70V18L18 3Z" fill="url(#bg)" stroke="url(#edge)" stroke-width="3"/>
+  <path d="M20 10H68L78 20V68L68 78H20L10 68V20L20 10Z" stroke="#36C2DD" stroke-opacity="0.45" stroke-width="1.5"/>
+  <g stroke="#F3D59B" stroke-width="4" stroke-linejoin="round">
+    <path d="M44 22L49 25L55 23L60 28L58 34L62 39V49L58 54L60 60L55 65L49 63L44 66L39 63L33 65L28 60L30 54L26 49V39L30 34L28 28L33 23L39 25L44 22Z" fill="#0D2938"/>
+    <circle cx="44" cy="44" r="10" fill="#12364A" stroke="#57D2E7"/>
+  </g>
+  <circle cx="44" cy="44" r="3.5" fill="#E8B96E"/>
+</svg>

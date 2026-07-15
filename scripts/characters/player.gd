@@ -2,6 +2,7 @@ class_name Player
 extends Character
 
 signal energy_changed(new_energy: int)
+signal piles_changed(draw_count: int, discard_count: int)
 
 @export var texture: Texture2D
 var energy: int # 当前能量
@@ -107,6 +108,7 @@ func build_deck_from_ids(deck_ids: Array[String]) -> void:
 		if card:
 			draw_pile.append(card)
 	draw_pile.shuffle()
+	_emit_piles_changed()
 
 
 func draw_card(amount: int) -> void:
@@ -119,11 +121,13 @@ func draw_card(amount: int) -> void:
 		if not draw_pile.is_empty():
 			var card = draw_pile.pop_front() # 拿走第一张
 			hand.append(card)
+	_emit_piles_changed()
 
 
 func discard(card: Card) -> void:
 	## 弃牌方法
 	discard_pile.append(card)
+	_emit_piles_changed()
 
 
 func is_energy_enough(card: Card) -> bool:
@@ -155,6 +159,7 @@ func _reshuffle_discard_to_draw() -> void:
 	draw_pile = discard_pile.duplicate()
 	draw_pile.shuffle() # 随机打乱
 	discard_pile.clear()
+	_emit_piles_changed()
 
 
 func _clear_hand_and_decks() -> void:
@@ -168,6 +173,11 @@ func _clear_hand_and_decks() -> void:
 	_queue_free_cards(discard_pile)
 	draw_pile.clear()
 	discard_pile.clear()
+	_emit_piles_changed()
+
+
+func _emit_piles_changed() -> void:
+	piles_changed.emit(draw_pile.size(), discard_pile.size())
 
 
 func _queue_free_cards(cards: Array) -> void:
