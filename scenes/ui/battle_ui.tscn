@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dae857awa5whm" path="res://assets/art/background/battle_background/TopStatusBar.png" id="5_2kidt"]
 [ext_resource type="PackedScene" path="res://scenes/ui/card_pile_button.tscn" id="6_pile"]
 [ext_resource type="PackedScene" path="res://scenes/ui/deck_preview_overlay.tscn" id="7_preview"]
-[ext_resource type="Texture2D" path="res://assets/art/ui/battle_nav/back_menu_button.svg" id="8_back"]
-[ext_resource type="Texture2D" path="res://assets/art/ui/battle_nav/settings_button.svg" id="9_settings"]
+[ext_resource type="Texture2D" uid="uid://btiwvhcwxy3n7" path="res://assets/art/ui/battle_nav/back_menu_button.svg" id="8_back"]
+[ext_resource type="Texture2D" uid="uid://4ibis0wvo3dx" path="res://assets/art/ui/battle_nav/settings_button.svg" id="9_settings"]
 [ext_resource type="PackedScene" path="res://scenes/ui/battle_settings_overlay.tscn" id="10_settings_overlay"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7sxqq"]
@@ -27,7 +27,6 @@ deck_preview_overlay_scene = ExtResource("7_preview")
 settings_overlay_scene = ExtResource("10_settings_overlay")
 
 [node name="Background" type="TextureRect" parent="." unique_id=443960426]
-visible = false
 light_mask = 64
 visibility_layer = 64
 z_index = -10
@@ -144,10 +143,10 @@ offset_left = 1814.0
 offset_top = 14.0
 offset_right = 1888.0
 offset_bottom = 88.0
-flat = true
 tooltip_text = "返回主菜单"
+flat = true
 
-[node name="Background" type="TextureRect" parent="BackMenuBtn"]
+[node name="Background" type="TextureRect" parent="BackMenuBtn" unique_id=908132038]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -159,16 +158,16 @@ texture = ExtResource("8_back")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="SettingsBtn" type="Button" parent="."]
+[node name="SettingsBtn" type="Button" parent="." unique_id=662720166]
 layout_mode = 0
 offset_left = 1726.0
 offset_top = 14.0
 offset_right = 1800.0
 offset_bottom = 88.0
-flat = true
 tooltip_text = "打开设置"
+flat = true
 
-[node name="Background" type="TextureRect" parent="SettingsBtn"]
+[node name="Background" type="TextureRect" parent="SettingsBtn" unique_id=131315955]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
