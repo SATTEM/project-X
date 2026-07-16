@@ -1,0 +1,20 @@
+<svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="88" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15394A"/>
+      <stop offset="0.55" stop-color="#0A1C29"/>
+      <stop offset="1" stop-color="#06121C"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="88" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9BD78"/>
+      <stop offset="0.5" stop-color="#9A582B"/>
+      <stop offset="1" stop-color="#F1D292"/>
+    </linearGradient>
+  </defs>
+  <path d="M18 3H70L85 18V70L70 85H18L3 70V18L18 3Z" fill="url(#bg)" stroke="url(#edge)" stroke-width="3"/>
+  <path d="M20 10H68L78 20V68L68 78H20L10 68V20L20 10Z" stroke="#36C2DD" stroke-opacity="0.45" stroke-width="1.5"/>
+  <path d="M20 31L25 26H52L56 30V61L52 65H20L16 61V35L20 31Z" fill="#0C2635" stroke="#B77A3C" stroke-width="2"/>
+  <path d="M27 24L31 19H58L62 23V55L58 59H27L23 55V28L27 24Z" fill="#103143" stroke="#D69F57" stroke-width="2"/>
+  <path d="M34 18L38 13H65L70 18V49L65 54H34L30 49V23L34 18Z" fill="#12384A" stroke="#F3D59B" stroke-width="2.5"/>
+  <path d="M50 24L53 31L61 32L55 37L57 45L50 41L43 45L45 37L39 32L47 31L50 24Z" fill="#55D2E7" stroke="#E8B96E" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

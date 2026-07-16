@@ -8,6 +8,7 @@ signal block_display_requested(character: Character, amount: int)
 signal heal_display_requested(character: Character, amount: int)
 signal call_refresh()
 signal battle_finished(result: Dictionary)
+signal battle_started(player: Player)
 
 # 通过注册来获取卡牌和角色的引用
 # 战斗要素
@@ -217,6 +218,7 @@ func start_battle(aPlayer: Player, enemies: Array[Monster], player_state: Player
 	# 全部注册完后刷新行布局
 	_update_rows_position()
 	start_character_turn(turn_queue[current_character_index])
+	battle_started.emit(player)
 	return
 
 

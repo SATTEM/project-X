@@ -10,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://btiwvhcwxy3n7" path="res://assets/art/ui/battle_nav/back_menu_button.svg" id="8_back"]
 [ext_resource type="Texture2D" uid="uid://4ibis0wvo3dx" path="res://assets/art/ui/battle_nav/settings_button.svg" id="9_settings"]
 [ext_resource type="PackedScene" path="res://scenes/ui/battle_settings_overlay.tscn" id="10_settings_overlay"]
+[ext_resource type="Texture2D" uid="uid://coph7vdit62wu" path="res://assets/art/ui/battle_nav/deck_button.svg" id="11_deck"]
+[ext_resource type="Texture2D" uid="uid://du522oa00opvt" path="res://assets/art/ui/run_stats/health_stat.svg" id="12_health"]
+[ext_resource type="Texture2D" uid="uid://c7v2084imp54h" path="res://assets/art/ui/run_stats/gold_stat.svg" id="13_gold"]
+[ext_resource type="Texture2D" uid="uid://bwx58aie0lrdy" path="res://assets/art/ui/run_stats/level_stat.svg" id="14_level"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7sxqq"]
 load_path = "res://.godot/imported/endturnBtn.png-ecf2cba6f5e6aeb2fb8b03bbb9e8b487.ctex"
@@ -27,14 +31,13 @@ deck_preview_overlay_scene = ExtResource("7_preview")
 settings_overlay_scene = ExtResource("10_settings_overlay")
 
 [node name="Background" type="TextureRect" parent="." unique_id=443960426]
-light_mask = 64
-visibility_layer = 64
-z_index = -10
+z_index = -100
 layout_mode = 0
 offset_left = -6.0
 offset_top = -14.0
 offset_right = 1922.0
 offset_bottom = 1086.0
+mouse_filter = 2
 texture = ExtResource("3_7sxqq")
 expand_mode = 1
 stretch_mode = 6
@@ -52,6 +55,7 @@ texture = ExtResource("4_uoy4w")
 expand_mode = 1
 
 [node name="TopStatusBar" type="TextureRect" parent="." unique_id=545986702]
+visible = false
 layout_mode = 0
 offset_left = -3.0
 offset_top = -47.000004
@@ -59,6 +63,140 @@ offset_right = 2162.0
 offset_bottom = 217.0
 scale = Vector2(0.88977665, 0.3604032)
 texture = ExtResource("5_2kidt")
+
+[node name="RunStats" type="Control" parent="." unique_id=1891263631]
+anchors_preset = 0
+offset_left = 48.0
+offset_top = 18.0
+offset_right = 632.0
+offset_bottom = 88.0
+mouse_filter = 2
+
+[node name="HealthStat" type="Control" parent="RunStats" unique_id=2078638167]
+anchors_preset = 0
+offset_left = -32.0
+offset_right = 152.0
+offset_bottom = 70.0
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="RunStats/HealthStat" unique_id=2027922583]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_health")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="RunStats/HealthStat" unique_id=1936723018]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 10.0
+offset_right = 174.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0.67, 0.83, 0.85, 1)
+theme_override_font_sizes/font_size = 17
+text = "生命"
+
+[node name="Value" type="Label" parent="RunStats/HealthStat" unique_id=1637561717]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 29.0
+offset_right = 176.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.96, 0.88, 0.71, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "100 / 100"
+
+[node name="GoldStat" type="Control" parent="RunStats" unique_id=1216352310]
+anchors_preset = 0
+offset_left = 161.0
+offset_right = 345.0
+offset_bottom = 70.0
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="RunStats/GoldStat" unique_id=1088769182]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("13_gold")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="RunStats/GoldStat" unique_id=692852619]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 10.0
+offset_right = 174.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0.67, 0.83, 0.85, 1)
+theme_override_font_sizes/font_size = 17
+text = "金币"
+
+[node name="Value" type="Label" parent="RunStats/GoldStat" unique_id=2060744792]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 29.0
+offset_right = 176.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.96, 0.88, 0.71, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "0"
+
+[node name="LevelStat" type="Control" parent="RunStats" unique_id=1385496833]
+anchors_preset = 0
+offset_left = 355.0
+offset_right = 539.0
+offset_bottom = 70.0
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="RunStats/LevelStat" unique_id=888855196]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("14_level")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="RunStats/LevelStat" unique_id=913522376]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 10.0
+offset_right = 174.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0.67, 0.83, 0.85, 1)
+theme_override_font_sizes/font_size = 17
+text = "层数"
+
+[node name="Value" type="Label" parent="RunStats/LevelStat" unique_id=724066565]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 29.0
+offset_right = 176.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.96, 0.88, 0.71, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "第 1 层"
 
 [node name="Energy" type="Label" parent="." unique_id=2127898454]
 layout_mode = 0
@@ -68,23 +206,6 @@ offset_right = 186.0
 offset_bottom = 849.0
 theme_override_colors/font_color = Color(0.972549, 1, 0.99607843, 1)
 theme_override_font_sizes/font_size = 47
-
-[node name="PlayerInfo" type="Label" parent="." unique_id=1575841956]
-layout_mode = 0
-offset_left = 64.0
-offset_top = 284.0
-offset_right = 325.0
-offset_bottom = 534.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 33
-
-[node name="EnemyInfo" type="Label" parent="." unique_id=2020774911]
-layout_mode = 0
-offset_left = 1599.0
-offset_top = 115.0
-offset_right = 1837.0
-offset_bottom = 293.0
-theme_override_font_sizes/font_size = 28
 
 [node name="HandContainer" type="HBoxContainer" parent="." unique_id=566937498]
 layout_mode = 0
@@ -129,14 +250,6 @@ offset_bottom = 477.0
 theme_override_font_sizes/font_size = 44
 text = "restart"
 
-[node name="GameInfo" type="Label" parent="." unique_id=1138739910]
-layout_mode = 0
-offset_left = 122.0
-offset_top = 95.0
-offset_right = 547.0
-offset_bottom = 180.0
-theme_override_font_sizes/font_size = 44
-
 [node name="BackMenuBtn" type="Button" parent="." unique_id=1059127847]
 layout_mode = 0
 offset_left = 1814.0
@@ -176,5 +289,26 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("9_settings")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DeckBtn" type="Button" parent="." unique_id=2122563699]
+layout_mode = 0
+offset_left = 1638.0
+offset_top = 14.0
+offset_right = 1712.0
+offset_bottom = 88.0
+tooltip_text = "查看当前牌组"
+flat = true
+
+[node name="Background" type="TextureRect" parent="DeckBtn" unique_id=449099305]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("11_deck")
 expand_mode = 1
 stretch_mode = 6

@@ -70,6 +70,17 @@ func get_current_level(player_state: PlayerState) -> LevelResource:
 	return null
 
 
+func get_counted_layer_number(player_state: PlayerState) -> int:
+	if not player_state or campaign.is_empty():
+		return 1
+	var current_index := clampi(player_state.current_level_index, 0, campaign.size() - 1)
+	var counted_layers := 0
+	for index in range(current_index + 1):
+		if campaign[index].level_type != "rest":
+			counted_layers += 1
+	return maxi(counted_layers, 1)
+
+
 func advance_to_next_level(player_state: PlayerState):
 	if not player_state:
 		return

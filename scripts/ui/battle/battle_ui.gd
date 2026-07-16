@@ -9,14 +9,15 @@ var monster: Monster
 @export var settings_overlay_scene: PackedScene
 
 # 抓取界面上的节点
-@onready var player_info: Label = $PlayerInfo
-@onready var enemy_info: Label = $EnemyInfo
 @onready var hand_container: HBoxContainer = $HandContainer
 @onready var end_turn_btn: Button = $EndTurnBtn
 @onready var replay_btn: Button = $ReplayBtn
-@onready var game_info: Label = $GameInfo
 @onready var back_menu_btn: Button = $BackMenuBtn
 @onready var settings_btn: Button = $SettingsBtn
+@onready var deck_btn: Button = $DeckBtn
+@onready var health_stat_value: Label = $RunStats/HealthStat/Value
+@onready var gold_stat_value: Label = $RunStats/GoldStat/Value
+@onready var level_stat_value: Label = $RunStats/LevelStat/Value
 @onready var energy_label: Label = $Energy
 @onready var draw_pile_button: CardPileButton = $DrawPileButton
 @onready var discard_pile_button: CardPileButton = $DiscardPileButton
@@ -27,41 +28,44 @@ var _settings_overlay: BattleSettingsOverlay = null
 
 
 func _ready() -> void:
-	# 让 GameManager 先把角色注册进 BattleManager 再抓取
-	await get_tree().process_frame
-	
-	# 获取玩家引用
-	player = BattleManager.player
-	if not player:
-		print("UI报错：找不到玩家！")
-		return
-		
-	# 玩家相关信号
-	player.health_changed.connect(_on_player_health_changed)
-	player.block_changed.connect(_on_player_block_changed)
-	player.energy_changed.connect(_on_player_energy_changed)
-	player.piles_changed.connect(_on_player_piles_changed)
 	back_menu_btn.pressed.connect(_on_back_menu_pressed)
 	settings_btn.pressed.connect(_on_settings_pressed)
+	deck_btn.pressed.connect(_on_deck_pressed)
 	_setup_nav_button(back_menu_btn)
 	_setup_nav_button(settings_btn)
+	_setup_nav_button(deck_btn)
 
 	# 按钮点击事件
 	end_turn_btn.pressed.connect(_on_end_turn_pressed)
 	draw_pile_button.pressed.connect(_on_draw_pile_pressed)
 	discard_pile_button.pressed.connect(_on_discard_pile_pressed)
-	replay_btn.show() 
+	replay_btn.hide()
 	# 点击就重置场景
 	replay_btn.pressed.connect(func():
 		var gm = get_tree().current_scene as GameManager
 		if gm:
 			gm.reset_game()
 	)
-	# 游戏未结束时不显示
-	replay_btn.hide()
 	# 连接主动刷新信号
 	BattleManager.call_refresh.connect(refresh_all_info)
-	# 初始刷新一次界面
+	BattleManager.battle_started.connect(_on_battle_started)
+	if BattleManager.player:
+		_on_battle_started(BattleManager.player)
+
+
+func _on_battle_started(new_player: Player) -> void:
+	if player == new_player:
+		refresh_all_info()
+		return
+	player = new_player
+	if not player.health_changed.is_connected(_on_player_health_changed):
+		player.health_changed.connect(_on_player_health_changed)
+	if not player.block_changed.is_connected(_on_player_block_changed):
+		player.block_changed.connect(_on_player_block_changed)
+	if not player.energy_changed.is_connected(_on_player_energy_changed):
+		player.energy_changed.connect(_on_player_energy_changed)
+	if not player.piles_changed.is_connected(_on_player_piles_changed):
+		player.piles_changed.connect(_on_player_piles_changed)
 	refresh_all_info()
 
 
@@ -161,39 +165,39 @@ func _remove_all_highlights() -> void:
 
 func refresh_all_info() -> void:
 	## 界面刷新逻辑
-	# 更新玩家文本
-	player_info.text = "【玩家】\n血量: %d/%d\n格挡: %d\n能量: %d/%d" % [
-		player.health, player.health_max, player.block, player.energy, player.max_energy
-	]
-
+	if not player or not is_instance_valid(player):
+		return
 	if energy_label:
 		energy_label.text = "%d/%d" % [player.energy, player.max_energy]
 	_on_player_piles_changed(player.draw_pile.size(), player.discard_pile.size())
 		
-	# 更新敌人信息
 	var enemy = _get_first_enemy()
-	if enemy:
-		enemy_info.text = "【敌人】\n血量: %d/%d\n格挡: %d\n意图: %s (%d)" % [
-			enemy.health, enemy.health_max, enemy.block, enemy.intent_type, enemy.intent_value
-		]
-	else:
-		enemy_info.text = "【敌人】\n无"
 
-	# 更新游戏状态
 	if player.health <= 0:
-		game_info.text = "游戏结束：你倒下了！"
 		replay_btn.show()
 		end_turn_btn.disabled = true
 	elif enemy == null:
-		game_info.text = "游戏结束：胜利！"
 		replay_btn.show()
 		end_turn_btn.disabled = true
 	else:
-		game_info.text = "第 %d 回合" % BattleManager.turn_count
 		replay_btn.hide()
 		end_turn_btn.disabled = false
 
 	_draw_hand_cards()
+	_refresh_run_stats()
+
+
+func _refresh_run_stats() -> void:
+	if not player or not is_instance_valid(player):
+		return
+	health_stat_value.text = "%d / %d" % [player.health, player.health_max]
+	var game_manager := get_tree().current_scene as GameManager
+	if not game_manager or not game_manager.player_state:
+		gold_stat_value.text = "0"
+		level_stat_value.text = "第 1 层"
+		return
+	gold_stat_value.text = str(game_manager.player_state.gold)
+	level_stat_value.text = "第 %d 层" % CampaignManager.get_counted_layer_number(game_manager.player_state)
 
 
 func _draw_hand_cards() -> void:
@@ -256,6 +260,16 @@ func _on_discard_pile_pressed() -> void:
 	_show_pile_preview("弃牌堆", player.discard_pile)
 
 
+func _on_deck_pressed() -> void:
+	if not player or not is_instance_valid(player):
+		return
+	var current_deck: Array[Card] = []
+	current_deck.append_array(player.hand)
+	current_deck.append_array(player.draw_pile)
+	current_deck.append_array(player.discard_pile)
+	_show_pile_preview("当前牌组", current_deck)
+
+
 func _show_pile_preview(title: String, cards: Array) -> void:
 	if not deck_preview_overlay_scene:
 		return
@@ -269,6 +283,7 @@ func _show_pile_preview(title: String, cards: Array) -> void:
 func _process(_delta: float) -> void:
 	if BattleManager.can_next_turn:
 		refresh_all_info()
+	_refresh_run_stats()
 
 
 func _get_first_enemy() -> Monster:

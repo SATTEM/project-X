@@ -1,9 +1,13 @@
 class_name CharacterWorldUI
 extends Control
 
+const HEALTH_FILL_COLOR := Color(0.86, 0.14, 0.18, 1.0)
+
 @export var body_sprite: Sprite2D
 @export var health_bar_bg: ColorRect
 @export var health_bar_fill: ColorRect
+@export var health_frame: Panel
+@export var block_frame: Panel
 @export var block_container: Control
 @export var block_icon: TextureRect
 @export var block_label: Label
@@ -41,19 +45,23 @@ func setup(character: Character) -> void:
 
 	# ---------- 血条（脚下） ----------
 	var bar_width = actual_size.x * 0.8
-	var bar_height = 12
-	health_bar_bg.color = Color(0.2, 0.2, 0.2, 0.5)
+	var bar_height = 14
+	health_bar_bg.color = Color(0.025, 0.07, 0.09, 0.94)
 	health_bar_bg.size = Vector2(bar_width, bar_height)
 	health_bar_bg.position = Vector2(-bar_width / 2.0, actual_size.y / 2.0 + 20)
 
-	health_bar_fill.color = Color.RED
+	health_bar_fill.color = HEALTH_FILL_COLOR
 	health_bar_fill.size = Vector2(bar_width, bar_height)
 	health_bar_fill.position = health_bar_bg.position
 
 	# ---------- 格挡（血条下方） ----------
-	block_container.position = health_bar_bg.position + Vector2(0, bar_height + 4)
-	block_icon.custom_minimum_size = Vector2(24, 24)
-	block_label.add_theme_font_size_override("font_size", 14)
+	health_frame.position = health_bar_bg.position - Vector2(3, 3)
+	health_frame.size = health_bar_bg.size + Vector2(6, 6)
+	block_frame.position = health_frame.position
+	block_frame.size = health_frame.size
+	block_container.position = health_bar_bg.position + Vector2(-52, (bar_height - 40) * 0.5)
+	block_icon.custom_minimum_size = Vector2(40, 40)
+	block_label.add_theme_font_size_override("font_size", 18)
 
 	if character is Monster:
 		_build_monster_energy_displays()
@@ -86,8 +94,11 @@ func _on_health_changed(_char: Character, new_health: int) -> void:
 
 
 func _on_block_changed(_char: Character, new_block: int) -> void:
+	health_bar_fill.color = HEALTH_FILL_COLOR
 	block_label.text = str(new_block)
-	block_container.visible = new_block > 0
+	var has_block := new_block > 0
+	block_container.visible = has_block
+	block_frame.visible = has_block
 
 
 func _on_intent_changed(type: String, value: int) -> void:
