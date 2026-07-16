@@ -10,8 +10,8 @@ extends CanvasLayer
 var battles = {
 	"normal": {
 		"name": "普通敌人",
-		"enemies": ["base"],
-		"reward_gold": 50
+		"enemies": ["spider"],
+		"reward_gold": 70
 	},
 	"elite_a": {
 		"name": "精英敌人",
@@ -20,7 +20,7 @@ var battles = {
 	},
 	"elite_b": {
 		"name": "精英敌人",
-		"enemies": ["base", "base"],
+		"enemies": ["baset", "base"],
 		"reward_gold": 100
 	}
 }

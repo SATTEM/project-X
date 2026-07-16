@@ -35,8 +35,10 @@ var disabled_elements: Array[GlobalEnums.Element] = [] # 记录当前被禁用�
 var energy_threshold: int = 5  # 能量爆气阈值，达到此数值触发清空与增幅
 var card_pool: Dictionary[int, Array] = {} # 运行时牌池，Array[ElementCard]
 var hand: Array[ElementCard] = []
+var display_node: Node2D 
 
 @export var summon_cost: int = 2  # 随从基础召唤费用,默认为2
+@export var intent_icon: Texture2D
 
 
 
@@ -45,14 +47,23 @@ func _ready() -> void:
 
 
 func _update_intent_icon(card: ElementCard) -> void:
-	## 设置意图图标
 	if not world_ui:
 		return
-	var tex: Texture2D = card.card_resource.texture if card else null
+	
+	var tex: Texture2D = null
+	var info = _get_intent_description(card)
+	print("意图类型:", info["type"])
+	match info["type"]:
+		"damage":
+			tex = preload("res://assets/art/intents/damage.png")
+		"block":
+			tex = preload("res://assets/art/intents/block.png")
+		_:
+			tex = preload("res://assets/art/intents/default.png")
+	
 	if tex:
 		world_ui.intent_icon.texture = tex
 		world_ui.intent_container.visible = true
-		# 根据卡牌的不同属性，有不同表现
 		_set_intent_icon_element(card)
 	else:
 		world_ui.intent_icon.texture = null
@@ -79,10 +90,14 @@ func init() -> void:
 	init_cards()
 	# 完全初始化能量槽
 	init_energy()
+	
 
 
 func battle_init() -> void:
 	## 进战初始化
+	# 确保能量槽已初始化
+	if energy_slots_max.is_empty():
+		init_energy()
 	# 选择出生位置
 	if is_ally:
 		current_row = GlobalEnums.PositionRow.FRONT
@@ -102,6 +117,26 @@ func battle_init() -> void:
 			intent_type = info["type"]
 			intent_value = info["value"]
 			intent_changed.emit(intent_type, intent_value)
+	var body_sprite = world_ui.get_node("body_sprite")
+	if body_sprite:
+		# 如果有动画，创建动画节点
+		if monster_resource and monster_resource.monster_animation_frames:
+			var anim_body = AnimatedSprite2D.new()
+			anim_body.name = "anim_body"
+			anim_body.sprite_frames = monster_resource.monster_animation_frames
+			var first_frame = anim_body.sprite_frames.get_frame_texture("idle", 0)
+			if first_frame:
+				var tex_size = first_frame.get_size()
+				var target_size = Vector2(170, 170)
+				anim_body.scale = target_size / tex_size
+			anim_body.position = body_sprite.position + Vector2(0, -30)
+			anim_body.play("idle")
+			body_sprite.visible = false
+			world_ui.add_child(anim_body)
+			display_node = anim_body
+		else:
+			# 没有动画，保持静态图
+			body_sprite.visible = true
 
 
 func init_cards() -> void:

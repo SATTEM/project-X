@@ -1,12 +1,46 @@
 [gd_resource type="Resource" script_class="ShopLevel" format=3 uid="uid://gp4mubrsnaey"]
 
 [ext_resource type="Script" uid="uid://derb8dt7drqsq" path="res://scripts/shop/shop_item_resource.gd" id="1_7026v"]
-[ext_resource type="Resource" uid="uid://brsy01l3lhxxj" path="res://assets/resources/shop_items/heal_potion.tres" id="2_dl58i"]
-[ext_resource type="Resource" uid="uid://c2gh5nf7xcjr4" path="res://assets/resources/shop_items/strength_potion.tres" id="3_odedm"]
+[ext_resource type="Script" uid="uid://bm7xoobl581bb" path="res://scripts/effects/buff_resource.gd" id="2_odedm"]
+[ext_resource type="Script" uid="uid://oqin23aprxuh" path="res://scripts/effects/buff_effects/power_buff.gd" id="3_be0tj"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="3_f0be6"]
+[ext_resource type="Script" uid="uid://dx5qp2f8ov2ys" path="res://scripts/effects/concrete_effects/heal_effect.gd" id="4_be0tj"]
 [ext_resource type="Resource" uid="uid://ctm2rtd0ttux3" path="res://assets/resources/shop_items/lifesteal_potion.tres" id="4_f0be6"]
+[ext_resource type="Texture2D" uid="uid://dm2ihkcgk5o3m" path="res://assets/art/item/potion3.png" id="5_3km15"]
 [ext_resource type="Script" uid="uid://bugpyrpnilk88" path="res://scripts/level/shop_level.gd" id="5_be0tj"]
+[ext_resource type="Texture2D" uid="uid://bphf5yt274bo5" path="res://assets/art/item/potion.png" id="8_7e2t7"]
+
+[sub_resource type="Resource" id="Resource_d2k5f"]
+script = ExtResource("3_be0tj")
+buff_name = "力量涌动"
+duration = 3
+metadata/_custom_type_script = "uid://oqin23aprxuh"
+
+[sub_resource type="Resource" id="Resource_rgx8w"]
+script = ExtResource("1_7026v")
+item_name = "力量药水"
+item_detail = "每次攻击增加3点伤害，持续3回合"
+price = 75
+icon = ExtResource("5_3km15")
+buffs = Array[ExtResource("2_odedm")]([SubResource("Resource_d2k5f")])
+metadata/_custom_type_script = "uid://derb8dt7drqsq"
+
+[sub_resource type="Resource" id="Resource_up0u5"]
+script = ExtResource("4_be0tj")
+base_amount = 5
+effect_name = "heal"
+metadata/_custom_type_script = "uid://d3c2mkhicllia"
+
+[sub_resource type="Resource" id="Resource_4oq8h"]
+script = ExtResource("1_7026v")
+item_name = "生命药水"
+item_detail = "恢复10点生命"
+price = 100
+icon = ExtResource("8_7e2t7")
+effects = Array[ExtResource("3_f0be6")]([SubResource("Resource_up0u5")])
+metadata/_custom_type_script = "uid://derb8dt7drqsq"
 
 [resource]
 script = ExtResource("5_be0tj")
-items = Array[ExtResource("1_7026v")]([ExtResource("2_dl58i"), ExtResource("3_odedm"), ExtResource("4_f0be6")])
+items = Array[ExtResource("1_7026v")]([SubResource("Resource_rgx8w"), ExtResource("4_f0be6"), SubResource("Resource_4oq8h")])
 metadata/_custom_type_script = "uid://bugpyrpnilk88"

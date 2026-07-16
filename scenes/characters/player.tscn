@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://c648wudl7a2a4"]
 
 [ext_resource type="Script" uid="uid://ca2cfperf3vuu" path="res://scripts/characters/player.gd" id="1_rp718"]
+[ext_resource type="Texture2D" uid="uid://btsfngndaqge2" path="res://assets/art/player/player_icon.png" id="2_76oj4"]
 [ext_resource type="PackedScene" uid="uid://qsmqy7ibycg4" path="res://scenes/ui/character_world_ui.tscn" id="2_yewv4"]
 
 [node name="Player" type="Node2D" unique_id=1281873703]
 script = ExtResource("1_rp718")
+texture = ExtResource("2_76oj4")
 
 [node name="CharacterWorldUI" parent="." unique_id=1872879632 instance=ExtResource("2_yewv4")]
-anchors_preset = 0

@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cxtmhmj3lx2t6" path="res://scripts/ui/shop_scene.gd" id="1_gsvvp"]
 [ext_resource type="Texture2D" uid="uid://bsfr5uij788vp" path="res://assets/art/background/menu_background/menu_orange.png" id="2_nvsci"]
-[ext_resource type="Texture2D" uid="uid://cu1gcdi4uv81s" path="res://assets/art/monsters/cathelineau/witch-face.png" id="3_g8mgn"]
+[ext_resource type="Texture2D" uid="uid://bvr85trumnoi8" path="res://assets/art/item/eye.png" id="3_g8mgn"]
 [ext_resource type="Texture2D" uid="uid://8cboo8kcex4i" path="res://assets/art/text_box/dialogbox.png" id="4_nvsci"]
+[ext_resource type="FontFile" uid="uid://bi1yuraaks6jm" path="res://assets/art/font/QingNiaoHuaGuangJianMeiHei-2.ttf" id="5_0e2oo"]
 
 [node name="ShopScene" type="CanvasLayer" unique_id=263047832]
 script = ExtResource("1_gsvvp")
@@ -78,6 +79,8 @@ offset_right = -0.64001465
 offset_bottom = -0.52001953
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_colors/font_color = Color(18.892157, 18.892157, 18.892157, 1)
+theme_override_fonts/font = ExtResource("5_0e2oo")
 theme_override_font_sizes/font_size = 30
 text = "欢迎光临……"
 

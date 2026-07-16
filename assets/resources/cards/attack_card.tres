@@ -1,15 +1,18 @@
 [gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://bhc0qx40klere"]
 
-[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_lql58"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_ovy75"]
 [ext_resource type="Resource" uid="uid://df4f605cxql53" path="res://assets/resources/effects/damage_effect.tres" id="3_lql58"]
+[ext_resource type="Texture2D" uid="uid://bsolcqas4o681" path="res://assets/art/card_arts/card_texture/2.png" id="4_kstrs"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="4_ngno8"]
-[ext_resource type="Texture2D" uid="uid://bkrbmxfytd6wb" path="res://assets/art/intents/attack.png" id="5_tspb8"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lql58"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
 
 [resource]
 script = ExtResource("4_ngno8")
 cost = 1
 effect_resources = Array[ExtResource("2_ovy75")]([ExtResource("3_lql58")])
-texture = ExtResource("5_tspb8")
+texture = ExtResource("4_kstrs")
+background_texture = SubResource("CompressedTexture2D_lql58")
 card_id = "attack_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

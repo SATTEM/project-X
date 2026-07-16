@@ -39,8 +39,8 @@ alignment = 1
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 localize_numeral_system = false
-tooltip_text = "敌人：默认怪物 x1
-奖励：金币 x50"
+tooltip_text = "敌人：蜘蛛怪物 x1
+奖励：金币 x70"
 theme_override_font_sizes/font_size = 25
 text = "普通敌人
 "

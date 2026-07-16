@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkrbmxfytd6wb"
-path="res://.godot/imported/attack.png-803d4f095aaa7585e1d39f28631cbae6.ctex"
+uid="uid://bawepvu70bqbt"
+path="res://.godot/imported/7.png-529c013e93b098868d9b7b1f2b93b967.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/intents/attack.png"
-dest_files=["res://.godot/imported/attack.png-803d4f095aaa7585e1d39f28631cbae6.ctex"]
+source_file="res://assets/art/monsters/test/spider/7.png"
+dest_files=["res://.godot/imported/7.png-529c013e93b098868d9b7b1f2b93b967.ctex"]
 
 [params]
 

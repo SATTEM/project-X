@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bm7xoobl581bb" path="res://scripts/effects/buff_resource.gd" id="1_sn8bd"]
 [ext_resource type="Script" uid="uid://r7r71i64juc" path="res://scripts/effects/buff_effects/lifesteal_buff.gd" id="2_8boly"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="3_4qauh"]
+[ext_resource type="Texture2D" uid="uid://d2oiydq0tl7n0" path="res://assets/art/item/potion2.png" id="4_sn8bd"]
 [ext_resource type="Script" uid="uid://derb8dt7drqsq" path="res://scripts/shop/shop_item_resource.gd" id="5_4m6xq"]
 
 [sub_resource type="Resource" id="Resource_sn8bd"]
@@ -12,14 +13,11 @@ buff_name = "吸血"
 duration = 2
 metadata/_custom_type_script = "uid://bm7xoobl581bb"
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tdl3o"]
-load_path = "res://.godot/imported/ifrit.png-588e4c1bdf1bdc656907dbbd8ac0da72.ctex"
-
 [resource]
 script = ExtResource("5_4m6xq")
 item_name = "吸血药水"
 item_detail = "每攻击一次获得3点生命，持续2回合"
 price = 75
-icon = SubResource("CompressedTexture2D_tdl3o")
+icon = ExtResource("4_sn8bd")
 buffs = Array[ExtResource("1_sn8bd")]([SubResource("Resource_sn8bd")])
 metadata/_custom_type_script = "uid://derb8dt7drqsq"

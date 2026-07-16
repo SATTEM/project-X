@@ -2,18 +2,83 @@
 
 [ext_resource type="Script" uid="uid://d33eskrc21bc7" path="res://scripts/utils/monster_strategy/energy/concrete_strategies/average_energy_strategy.gd" id="1_liiqp"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="2_liiqp"]
-[ext_resource type="Resource" uid="uid://bhc0qx40klere" path="res://assets/resources/cards/attack_card.tres" id="3_rmlve"]
-[ext_resource type="Resource" uid="uid://dijotk5lq86ru" path="res://assets/resources/cards/defend_card.tres" id="4_a4lsi"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="3_ot5sl"]
+[ext_resource type="Resource" uid="uid://df4f605cxql53" path="res://assets/resources/effects/damage_effect.tres" id="4_vg654"]
 [ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="5_7p3at"]
-[ext_resource type="Texture2D" uid="uid://b36s0fphyto42" path="res://assets/art/monsters/lorc/imp.png" id="6_j06gp"]
+[ext_resource type="Texture2D" uid="uid://bsolcqas4o681" path="res://assets/art/card_arts/card_texture/2.png" id="5_md8rw"]
+[ext_resource type="Resource" uid="uid://n7lccasyaj0n" path="res://assets/resources/effects/block_effect.tres" id="6_83brj"]
+[ext_resource type="Texture2D" uid="uid://b5yuu5s3ykor4" path="res://assets/art/card_arts/card_texture/20.png" id="7_1cg4c"]
 [ext_resource type="Script" uid="uid://23nbt0d0iqwc" path="res://scripts/characters/monsters/monster_resource.gd" id="7_it788"]
 [ext_resource type="Script" uid="uid://cs2fy3ytlj6sx" path="res://scripts/utils/monster_strategy/play/concrete_strategies/fifo_strategy.gd" id="7_liiqp"]
+[ext_resource type="Texture2D" uid="uid://bexoin1n0mtyd" path="res://assets/art/monsters/test/default/Creep_frame_002.png" id="8_rwhp5"]
+[ext_resource type="Texture2D" uid="uid://do00k3cfgf8rp" path="res://assets/art/monsters/test/default/Creep_frame_003.png" id="9_ot5sl"]
+[ext_resource type="Texture2D" uid="uid://carp1af3n5qys" path="res://assets/art/monsters/test/default/Creep_frame_004.png" id="10_vg654"]
+[ext_resource type="Texture2D" uid="uid://dxvygyrh14ai" path="res://assets/art/monsters/test/default/Creep_frame_005.png" id="11_md8rw"]
+[ext_resource type="Texture2D" uid="uid://bktyc7r0eh454" path="res://assets/art/monsters/test/default/Creep_frame_006.png" id="12_83brj"]
+[ext_resource type="Texture2D" uid="uid://b70pt6bbxf6li" path="res://assets/art/monsters/test/default/Creep_frame_007.png" id="13_1cg4c"]
+[ext_resource type="Texture2D" uid="uid://c65ppx552hxdf" path="res://assets/art/monsters/test/default/Creep_frame_008.png" id="14_eaim4"]
+[ext_resource type="Texture2D" uid="uid://bqd3a37yjknpb" path="res://assets/art/monsters/lorc/ghost.png" id="14_jxwj8"]
 
-[sub_resource type="Resource" id="Resource_a4lsi"]
+[sub_resource type="Resource" id="Resource_ot5sl"]
 script = ExtResource("1_liiqp")
 metadata/_custom_type_script = "uid://d33eskrc21bc7"
 
-[sub_resource type="Resource" id="Resource_rmlve"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lql58"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[sub_resource type="Resource" id="Resource_rwhp5"]
+script = ExtResource("2_liiqp")
+cost = 1
+effect_resources = Array[ExtResource("3_ot5sl")]([ExtResource("4_vg654")])
+texture = ExtResource("5_md8rw")
+background_texture = SubResource("CompressedTexture2D_lql58")
+card_id = "attack_card"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ucmlr"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[sub_resource type="Resource" id="Resource_xpgcg"]
+script = ExtResource("2_liiqp")
+card_name = "格挡"
+cost = 1
+effect_resources = Array[ExtResource("3_ot5sl")]([ExtResource("6_83brj")])
+texture = ExtResource("7_1cg4c")
+background_texture = SubResource("CompressedTexture2D_ucmlr")
+target_type = 0
+card_id = "defend_card"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eaim4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_rwhp5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ot5sl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_vg654")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_md8rw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_83brj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_1cg4c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_eaim4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_vg654"]
 script = ExtResource("7_liiqp")
 metadata/_custom_type_script = "uid://cs2fy3ytlj6sx"
 
@@ -22,16 +87,17 @@ resource_name = "base"
 script = ExtResource("7_it788")
 monster_name = "base"
 health_max = 100
-energy_elements = Array[int]([2, 1, 3])
+energy_elements = Array[int]([1, 3, 2])
 energy_overall_boost = 3
 monster_scene = ExtResource("5_7p3at")
 monster_id = "base"
-monster_texture = ExtResource("6_j06gp")
+monster_texture = ExtResource("14_jxwj8")
+monster_animation_frames = SubResource("SpriteFrames_eaim4")
 play_loop_count = 2
 intent_card_map = {
-0: Array[ExtResource("2_liiqp")]([ExtResource("3_rmlve")]),
-1: Array[ExtResource("2_liiqp")]([ExtResource("4_a4lsi")])
+0: Array[ExtResource("2_liiqp")]([SubResource("Resource_rwhp5")]),
+1: Array[ExtResource("2_liiqp")]([SubResource("Resource_xpgcg")])
 }
-energy_strategy = SubResource("Resource_a4lsi")
-play_strategy = SubResource("Resource_rmlve")
+energy_strategy = SubResource("Resource_ot5sl")
+play_strategy = SubResource("Resource_vg654")
 metadata/_custom_type_script = "uid://23nbt0d0iqwc"
