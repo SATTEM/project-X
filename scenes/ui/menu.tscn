@@ -6,6 +6,54 @@
 
 [sub_resource type="Theme" id="Theme_wedc3"]
 
+[sub_resource type="StyleBoxFlat" id="CatalogBackdrop"]
+bg_color = Color(0, 0.012, 0.02, 0.86)
+
+[sub_resource type="StyleBoxFlat" id="CatalogWindow"]
+bg_color = Color(0.012, 0.058, 0.086, 0.985)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12, 0.72, 0.84, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="CatalogCloseNormal"]
+bg_color = Color(0.18, 0.09, 0.055, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.4, 0.18, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="CatalogCloseHover"]
+bg_color = Color(0.25, 0.14, 0.07, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92, 0.68, 0.32, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="CatalogSeparator"]
+bg_color = Color(0.16, 0.66, 0.76, 0.35)
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="CatalogEmpty"]
+
 [node name="Menu" type="Control" unique_id=2110864657]
 layout_mode = 3
 anchors_preset = 0
@@ -146,27 +194,96 @@ text = "清空存档"
 [node name="CatalogPanel" type="Panel" parent="." unique_id=382106765]
 visible = false
 layout_mode = 0
-offset_left = -2.0
-offset_right = 1921.0
-offset_bottom = 1094.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+z_index = 100
+mouse_filter = 0
+theme_override_styles/panel = SubResource("CatalogBackdrop")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CatalogPanel" unique_id=1890991146]
-layout_mode = 0
-offset_right = 1892.0
-offset_bottom = 1100.0
-
-[node name="GridContainer" type="GridContainer" parent="CatalogPanel/ScrollContainer" unique_id=1324068758]
-layout_mode = 2
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 20
-columns = 5
-
-[node name="CloseCatalogBtn" type="Button" parent="CatalogPanel" unique_id=650306391]
-layout_mode = 0
-offset_left = 1660.0
-offset_top = 960.0
-offset_right = 1921.0
-offset_bottom = 1104.0
-theme_override_font_sizes/font_size = 60
-text = "返回"
+[node name="DismissButton" type="Button" parent="CatalogPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("CatalogEmpty")
+theme_override_styles/hover = SubResource("CatalogEmpty")
+theme_override_styles/pressed = SubResource("CatalogEmpty")
 flat = true
+
+[node name="Window" type="PanelContainer" parent="CatalogPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.06
+anchor_right = 0.93
+anchor_bottom = 0.94
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("CatalogWindow")
+
+[node name="Margin" type="MarginContainer" parent="CatalogPanel/Window"]
+layout_mode = 2
+theme_override_constants/margin_left = 38
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 38
+theme_override_constants/margin_bottom = 26
+
+[node name="VBox" type="VBoxContainer" parent="CatalogPanel/Window/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="CatalogPanel/Window/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CatalogPanel/Window/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.88, 0.96, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0, 0.08, 0.11, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 42
+text = "卡牌图鉴"
+
+[node name="Count" type="Label" parent="CatalogPanel/Window/Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.78, 0.81, 1)
+theme_override_font_sizes/font_size = 23
+text = "共 0 张"
+vertical_alignment = 1
+
+[node name="CloseCatalogBtn" type="Button" parent="CatalogPanel/Window/Margin/VBox/Header" unique_id=650306391]
+custom_minimum_size = Vector2(108, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.84, 0.66, 1)
+theme_override_colors/font_hover_color = Color(1, 0.91, 0.68, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("CatalogCloseNormal")
+theme_override_styles/hover = SubResource("CatalogCloseHover")
+theme_override_styles/pressed = SubResource("CatalogCloseHover")
+text = "关闭"
+
+[node name="Separator" type="HSeparator" parent="CatalogPanel/Window/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("CatalogSeparator")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CatalogPanel/Window/Margin/VBox" unique_id=1890991146]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="CatalogPanel/Window/Margin/VBox/ScrollContainer" unique_id=1324068758]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 28
+theme_override_constants/v_separation = 26
+columns = 6
+
+[node name="Hint" type="Label" parent="CatalogPanel/Window/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46, 0.65, 0.69, 1)
+theme_override_font_sizes/font_size = 17
+text = "展示当前版本的全部卡牌 · 使用滚轮浏览"
+horizontal_alignment = 1

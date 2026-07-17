@@ -97,15 +97,18 @@ func apply_player_state(player_state: PlayerState) -> void:
 	health_max = player_state.max_hp
 	is_dead = false
 	health = clamp(player_state.current_hp, 0, health_max)
-	build_deck_from_ids(player_state.deck_ids)
+	build_deck_from_ids(player_state.deck_ids, player_state.summon_bindings)
 
 
-func build_deck_from_ids(deck_ids: Array[String]) -> void:
+func build_deck_from_ids(deck_ids: Array[String], summon_bindings: Array[String] = []) -> void:
 	## 从ID列表构造卡组
 	_clear_hand_and_decks()
-	for card_id in deck_ids:
+	for index in range(deck_ids.size()):
+		var card_id := deck_ids[index]
 		var card = CardLibrary.create_card_and_add_to_scene(card_id, BattleManager.card_container)
 		if card:
+			if index < summon_bindings.size() and not summon_bindings[index].is_empty():
+				card.set_summon_binding(summon_bindings[index])
 			draw_pile.append(card)
 	draw_pile.shuffle()
 	_emit_piles_changed()

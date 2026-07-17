@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardResource" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/seal_highest_permanent.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/art/monsters/delapouite/bottled-shadow.png" id="4"]
+
+[resource]
+script = ExtResource("1")
+card_name = "元素封锁"
+cost = 2
+effect_resources = Array[ExtResource("2")]([ExtResource("3")])
+texture = ExtResource("4")
+target_type = 1
+card_id = "element_seal"

@@ -7,6 +7,8 @@
 
 [resource]
 script = ExtResource("4_av5ge")
+card_name = "烈焰封印"
 cost = 2
 effect_resources = Array[ExtResource("2_hgnkw")]([ExtResource("3_6vgss")])
+card_id = "card_seal_fire"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

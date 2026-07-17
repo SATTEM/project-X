@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardResource" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/block_5.tres" id="3"]
+[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/draw_1.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/monsters/lorc/evil-book.png" id="5"]
+
+[resource]
+script = ExtResource("1")
+card_name = "战术准备"
+cost = 1
+effect_resources = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+texture = ExtResource("5")
+target_type = 0
+card_id = "tactical_preparation"

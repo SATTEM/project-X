@@ -8,6 +8,7 @@ extends BaseCardFactory
 @export var texture: Texture2D
 @export var background_texture: Texture2D = preload("res://assets/art/card_arts/default_background.png")
 @export var target_type: GlobalEnums.TargetType = GlobalEnums.TargetType.ENEMY
+@export var default_summon_monster_id: String = ""
 
 
 func create_card() -> Card:
@@ -18,4 +19,6 @@ func create_card() -> Card:
 	for effect_resource in effect_resources:
 		var new_effect = effect_resource.duplicate()
 		card.effects.append(new_effect)
+	if not default_summon_monster_id.is_empty():
+		card.set_summon_binding(default_summon_monster_id)
 	return card

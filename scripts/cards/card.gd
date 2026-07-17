@@ -4,6 +4,7 @@ extends Node2D
 
 @export var card_resource: CardResource
 var effects: Array[EffectResource] = []
+var bound_monster_id: String = ""
 var card_name: String:
 	get:
 		return card_resource.card_name
@@ -23,6 +24,13 @@ func play_card_on_target(user: Character, target: Character) -> void:
 	return
 
 
+func set_summon_binding(monster_id: String) -> void:
+	bound_monster_id = monster_id
+	for effect in effects:
+		if effect is SummonEffect:
+			effect.monster_id = monster_id
+
+
 func create_buffed_copy() -> Card:
 	## 生成用于结算的临时克隆卡，防止污染原卡牌
 	var copy = self.duplicate() # 复制节点
@@ -35,5 +43,6 @@ func create_buffed_copy() -> Card:
 	for e in effects:
 		new_effects.append(e.duplicate(true))
 	copy.effects = new_effects
+	copy.set_summon_binding(bound_monster_id)
 	
 	return copy

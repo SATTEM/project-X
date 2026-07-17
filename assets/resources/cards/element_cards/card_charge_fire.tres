@@ -11,4 +11,5 @@ card_name = "烈焰灌注"
 cost = 1
 effect_resources = Array[ExtResource("2_082nj")]([ExtResource("3_082nj")])
 target_type = 2
+card_id = "card_charge_fire"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

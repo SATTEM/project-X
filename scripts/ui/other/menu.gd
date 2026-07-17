@@ -20,8 +20,10 @@ extends Control
 
 # 图鉴面板相关节点
 @onready var catalog_panel: Panel = $CatalogPanel
-@onready var card_grid: GridContainer = $CatalogPanel/ScrollContainer/GridContainer
-@onready var close_catalog_btn: Button = $CatalogPanel/CloseCatalogBtn
+@onready var card_grid: GridContainer = $CatalogPanel/Window/Margin/VBox/ScrollContainer/GridContainer
+@onready var catalog_count_label: Label = $CatalogPanel/Window/Margin/VBox/Header/Count
+@onready var close_catalog_btn: Button = $CatalogPanel/Window/Margin/VBox/Header/CloseCatalogBtn
+@onready var dismiss_catalog_btn: Button = $CatalogPanel/DismissButton
 
 @export var card_display_scene: PackedScene # 导出卡牌 UI 场景
 
@@ -42,6 +44,9 @@ func _ready() -> void:
 	master_slider.value_changed.connect(_on_master_slider_changed)
 	card_catalog_btn.pressed.connect(_on_card_catalog_pressed)
 	close_catalog_btn.pressed.connect(_on_close_catalog_pressed)
+	dismiss_catalog_btn.pressed.connect(_on_close_catalog_pressed)
+	get_viewport().size_changed.connect(_layout_catalog)
+	_layout_catalog()
 	
 	# 🔌 连接新设置功能的功能信号
 	fullscreen_check.toggled.connect(_on_fullscreen_toggled)
@@ -430,26 +435,36 @@ func _on_card_catalog_pressed() -> void:
 	catalog_panel.show()
 	for child in card_grid.get_children():
 		child.queue_free()
-		
-	var unlock_state = SaveManager.load_unlock_state()
-	var unlocked_ids: Array[String] = []
-	
-	if unlock_state:
-		unlocked_ids = unlock_state.unlocked_ids
-	else:
-		print("没有找到解锁存档，展示默认的基础4张牌")
-		unlocked_ids = ["base_attack", "base_defend", "base_draw", "base_summon"]
-		
-	for card_id in unlocked_ids:
+
+	var all_card_ids := CardLibrary.get_all_card_ids()
+	all_card_ids.sort()
+	catalog_count_label.text = "共 %d 张" % all_card_ids.size()
+
+	for card_id in all_card_ids:
 		var card_ui = card_display_scene.instantiate()
-		var card_resource = CardLibrary.create_card(card_id)
+		var card = CardLibrary.create_card(card_id)
 			
-		if card_resource:
-			card_ui.set_card(card_resource)
+		if card:
+			card_ui.add_child(card)
+			card_ui.set_card(card)
+			_set_catalog_card_mouse_filter(card_ui)
 			card_grid.add_child(card_ui)
 		else:
+			card_ui.queue_free()
 			print("图鉴加载警告：找不到 ID 为 ", card_id, " 的卡牌资源！")
 
 
 func _on_close_catalog_pressed() -> void:
 	catalog_panel.hide()
+
+
+func _layout_catalog() -> void:
+	catalog_panel.position = Vector2.ZERO
+	catalog_panel.size = get_viewport_rect().size
+
+
+func _set_catalog_card_mouse_filter(node: Node) -> void:
+	if node is Control:
+		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for child in node.get_children():
+		_set_catalog_card_mouse_filter(child)

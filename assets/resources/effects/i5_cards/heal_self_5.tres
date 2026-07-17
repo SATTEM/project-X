@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HealEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/concrete_effects/heal_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+base_amount = 5
+heal_self = true
+effect_name = "回复5点生命"

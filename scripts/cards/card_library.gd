@@ -7,6 +7,7 @@ var _factories: Dictionary[String, BaseCardFactory] = {}
 # 卡牌文件夹路径
 var paths: Array[String] = [
 	"res://assets/resources/cards/",
+	"res://assets/resources/cards/element_cards/",
 ]
 
 func _ready() -> void:
@@ -56,3 +57,10 @@ func create_card_and_add_to_scene(card_id: String, parent: Node) -> Card:
 func get_all_card_ids() -> Array[String]:
 	## 获取所有已注册卡牌的ID
 	return _factories.keys()
+
+
+func get_default_summon_binding(card_id: String) -> String:
+	var factory := _factories.get(card_id) as CardResource
+	if not factory:
+		return ""
+	return factory.default_summon_monster_id

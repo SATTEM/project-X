@@ -78,6 +78,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+z_index = 100
 mouse_filter = 0
 script = ExtResource("1_script")
 

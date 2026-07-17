@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MulticastBuff" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/buff_effects/multicast_buff.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+buff_name = "回响符文"
+duration = 1

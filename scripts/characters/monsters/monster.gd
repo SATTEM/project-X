@@ -279,6 +279,19 @@ func modify_element_points(element: GlobalEnums.Element, amount: int) -> void:
 	print(self.name, " 的 [", element, "] 元素点变化了 ", amount, "，当前为: ", energy_slots[element])
 
 
+func get_highest_energy_element() -> GlobalEnums.Element:
+	var highest_element := GlobalEnums.Element.UNKNOWN
+	var highest_value := -1
+	for element in energy_elements:
+		if disabled_elements.has(element):
+			continue
+		var current_value: int = energy_slots.get(element, 0)
+		if current_value > highest_value:
+			highest_value = current_value
+			highest_element = element
+	return highest_element
+
+
 func disable_element(element: GlobalEnums.Element) -> void:
 	## 供外部卡牌调用：直接禁用某个元素
 	if not disabled_elements.has(element):
