@@ -11,4 +11,5 @@ card_name = "献祭"
 effect_resources = Array[ExtResource("2_unnk3")]([ExtResource("3_unnk3")])
 target_type = 2
 card_id = "sacrifice_card"
+description = "牺牲一名友方随从。"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

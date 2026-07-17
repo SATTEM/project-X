@@ -1,9 +1,10 @@
 [gd_resource type="Resource" script_class="CardResource" format=3]
 
-[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/siphon_highest_2.tres" id="3"]
-[ext_resource type="Texture2D" path="res://assets/art/monsters/delapouite/daemon-pull.png" id="4"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/siphon_highest_2.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://bwkus1hay325n" path="res://assets/art/monsters/delapouite/daemon-pull.png" id="4"]
+
 
 [resource]
 script = ExtResource("1")
@@ -13,3 +14,4 @@ effect_resources = Array[ExtResource("2")]([ExtResource("3")])
 texture = ExtResource("4")
 target_type = 1
 card_id = "element_siphon"
+description = "吸取敌人能量最高的元素槽2点元素。"

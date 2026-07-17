@@ -1,9 +1,10 @@
 [gd_resource type="Resource" script_class="CardResource" format=3]
 
-[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/damage_5.tres" id="3"]
-[ext_resource type="Texture2D" path="res://assets/art/monsters/lorc/double-dragon.png" id="4"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_5.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://onl234g4hyyl" path="res://assets/art/monsters/lorc/double-dragon.png" id="4"]
+
 
 [resource]
 script = ExtResource("1")
@@ -13,3 +14,4 @@ effect_resources = Array[ExtResource("2")]([ExtResource("3"), ExtResource("3")])
 texture = ExtResource("4")
 target_type = 1
 card_id = "flurry_slash"
+description = "连续攻击2次，每次造成5点伤害。"

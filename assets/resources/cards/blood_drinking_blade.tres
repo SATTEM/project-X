@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="CardResource" format=3]
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://dn357ilm40ig6"]
 
-[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/damage_15.tres" id="3"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/heal_self_5.tres" id="4"]
-[ext_resource type="Texture2D" path="res://assets/art/monsters/delapouite/vampire-dracula.png" id="5"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bcwh6lscdlxan" path="res://assets/art/card_arts/card_background.png" id="1_id5j0"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_15.tres" id="3"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/heal_self_5.tres" id="4"]
+[ext_resource type="Texture2D" uid="uid://orp4r2tqwiwp" path="res://assets/art/monsters/delapouite/vampire-dracula.png" id="5"]
 
 [resource]
 script = ExtResource("1")
@@ -12,5 +13,5 @@ card_name = "饮血刃"
 cost = 2
 effect_resources = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
 texture = ExtResource("5")
-target_type = 1
+description = "造成15点伤害，并为自身回复5点生命。"
 card_id = "blood_drinking_blade"

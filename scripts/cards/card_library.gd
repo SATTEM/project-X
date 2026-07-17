@@ -60,7 +60,7 @@ func get_all_card_ids() -> Array[String]:
 
 
 func get_default_summon_binding(card_id: String) -> String:
-	var factory := _factories.get(card_id) as CardResource
+	var factory := _factories.get(card_id) as SummonCardResource
 	if not factory:
 		return ""
 	return factory.default_summon_monster_id

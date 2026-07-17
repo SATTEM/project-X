@@ -14,5 +14,6 @@ cost = 1
 effect_resources = Array[ExtResource("2_ovy75")]([ExtResource("3_lql58")])
 texture = ExtResource("4_kstrs")
 background_texture = SubResource("CompressedTexture2D_lql58")
+description = "造成7点伤害。"
 card_id = "attack_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

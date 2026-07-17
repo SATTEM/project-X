@@ -29,7 +29,7 @@ func set_card(new_card: Card) -> void:
 	var effect_names = []
 	for effect in card.effects:
 		effect_names.append(effect.effect_name)
-	description_label.text = ", ".join(effect_names)
+	description_label.text = card.card_description
 
 
 

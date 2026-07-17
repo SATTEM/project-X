@@ -32,17 +32,17 @@ func _draw() -> void:
 	_draw_arrow(arrow_start, arrow_end)
 
 
-func _draw_card_back(position: Vector2, card_size: Vector2, alpha: float) -> void:
+func _draw_card_back(pos: Vector2, card_size: Vector2, alpha: float) -> void:
 	var cut := minf(card_size.x, card_size.y) * 0.11
 	var points := PackedVector2Array([
-		position + Vector2(cut, 0),
-		position + Vector2(card_size.x - cut, 0),
-		position + Vector2(card_size.x, cut),
-		position + Vector2(card_size.x, card_size.y - cut),
-		position + Vector2(card_size.x - cut, card_size.y),
-		position + Vector2(cut, card_size.y),
-		position + Vector2(0, card_size.y - cut),
-		position + Vector2(0, cut),
+		pos + Vector2(cut, 0),
+		pos + Vector2(card_size.x - cut, 0),
+		pos + Vector2(card_size.x, cut),
+		pos + Vector2(card_size.x, card_size.y - cut),
+		pos + Vector2(card_size.x - cut, card_size.y),
+		pos + Vector2(cut, card_size.y),
+		pos + Vector2(0, card_size.y - cut),
+		pos + Vector2(0, cut),
 	])
 	var fill := Color(0.025, 0.13, 0.20, alpha)
 	var outline := Color(0.74, 0.43, 0.20, alpha)

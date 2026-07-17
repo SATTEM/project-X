@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://bbpjae5731aby"]
 
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_rq3ci"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/draw_2.tres" id="3_8mje6"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/draw_2.tres" id="3_8mje6"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="4_b0pfd"]
 [ext_resource type="Texture2D" uid="uid://ba027o4xsnc4h" path="res://assets/art/card_arts/card_texture/13.png" id="4_hnv1a"]
 
@@ -16,5 +16,6 @@ effect_resources = Array[ExtResource("2_rq3ci")]([ExtResource("3_8mje6")])
 texture = ExtResource("4_hnv1a")
 background_texture = SubResource("CompressedTexture2D_uwrl3")
 target_type = 0
+description = "抽2张牌。"
 card_id = "draw_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

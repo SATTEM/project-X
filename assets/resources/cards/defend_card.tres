@@ -17,4 +17,5 @@ texture = ExtResource("4_qe4t3")
 background_texture = SubResource("CompressedTexture2D_ucmlr")
 target_type = 0
 card_id = "defend_card"
+description = "获得6点格挡。"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

@@ -15,6 +15,7 @@ effect_name = "献祭"
 [resource]
 script = ExtResource("3_ubtxj")
 card_name = "献祭"
+description = "牺牲一名友方随从。"
 effect_resources = Array[ExtResource("2_sbvqg")]([SubResource("Resource_snn5k")])
 texture = ExtResource("4_kkmxr")
 background_texture = SubResource("CompressedTexture2D_fl81a")

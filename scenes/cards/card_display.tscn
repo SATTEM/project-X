@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://gx4dfxkmwtlf"]
 
-[ext_resource type="Script" uid="uid://ctsjhnr47wdxt" path="res://scripts/ui/card_display.gd" id="1_nve1b"]
+[ext_resource type="Script" uid="uid://ctsjhnr47wdxt" path="res://scripts/ui/battle/card_display.gd" id="1_nve1b"]
 [ext_resource type="Texture2D" uid="uid://bcwh6lscdlxan" path="res://assets/art/card_arts/card_background.png" id="2_psnuu"]
 [ext_resource type="FontFile" uid="uid://bi1yuraaks6jm" path="res://assets/art/font/QingNiaoHuaGuangJianMeiHei-2.ttf" id="3_4m8af"]
 
@@ -79,3 +79,4 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_4m8af")
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3

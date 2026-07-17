@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="CardResource" format=3]
 
-[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/damage_5.tres" id="3"]
-[ext_resource type="Resource" path="res://assets/resources/effects/i5_cards/block_4.tres" id="4"]
-[ext_resource type="Texture2D" path="res://assets/art/monsters/delapouite/pick-of-destiny.png" id="5"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_5.tres" id="3"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/block_4.tres" id="4"]
+[ext_resource type="Texture2D" uid="uid://cx0bv8nrmac7u" path="res://assets/art/monsters/delapouite/pick-of-destiny.png" id="5"]
+
 
 [resource]
 script = ExtResource("1")
@@ -14,3 +15,4 @@ effect_resources = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
 texture = ExtResource("5")
 target_type = 1
 card_id = "shield_blade"
+description = "造成5点伤害，并获得4点格挡。"

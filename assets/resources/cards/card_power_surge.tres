@@ -16,5 +16,6 @@ effect_resources = Array[ExtResource("2_ie2ri")]([ExtResource("3_ie2ri")])
 texture = ExtResource("4_ie2ri")
 background_texture = SubResource("CompressedTexture2D_g1mja")
 target_type = 0
+description = "获得力量增幅，所有伤害牌伤害+3，持续3回合。"
 card_id = "power_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

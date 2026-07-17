@@ -14,7 +14,9 @@ var cost: int:
 var target_type: GlobalEnums.TargetType:
 	get:
 		return card_resource.target_type
-
+var card_description: String:
+	get:
+		return card_resource.description
 
 func play_card_on_target(user: Character, target: Character) -> void:
 	## 结算卡牌效果
