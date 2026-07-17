@@ -51,12 +51,21 @@ func _show_floating_text(character: Character, text: String, color: Color) -> vo
 
 
 func add_highlight(character: Character) -> void:
-	## 给角色添加高光
-	var sprite = character.world_ui.body_sprite
-	sprite.modulate = Color.YELLOW
-
+	## 高光选择攻击对象
+	var node_to_modulate = _get_display_node(character)
+	if node_to_modulate:
+		node_to_modulate.modulate = Color.YELLOW
 
 func remove_highlight(character: Character) -> void:
-	## 消除高光
-	var sprite = character.world_ui.body_sprite
-	sprite.modulate = Color.WHITE
+	var node_to_modulate = _get_display_node(character)
+	if node_to_modulate:
+		node_to_modulate.modulate = Color.WHITE
+
+func _get_display_node(character: Character) -> Node2D:
+	# 优先使用怪物自己的 display_node
+	if character is Monster and character.display_node:
+		return character.display_node
+	# 否则使用 body_sprite
+	if character.world_ui and character.world_ui.body_sprite:
+		return character.world_ui.body_sprite
+	return null

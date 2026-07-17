@@ -24,21 +24,21 @@ func _display_cards() -> void:
 	for child in cards_container.get_children():
 		if is_instance_valid(child):
 			child.queue_free()
-	
 	var display_ids = _reward_card_ids.slice(0, 3)
-	
 	for card_id in display_ids:
 		var card = CardLibrary.create_card(card_id)
+		print("奖励卡牌: ", card.card_name, " 效果: ", card.effects, " 效果数量: ", card.effects.size())
 		if not card:
 			continue
 		var card_display = card_display_scene.instantiate()
+		cards_container.add_child(card_display)
 		card_display.set_card(card)
 		card_display.gui_input.connect(func(event: InputEvent):
 			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 				_on_card_selected(card_id, card_display)
 		)
 		
-		cards_container.add_child(card_display)
+		
 		card.queue_free()
 
 

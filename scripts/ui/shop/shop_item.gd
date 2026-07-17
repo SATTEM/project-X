@@ -17,7 +17,11 @@ func setup(item: ShopItemResource):
 	buy_button.text = str(item.price) + "金币"
 	if item.icon:
 		icon_rect.texture = item.icon
-	
+	if item.icon:
+		print("商品 ", item.item_name, " 的图标路径: ", item.icon.resource_path)
+		icon_rect.texture = item.icon
+	else:
+		print("警告: 商品 ", item.item_name, " 没有图标")
 	buy_button.pressed.connect(_on_buy)
 
 

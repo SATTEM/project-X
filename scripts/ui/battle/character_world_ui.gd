@@ -127,9 +127,9 @@ func _build_monster_energy_displays() -> void:
 	var monster = _character as Monster
 	var element_icons = GlobalEnums.ElementIcon
 
-	var spacing = 24
+	var spacing = 40
 	var total_width = monster.energy_slots.size() * spacing
-	var start_x = -total_width / 2.0
+	var start_x = -total_width / 2.0 + 65
 
 	var i = 0
 	for element in monster.energy_slots.keys():

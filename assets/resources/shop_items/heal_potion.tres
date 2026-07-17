@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="ShopItemResource" format=3 uid="uid://brsy01l3lhxxj"]
+[gd_resource type="Resource" script_class="ShopItemResource" format=3 uid="uid://dg86yhdnjabbg"]
 
 [ext_resource type="Script" uid="uid://bm7xoobl581bb" path="res://scripts/effects/buff_resource.gd" id="1_up0u5"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_ix8hi"]
 [ext_resource type="Script" uid="uid://dx5qp2f8ov2ys" path="res://scripts/effects/concrete_effects/heal_effect.gd" id="3_nim21"]
-[ext_resource type="Texture2D" uid="uid://5im8dnt7a6il" path="res://assets/art/monsters/lorc/dinosaur-bones.png" id="4_13yma"]
+[ext_resource type="Texture2D" uid="uid://bphf5yt274bo5" path="res://assets/art/item/potion.png" id="4_up0u5"]
 [ext_resource type="Script" uid="uid://derb8dt7drqsq" path="res://scripts/shop/shop_item_resource.gd" id="5_f0nth"]
 
 [sub_resource type="Resource" id="Resource_up0u5"]
@@ -15,8 +15,8 @@ metadata/_custom_type_script = "uid://d3c2mkhicllia"
 [resource]
 script = ExtResource("5_f0nth")
 item_name = "生命药水"
-item_detail = "回复5点生命值"
-price = 30
-icon = ExtResource("4_13yma")
+item_detail = "恢复10点生命"
+price = 100
+icon = ExtResource("4_up0u5")
 effects = Array[ExtResource("2_ix8hi")]([SubResource("Resource_up0u5")])
 metadata/_custom_type_script = "uid://derb8dt7drqsq"

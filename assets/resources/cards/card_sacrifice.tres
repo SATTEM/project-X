@@ -1,14 +1,23 @@
 [gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://etr1fq06c5sw"]
 
-[ext_resource type="Texture2D" uid="uid://cu4wkqyg1jh8t" path="res://assets/art/card_arts/default_background.png" id="1_y47se"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_sbvqg"]
-[ext_resource type="Resource" uid="uid://dvjakjpf0jxhv" path="res://assets/resources/effects/sacrifice_effect.tres" id="3_sbvqg"]
+[ext_resource type="Script" uid="uid://bgh2rn1ceq7jx" path="res://scripts/effects/concrete_effects/sacrifice_effect.gd" id="2_ubtxj"]
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_ubtxj"]
+[ext_resource type="Texture2D" uid="uid://da8tdfx8ff0u0" path="res://assets/art/card_arts/card_texture/23.png" id="4_kkmxr"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fl81a"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[sub_resource type="Resource" id="Resource_snn5k"]
+script = ExtResource("2_ubtxj")
+effect_name = "献祭"
 
 [resource]
 script = ExtResource("3_ubtxj")
 card_name = "献祭"
-effect_resources = Array[ExtResource("2_sbvqg")]([ExtResource("3_sbvqg")])
+effect_resources = Array[ExtResource("2_sbvqg")]([SubResource("Resource_snn5k")])
+texture = ExtResource("4_kkmxr")
+background_texture = SubResource("CompressedTexture2D_fl81a")
 target_type = 2
 card_id = "card_sacrifice"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

@@ -18,6 +18,9 @@ func _ready() -> void:
 
 func set_card(new_card: Card) -> void:
 	card = new_card
+	if card.effects.is_empty() and card.card_resource and card.card_resource.effect_resources:
+		for effect_resource in card.card_resource.effect_resources:
+			card.effects.append(effect_resource.duplicate(true))
 	background.texture = card.card_resource.background_texture
 	card_texture.texture = card.card_resource.texture
 	cost_label.text = str(card.cost)

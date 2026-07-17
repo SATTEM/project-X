@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://oqin23aprxuh" path="res://scripts/effects/buff_effects/power_buff.gd" id="2_d2k5f"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_ps4kk"]
 [ext_resource type="Script" uid="uid://derb8dt7drqsq" path="res://scripts/shop/shop_item_resource.gd" id="3_d2k5f"]
-[ext_resource type="Texture2D" uid="uid://d23x8kvgosgl3" path="res://assets/art/monsters/lorc/hydra-shot.png" id="4_ao4m1"]
+[ext_resource type="Texture2D" uid="uid://dm2ihkcgk5o3m" path="res://assets/art/item/potion3.png" id="4_d2k5f"]
 
 [sub_resource type="Resource" id="Resource_d2k5f"]
 script = ExtResource("2_d2k5f")
@@ -17,6 +17,6 @@ script = ExtResource("3_d2k5f")
 item_name = "力量药水"
 item_detail = "每次攻击增加3点伤害，持续3回合"
 price = 75
-icon = ExtResource("4_ao4m1")
+icon = ExtResource("4_d2k5f")
 buffs = Array[ExtResource("1_ijwyh")]([SubResource("Resource_d2k5f")])
 metadata/_custom_type_script = "uid://derb8dt7drqsq"

@@ -11,6 +11,7 @@ extends Resource
 @export var monster_scene: PackedScene
 @export var monster_id: String
 @export var monster_texture: Texture2D
+@export var monster_animation_frames: SpriteFrames
 @export var display_size: Vector2 = Vector2(200, 200)
 ## 牌组循环回合数，怪物按此循环抽牌
 @export var play_loop_count: int = 1

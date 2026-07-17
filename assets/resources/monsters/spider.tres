@@ -1,0 +1,125 @@
+[gd_resource type="Resource" script_class="MonsterResource" format=3 uid="uid://dcvw5wdvm6u65"]
+
+[ext_resource type="Script" uid="uid://23nbt0d0iqwc" path="res://scripts/characters/monsters/monster_resource.gd" id="1_6ectw"]
+[ext_resource type="Script" uid="uid://d33eskrc21bc7" path="res://scripts/utils/monster_strategy/energy/concrete_strategies/average_energy_strategy.gd" id="1_su05a"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_su05a"]
+[ext_resource type="Resource" uid="uid://df4f605cxql53" path="res://assets/resources/effects/damage_effect.tres" id="3_e2yk7"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="4_6id0t"]
+[ext_resource type="Texture2D" uid="uid://bsolcqas4o681" path="res://assets/art/card_arts/card_texture/2.png" id="5_hby2y"]
+[ext_resource type="Resource" uid="uid://n7lccasyaj0n" path="res://assets/resources/effects/block_effect.tres" id="6_mogr1"]
+[ext_resource type="Texture2D" uid="uid://b5yuu5s3ykor4" path="res://assets/art/card_arts/card_texture/20.png" id="7_20jja"]
+[ext_resource type="Texture2D" uid="uid://sqdj3e80u06o" path="res://assets/art/monsters/test/spider/1.png" id="7_c07vi"]
+[ext_resource type="Texture2D" uid="uid://cyhpraywxa5vo" path="res://assets/art/monsters/test/spider/2.png" id="8_su05a"]
+[ext_resource type="Texture2D" uid="uid://cu8qu3m2d3j17" path="res://assets/art/monsters/test/spider/3.png" id="9_e2yk7"]
+[ext_resource type="Texture2D" uid="uid://dgg7ce705wv5k" path="res://assets/art/monsters/test/spider/4.png" id="10_6id0t"]
+[ext_resource type="Texture2D" uid="uid://muhic5n8kf28" path="res://assets/art/monsters/test/spider/5.png" id="11_hby2y"]
+[ext_resource type="Texture2D" uid="uid://bwyvc4q05j46b" path="res://assets/art/monsters/test/spider/6.png" id="12_mogr1"]
+[ext_resource type="Texture2D" uid="uid://bawepvu70bqbt" path="res://assets/art/monsters/test/spider/7.png" id="13_20jja"]
+[ext_resource type="Texture2D" uid="uid://c3xf26n7b6pbh" path="res://assets/art/monsters/test/spider/8.png" id="14_cht0i"]
+[ext_resource type="PackedScene" uid="uid://dvfgaqmdcuuke" path="res://scenes/characters/monster.tscn" id="15_i6itg"]
+[ext_resource type="Texture2D" uid="uid://cuwmhlakmiy5k" path="res://assets/art/monsters/test/spider/9.png" id="15_s7oun"]
+[ext_resource type="Texture2D" uid="uid://bp5hure3fxtov" path="res://assets/art/monsters/test/spider/10.png" id="16_i6itg"]
+[ext_resource type="Texture2D" uid="uid://bqd3a37yjknpb" path="res://assets/art/monsters/lorc/ghost.png" id="16_ycn13"]
+[ext_resource type="Script" uid="uid://cs2fy3ytlj6sx" path="res://scripts/utils/monster_strategy/play/concrete_strategies/fifo_strategy.gd" id="17_3i7bu"]
+[ext_resource type="Texture2D" uid="uid://bksw2guyyqk7c" path="res://assets/art/monsters/test/spider/11.png" id="17_ycn13"]
+[ext_resource type="Texture2D" uid="uid://wou0qlolau8i" path="res://assets/art/monsters/test/spider/12.png" id="18_nq7hu"]
+[ext_resource type="Texture2D" uid="uid://c1u5dky7gvyvx" path="res://assets/art/monsters/test/spider/13.png" id="19_lxvyh"]
+
+[sub_resource type="Resource" id="Resource_6id0t"]
+script = ExtResource("1_su05a")
+metadata/_custom_type_script = "uid://d33eskrc21bc7"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lql58"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[sub_resource type="Resource" id="Resource_su05a"]
+script = ExtResource("4_6id0t")
+cost = 1
+effect_resources = Array[ExtResource("2_su05a")]([ExtResource("3_e2yk7")])
+texture = ExtResource("5_hby2y")
+background_texture = SubResource("CompressedTexture2D_lql58")
+card_id = "attack_card"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ucmlr"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[sub_resource type="Resource" id="Resource_e2yk7"]
+script = ExtResource("4_6id0t")
+card_name = "格挡"
+cost = 1
+effect_resources = Array[ExtResource("2_su05a")]([ExtResource("6_mogr1")])
+texture = ExtResource("7_20jja")
+background_texture = SubResource("CompressedTexture2D_ucmlr")
+target_type = 0
+card_id = "defend_card"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lxvyh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_c07vi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_su05a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_e2yk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_6id0t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_hby2y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_mogr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_20jja")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cht0i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_s7oun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_i6itg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ycn13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_nq7hu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_lxvyh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_3splp"]
+script = ExtResource("17_3i7bu")
+metadata/_custom_type_script = "uid://cs2fy3ytlj6sx"
+
+[resource]
+script = ExtResource("1_6ectw")
+monster_name = "spider"
+health_max = 150
+energy_elements = Array[int]([1, 3])
+monster_scene = ExtResource("15_i6itg")
+monster_id = "spider"
+monster_texture = ExtResource("16_ycn13")
+monster_animation_frames = SubResource("SpriteFrames_lxvyh")
+play_loop_count = 2
+intent_card_map = {
+0: [SubResource("Resource_su05a")],
+1: [SubResource("Resource_e2yk7")]
+}
+energy_strategy = SubResource("Resource_6id0t")
+play_strategy = SubResource("Resource_3splp")
+metadata/_custom_type_script = "uid://23nbt0d0iqwc"

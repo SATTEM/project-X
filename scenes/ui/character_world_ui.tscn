@@ -33,7 +33,7 @@ corner_radius_bottom_left = 5
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_22b7q")
-body_sprite = NodePath("BodySprite")
+body_sprite = NodePath("body_sprite")
 health_bar_bg = NodePath("HealthBarBackground")
 health_bar_fill = NodePath("HealthBarFill")
 health_frame = NodePath("HealthFrame")
@@ -46,7 +46,7 @@ intent_icon = NodePath("IntentContainer/IntentIcon")
 intent_label = NodePath("IntentContainer/IntentLabel")
 energy_container = NodePath("EnergyContainer")
 
-[node name="BodySprite" type="Sprite2D" parent="." unique_id=1735109174]
+[node name="body_sprite" type="Sprite2D" parent="." unique_id=677431078]
 
 [node name="BlockContainer" type="Control" parent="." unique_id=1216401321]
 anchors_preset = 0
