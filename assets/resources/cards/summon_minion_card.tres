@@ -1,21 +1,20 @@
-[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://buj81ppbgyxcg"]
+[gd_resource type="Resource" script_class="SummonCardResource" format=3 uid="uid://buj81ppbgyxcg"]
 
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="1_0dxw7"]
-[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="2_4twpg"]
 [ext_resource type="Resource" uid="uid://dqgl12vgnxxfh" path="res://assets/resources/effects/summon_effect.tres" id="2_dppj7"]
+[ext_resource type="Script" uid="uid://k08e2xddama6" path="res://scripts/cards/summon_card.gd" id="3_g4lgi"]
 [ext_resource type="Texture2D" uid="uid://bj7ltwn7mi0ym" path="res://assets/art/card_arts/card_texture/5.png" id="4_g4lgi"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vpk42"]
 load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
 
 [resource]
-script = ExtResource("2_4twpg")
+script = ExtResource("3_g4lgi")
 card_name = "召唤契约"
 cost = 2
 effect_resources = Array[ExtResource("1_0dxw7")]([ExtResource("2_dppj7")])
 texture = ExtResource("4_g4lgi")
 background_texture = SubResource("CompressedTexture2D_vpk42")
 target_type = 0
-default_summon_monster_id = "base"
 card_id = "summon_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

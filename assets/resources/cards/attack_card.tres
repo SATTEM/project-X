@@ -10,9 +10,12 @@ load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c3
 
 [resource]
 script = ExtResource("4_ngno8")
+card_name = null
 cost = 1
 effect_resources = Array[ExtResource("2_ovy75")]([ExtResource("3_lql58")])
 texture = ExtResource("4_kstrs")
 background_texture = SubResource("CompressedTexture2D_lql58")
+target_type = null
+default_summon_monster_id = null
 card_id = "attack_card"
 metadata/_custom_type_script = "uid://bkhjs6impq3th"

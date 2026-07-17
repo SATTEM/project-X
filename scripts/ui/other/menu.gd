@@ -13,7 +13,7 @@ extends Control
 @onready var close_settings_btn: Button = $SettingsPanel/CloseSettingsBtn
 @onready var volume_label: Label = $SettingsPanel/Label 
 
-# 📦 新增的 3 个设置节点
+# 新增的 3 个设置节点
 @onready var fullscreen_check: CheckBox = $SettingsPanel/FullscreenCheck
 @onready var fast_mode_check: CheckBox = $SettingsPanel/FastModeCheck
 @onready var reset_save_btn: Button = $SettingsPanel/ResetSaveBtn
@@ -125,15 +125,15 @@ func _setup_settings_ui_style() -> void:
 	master_slider.add_theme_stylebox_override("grabber_area_highlight", slider_fill)
 
 	# 📐 4. 核心：三大音量独立持久化存档 + 解决返回主菜单设置重置（第十三版）
-	var volume_label = settings_panel.get_node("Label")
-	var master_slider = settings_panel.get_node("MasterSlider")
+	volume_label = settings_panel.get_node("Label")
+	master_slider = settings_panel.get_node("MasterSlider")
 	
 	# 🎯 1. 统一大字号
 	var target_font_size = 52 
 	volume_label.add_theme_font_size_override("font_size", target_font_size)
 	
 	# 🗑️ 2. 【功能移除】隐藏“清空存档”按钮
-	var reset_save_btn = settings_panel.get_node_or_null("ResetSaveBtn")
+	reset_save_btn = settings_panel.get_node_or_null("ResetSaveBtn")
 	if reset_save_btn:
 		reset_save_btn.hide()
 
@@ -227,7 +227,7 @@ func _setup_settings_ui_style() -> void:
 	# ------------------------------------------
 	# 🎛️ 混音计算与保存逻辑
 	# ------------------------------------------
-	var master_bus_idx = AudioServer.get_bus_index("Master")
+	master_bus_idx = AudioServer.get_bus_index("Master")
 	
 	var bgm_bus_idx = -1
 	for b_name in ["BGM", "Music", "bgm", "music", "Bgm"]:
@@ -321,7 +321,7 @@ func _setup_settings_ui_style() -> void:
 				cb.add_theme_icon_override(icon_state, ImageTexture.create_from_image(img))
 
 	# 1. 全屏模式复选框
-	var fullscreen_check = settings_panel.get_node("FullscreenCheck")
+	fullscreen_check = settings_panel.get_node("FullscreenCheck")
 	optimize_checkbox.call(fullscreen_check)
 	fullscreen_check.custom_minimum_size = Vector2(460, 80)
 	fullscreen_check.position = Vector2(checkbox_x, start_y)
@@ -331,7 +331,7 @@ func _setup_settings_ui_style() -> void:
 	fullscreen_check.set_pressed_no_signal(is_fullscreen)
 
 	# 2. 快速模式（加速模式）复选框
-	var fast_mode_check = settings_panel.get_node("FastModeCheck")
+	fast_mode_check = settings_panel.get_node("FastModeCheck")
 	optimize_checkbox.call(fast_mode_check)
 	fast_mode_check.custom_minimum_size = Vector2(460, 80)
 	fast_mode_check.position = Vector2(checkbox_x, start_y + checkbox_v_spacing)
