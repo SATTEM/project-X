@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/block_5.tres" id="3"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/draw_1.tres" id="4"]
-[ext_resource type="Texture2D" uid="uid://bpo8t3miag76v" path="res://assets/art/monsters/lorc/evil-book.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/8.png" id="5"]
 
 [resource]
 script = ExtResource("1")

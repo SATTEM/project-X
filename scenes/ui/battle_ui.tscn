@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://du522oa00opvt" path="res://assets/art/ui/run_stats/health_stat.svg" id="12_health"]
 [ext_resource type="Texture2D" uid="uid://c7v2084imp54h" path="res://assets/art/ui/run_stats/gold_stat.svg" id="13_gold"]
 [ext_resource type="Texture2D" uid="uid://bwx58aie0lrdy" path="res://assets/art/ui/run_stats/level_stat.svg" id="14_level"]
+[ext_resource type="PackedScene" path="res://scenes/ui/defeat_overlay.tscn" id="15_defeat"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7sxqq"]
 load_path = "res://.godot/imported/endturnBtn.png-ecf2cba6f5e6aeb2fb8b03bbb9e8b487.ctex"
@@ -29,6 +30,7 @@ script = ExtResource("1_2hywk")
 card_display_scene = ExtResource("2_uu5og")
 deck_preview_overlay_scene = ExtResource("7_preview")
 settings_overlay_scene = ExtResource("10_settings_overlay")
+defeat_overlay_scene = ExtResource("15_defeat")
 
 [node name="Background" type="TextureRect" parent="." unique_id=443960426]
 z_index = -100
@@ -240,15 +242,6 @@ theme_override_font_sizes/font_size = 43
 icon = SubResource("CompressedTexture2D_7sxqq")
 flat = true
 autowrap_mode = 3
-
-[node name="ReplayBtn" type="Button" parent="." unique_id=828730465]
-layout_mode = 0
-offset_left = 284.0
-offset_top = 395.0
-offset_right = 437.0
-offset_bottom = 477.0
-theme_override_font_sizes/font_size = 44
-text = "restart"
 
 [node name="BackMenuBtn" type="Button" parent="." unique_id=1059127847]
 layout_mode = 0

@@ -4,6 +4,7 @@ extends Node2D
 
 # ID-工厂 映射
 var _factories: Dictionary[String, BaseCardFactory] = {}
+const LEGACY_HIDDEN_CARD_IDS: Array[String] = ["sacrifice_card"]
 # 卡牌文件夹路径
 var paths: Array[String] = [
 	"res://assets/resources/cards/",
@@ -55,8 +56,12 @@ func create_card_and_add_to_scene(card_id: String, parent: Node) -> Card:
 
 
 func get_all_card_ids() -> Array[String]:
-	## 获取所有已注册卡牌的ID
-	return _factories.keys()
+	## 获取可展示、可进入奖励池的卡牌ID；旧ID仍保留创建能力以兼容已有存档。
+	var visible_ids: Array[String] = []
+	for card_id in _factories:
+		if not LEGACY_HIDDEN_CARD_IDS.has(card_id):
+			visible_ids.append(card_id)
+	return visible_ids
 
 
 func get_default_summon_binding(card_id: String) -> String:

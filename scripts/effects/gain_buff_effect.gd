@@ -7,10 +7,8 @@ extends EffectResource
 
 func apply(user: Character, _target: Character) -> void:
 	if buff_to_apply:
-		# 复制一份 buff，防止不同角色的持续回合数互相干扰
-		var buff_instance = buff_to_apply.duplicate()
-		user.buff_pool.append(buff_instance)
-		print(user.name, " 获得了增幅: ", buff_instance.buff_name)
+		# 统一通过角色接口添加，确保每次得到独立的 Buff 实例。
+		user.add_buff(buff_to_apply)
 
 
 func get_value() -> int:

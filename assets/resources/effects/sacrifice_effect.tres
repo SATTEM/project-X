@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="SacrificeEffect" format=3 uid="uid://dvjakjpf0jxhv"]
 
-[ext_resource type="Script" uid="uid://cv17f767ge22w" path="res://scripts/effects/concrete_effects/sacrifice_effect.gd" id="1_3te70"]
+[ext_resource type="Script" uid="uid://bgh2rn1ceq7jx" path="res://scripts/effects/concrete_effects/sacrifice_effect.gd" id="1_3te70"]
 
 [resource]
 script = ExtResource("1_3te70")
 effect_name = "献祭"
-metadata/_custom_type_script = "uid://cv17f767ge22w"
+metadata/_custom_type_script = "uid://bgh2rn1ceq7jx"

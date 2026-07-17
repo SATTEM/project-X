@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="MonsterResource" format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/monsters/monster_resource.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/characters/monster.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/art/monsters/delapouite/rock-golem.png" id="3"]
+[ext_resource type="Script" path="res://scripts/utils/monster_strategy/energy/concrete_strategies/average_energy_strategy.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/utils/monster_strategy/play/concrete_strategies/fifo_strategy.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="6"]
+[ext_resource type="Resource" path="res://assets/resources/cards/monster_cards/stone_skin.tres" id="7"]
+[ext_resource type="Resource" path="res://assets/resources/cards/monster_cards/ground_slam.tres" id="8"]
+[ext_resource type="Resource" path="res://assets/resources/cards/monster_cards/crush.tres" id="9"]
+
+[sub_resource type="Resource" id="EnergyStrategy"]
+script = ExtResource("4")
+
+[sub_resource type="Resource" id="PlayStrategy"]
+script = ExtResource("5")
+
+[resource]
+script = ExtResource("1")
+monster_name = "岩甲傀儡"
+health_max = 100
+energy_elements = Array[int]([3])
+energy_overall_max = 4
+energy_overall_boost = 1
+monster_scene = ExtResource("2")
+monster_id = "stone_golem"
+monster_texture = ExtResource("3")
+display_size = Vector2(220, 220)
+play_loop_count = 3
+intent_card_map = {
+0: Array[ExtResource("6")]([ExtResource("7")]),
+1: Array[ExtResource("6")]([ExtResource("8")]),
+2: Array[ExtResource("6")]([ExtResource("9")])
+}
+energy_strategy = SubResource("EnergyStrategy")
+play_strategy = SubResource("PlayStrategy")

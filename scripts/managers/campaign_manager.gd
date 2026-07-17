@@ -7,9 +7,7 @@ var _loop_count: int = 0  ## 无尽模式循环计数器
 func get_default_campain(loop_index: int = 0) -> Array[LevelResource]:
 	## 得到默认的战役模板
 	## loop_index: 无尽模式循环编号，0=首轮，1=第二轮...
-	var all_monster_ids = MonsterLibrary.get_all_monster_ids()
-	if all_monster_ids.is_empty():
-		all_monster_ids = ["base"]
+	var fallback_enemy_id := _pick_registered_enemy(Settings.easy_enemy_pool)
 
 	# 每轮循环以休息关开头，供玩家选择难度
 	var rest0 = RestLevel.new()
@@ -19,7 +17,7 @@ func get_default_campain(loop_index: int = 0) -> Array[LevelResource]:
 	var battle1 = BattleLevel.new()
 	battle1.level_name = "战斗1" + ("+" if loop_index > 0 else "")
 	battle1.level_type = "battle"
-	battle1.set_enemies([all_monster_ids.pick_random()])
+	battle1.set_enemies([fallback_enemy_id])
 	battle1.reward_gold = 50
 
 	var rest1 = RestLevel.new()
@@ -29,7 +27,7 @@ func get_default_campain(loop_index: int = 0) -> Array[LevelResource]:
 	var battle2 = BattleLevel.new()
 	battle2.level_name = "战斗2" + ("+" if loop_index > 0 else "")
 	battle2.level_type = "battle"
-	battle2.set_enemies([all_monster_ids.pick_random()])
+	battle2.set_enemies([fallback_enemy_id])
 	battle2.reward_gold = 60
 
 	var shop = preload("res://assets/resources/shops/shop_1.tres")
@@ -43,10 +41,21 @@ func get_default_campain(loop_index: int = 0) -> Array[LevelResource]:
 	var battle3 = BattleLevel.new()
 	battle3.level_name = "战斗3" + ("+" if loop_index > 0 else "")
 	battle3.level_type = "battle"
-	battle3.set_enemies([all_monster_ids.pick_random()])
+	battle3.set_enemies([fallback_enemy_id])
 	battle3.reward_gold = 70
 
 	return [rest0, battle1, rest1, battle2, shop, rest2, battle3]
+
+
+func _pick_registered_enemy(configured_pool: Array[String]) -> String:
+	var registered_ids := MonsterLibrary.get_all_monster_ids()
+	var valid_pool: Array[String] = []
+	for monster_id in configured_pool:
+		if registered_ids.has(monster_id):
+			valid_pool.append(monster_id)
+	if valid_pool.is_empty():
+		return "base"
+	return valid_pool.pick_random()
 
 
 func init_campaign():
@@ -98,6 +107,18 @@ func get_next_battle_level(player_state: PlayerState) -> BattleLevel:
 		if campaign[i] is BattleLevel:
 			return campaign[i]
 	return null
+
+
+func is_boss_rest(player_state: PlayerState) -> bool:
+	## 每轮商店后的休息区固定提供 Boss 挑战，避免首领完全依赖随机抽取。
+	if not player_state or campaign.is_empty():
+		return false
+	var current_index := player_state.current_level_index
+	if current_index <= 0 or current_index >= campaign.size():
+		return false
+	var current_level := campaign[current_index]
+	var previous_level := campaign[current_index - 1]
+	return current_level.level_type == "rest" and previous_level.level_type == "shop"
 
 
 func has_next_level(player_state: PlayerState) -> bool:

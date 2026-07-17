@@ -2,6 +2,7 @@ extends Node
 ## 负责所有战斗视觉特效
 
 var _canvas_layer: CanvasLayer
+var _floating_text_sequences: Dictionary[int, int] = {}
 
 
 func _ready() -> void:
@@ -35,7 +36,14 @@ func _show_floating_text(character: Character, text: String, color: Color) -> vo
 	label.text = text
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_font_size_override("font_size", Settings.ui_design_font_size)
-	label.position = character.global_position + Vector2(0, -80)
+	# 连击会在同一帧产生多个数字；使用四条错位轨道避免文本完全重叠。
+	var character_id := character.get_instance_id()
+	var sequence: int = _floating_text_sequences.get(character_id, 0)
+	_floating_text_sequences[character_id] = sequence + 1
+	var lane := sequence % 4
+	var lane_offsets: Array[float] = [-42.0, -14.0, 14.0, 42.0]
+	var lane_x := lane_offsets[lane]
+	label.position = character.global_position + Vector2(lane_x, -80.0 - lane * 14.0)
 	# 确保完全不透明
 	label.modulate.a = 1.0
 	_canvas_layer.add_child(label)

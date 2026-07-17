@@ -147,6 +147,18 @@ func spend_energy(card: Card) -> void:
 	return
 
 
+func gain_energy(amount: int) -> int:
+	## 回复能量并返回实际回复值，供献祭、过载等效果复用。
+	if amount <= 0:
+		return 0
+	var previous_energy := energy
+	energy = clampi(energy + amount, 0, max_energy)
+	var gained_energy := energy - previous_energy
+	if gained_energy > 0:
+		energy_changed.emit(energy)
+	return gained_energy
+
+
 func _input(event):
 	## 处理输入
 	# 忽略无效状态

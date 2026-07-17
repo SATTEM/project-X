@@ -43,14 +43,49 @@ func _ready():
 
 
 func _init_enemies():
-	## 从怪物库中动态获取敌人，按难度分配数量
-	var all_ids = MonsterLibrary.get_all_monster_ids()
-	if all_ids.is_empty():
-		all_ids = ["base"]
-	# 简单：1个敌人；普通：2个；困难：3个
-	battles["easy"]["enemies"] = [all_ids.pick_random()]
-	battles["normal"]["enemies"] = [all_ids.pick_random(), all_ids.pick_random()]
-	battles["hard"]["enemies"] = [all_ids.pick_random(), all_ids.pick_random(), all_ids.pick_random()]
+	## 各难度只从 Settings 中对应的怪物池抽取。
+	battles["easy"]["enemies"] = _pick_enemies(Settings.easy_enemy_pool, 1)
+	battles["normal"]["enemies"] = _pick_enemies(Settings.normal_enemy_pool, 2)
+	# 商店后的困难路线固定为 Boss；其它休息区只提供精英怪。
+	if game_manager and CampaignManager.is_boss_rest(game_manager.player_state):
+		battles["hard"]["name"] = "首领"
+		battles["hard"]["reward_gold"] = 250
+		var boss_pool: Array[String] = [Settings.boss_enemy_id]
+		battles["hard"]["enemies"] = _pick_enemies(boss_pool, 1)
+		elite_b_btn.text = "首领挑战"
+		elite_b_btn.tooltip_text = "商店后的固定首领战，奖励金币 x250"
+	else:
+		var elite_pool: Array[String] = []
+		for monster_id in Settings.hard_enemy_pool:
+			if monster_id != Settings.boss_enemy_id:
+				elite_pool.append(monster_id)
+		battles["hard"]["name"] = "精英"
+		battles["hard"]["reward_gold"] = 150
+		battles["hard"]["enemies"] = _pick_enemies(elite_pool, 1)
+		elite_b_btn.text = "精英挑战"
+		elite_b_btn.tooltip_text = "高强度精英战，奖励金币 x150"
+
+
+func _pick_enemies(configured_pool: Array[String], count: int) -> Array[String]:
+	var registered_ids := MonsterLibrary.get_all_monster_ids()
+	var valid_pool: Array[String] = []
+	for monster_id in configured_pool:
+		if registered_ids.has(monster_id):
+			valid_pool.append(monster_id)
+
+	if valid_pool.is_empty():
+		push_warning("配置的怪物池为空或 ID 无效，使用 base 作为兜底敌人。")
+		valid_pool = ["base"]
+
+	var result: Array[String] = []
+	var available := valid_pool.duplicate()
+	while result.size() < count:
+		if available.is_empty():
+			available = valid_pool.duplicate()
+		var selected: String = available.pick_random()
+		result.append(selected)
+		available.erase(selected)
+	return result
 
 
 func _on_normal():

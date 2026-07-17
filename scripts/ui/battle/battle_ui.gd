@@ -7,11 +7,11 @@ var monster: Monster
 @export var card_display_scene: PackedScene
 @export var deck_preview_overlay_scene: PackedScene
 @export var settings_overlay_scene: PackedScene
+@export var defeat_overlay_scene: PackedScene
 
 # 抓取界面上的节点
 @onready var hand_container: HBoxContainer = $HandContainer
 @onready var end_turn_btn: Button = $EndTurnBtn
-@onready var replay_btn: Button = $ReplayBtn
 @onready var back_menu_btn: Button = $BackMenuBtn
 @onready var settings_btn: Button = $SettingsBtn
 @onready var deck_btn: Button = $DeckBtn
@@ -25,6 +25,7 @@ var _selecting_target: bool = false
 var _pending_card: Card = null
 var _pile_preview_open: bool = false
 var _settings_overlay: BattleSettingsOverlay = null
+var _defeat_overlay: DefeatOverlay = null
 
 
 func _ready() -> void:
@@ -39,13 +40,9 @@ func _ready() -> void:
 	end_turn_btn.pressed.connect(_on_end_turn_pressed)
 	draw_pile_button.pressed.connect(_on_draw_pile_pressed)
 	discard_pile_button.pressed.connect(_on_discard_pile_pressed)
-	replay_btn.hide()
-	# 点击就重置场景
-	replay_btn.pressed.connect(func():
-		var gm = get_tree().current_scene as GameManager
-		if gm:
-			gm.reset_game()
-	)
+	var game_manager := get_tree().current_scene as GameManager
+	if game_manager and not game_manager.game_state_changed.is_connected(_on_game_state_changed):
+		game_manager.game_state_changed.connect(_on_game_state_changed)
 	# 连接主动刷新信号
 	BattleManager.call_refresh.connect(refresh_all_info)
 	BattleManager.battle_started.connect(_on_battle_started)
@@ -173,14 +170,9 @@ func refresh_all_info() -> void:
 		
 	var enemy = _get_first_enemy()
 
-	if player.health <= 0:
-		replay_btn.show()
-		end_turn_btn.disabled = true
-	elif enemy == null:
-		replay_btn.show()
+	if player.health <= 0 or enemy == null:
 		end_turn_btn.disabled = true
 	else:
-		replay_btn.hide()
 		end_turn_btn.disabled = false
 
 	_draw_hand_cards()
@@ -296,6 +288,43 @@ func _get_first_enemy() -> Monster:
 
 func _on_back_menu_pressed() -> void:
 	# 切换回主菜单场景
+	get_tree().change_scene_to_file("res://scenes/ui/menu.tscn")
+
+
+func _on_game_state_changed(new_state: int) -> void:
+	if new_state == GameManager.GameState.DEFEAT:
+		_show_defeat_overlay()
+
+
+func _show_defeat_overlay() -> void:
+	if not defeat_overlay_scene:
+		return
+	if _defeat_overlay and is_instance_valid(_defeat_overlay):
+		return
+	if _selecting_target:
+		exit_target_selection()
+	_defeat_overlay = defeat_overlay_scene.instantiate() as DefeatOverlay
+	add_child(_defeat_overlay)
+	var game_manager := get_tree().current_scene as GameManager
+	var reached_layer := 1
+	var collected_gold := 0
+	if game_manager and game_manager.player_state:
+		reached_layer = CampaignManager.get_counted_layer_number(game_manager.player_state)
+		collected_gold = game_manager.player_state.gold
+	_defeat_overlay.setup(reached_layer, collected_gold)
+	_defeat_overlay.restart_requested.connect(_on_defeat_restart_requested)
+	_defeat_overlay.main_menu_requested.connect(_on_defeat_main_menu_requested)
+
+
+func _on_defeat_restart_requested() -> void:
+	get_tree().paused = false
+	SaveManager.delete_player_state()
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
+
+func _on_defeat_main_menu_requested() -> void:
+	get_tree().paused = false
+	SaveManager.delete_player_state()
 	get_tree().change_scene_to_file("res://scenes/ui/menu.tscn")
 
 

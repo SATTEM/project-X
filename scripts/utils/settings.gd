@@ -24,3 +24,11 @@ extends Node
 @export var position_row_player_count = 1
 @export var position_row_front_count = 3
 @export var position_row_enemy_count = 3
+
+## 关卡怪物池
+## 简单和普通选项可生成多只普通怪物；困难选项只生成一只精英或 Boss。
+@export_group("EnemyPools")
+@export var easy_enemy_pool: Array[String] = ["ash_hound", "bog_priest"]
+@export var normal_enemy_pool: Array[String] = ["ash_hound", "bog_priest"]
+@export var hard_enemy_pool: Array[String] = ["stone_golem", "triune_warden"]
+@export var boss_enemy_id: String = "triune_warden"

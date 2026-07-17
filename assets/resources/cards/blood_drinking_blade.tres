@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_15.tres" id="3"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/heal_self_5.tres" id="4"]
-[ext_resource type="Texture2D" uid="uid://orp4r2tqwiwp" path="res://assets/art/monsters/delapouite/vampire-dracula.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/11.png" id="5"]
 
 [resource]
 script = ExtResource("1")

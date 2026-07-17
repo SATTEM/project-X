@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MultiHitDamageEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/concrete_effects/multi_hit_damage_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+damage_per_hit = 6
+hit_count = 6
+effect_name = "damage"

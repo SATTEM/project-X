@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_5.tres" id="3"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/block_4.tres" id="4"]
-[ext_resource type="Texture2D" uid="uid://cx0bv8nrmac7u" path="res://assets/art/monsters/delapouite/pick-of-destiny.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/4.png" id="5"]
 
 
 [resource]

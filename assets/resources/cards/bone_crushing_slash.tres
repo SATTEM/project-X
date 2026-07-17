@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bcwh6lscdlxan" path="res://assets/art/card_arts/card_background.png" id="1_yypua"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_20.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://5im8dnt7a6il" path="res://assets/art/monsters/lorc/dinosaur-bones.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/3.png" id="4"]
 
 [resource]
 script = ExtResource("1")

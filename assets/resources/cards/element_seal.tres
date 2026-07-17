@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
 [ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
 [ext_resource type="Resource" path="res://assets/resources/effects/variety/seal_highest_permanent.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://b63crl15n5wdv" path="res://assets/art/monsters/delapouite/bottled-shadow.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/20.png" id="4"]
 
 
 [resource]
