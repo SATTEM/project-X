@@ -78,6 +78,8 @@ func _connect_ui_sounds() -> void:
 
 
 func _setup_ui_sounds(node: Node) -> void:
+	if not node:
+		return
 	if node is BaseButton:
 		if not node.pressed.is_connected(_on_button_pressed):
 			node.pressed.connect(_on_button_pressed.bind(node))
