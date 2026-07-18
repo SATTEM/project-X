@@ -19,23 +19,18 @@ func _ready() -> void:
 func _scan_and_register() -> void:
 	## 扫描并注册
 	for path in paths:
-		var dir = DirAccess.open(path)
-		if dir:
-			dir.list_dir_begin()
-			var file_name = dir.get_next()
-			while file_name != "":
-				if file_name.ends_with(".tres"):
-					var file_path = path + file_name
-					var res = load(file_path)
-					if res is BaseCardFactory:
-						# 自注册ID
-						var id = res.card_id
-						if _factories.has(id):
-							printerr("Duplicate card/monster ID: ", id)
-						_factories[id] = res
-						print("Register card factory: ", id)
-				file_name = dir.get_next()
-			dir.list_dir_end()
+		for file_name in ResourceLoader.list_directory(path):
+			if not file_name.ends_with(".tres"):
+				continue
+			var file_path := path.path_join(file_name)
+			var resource: Resource = ResourceLoader.load(file_path)
+			if resource is BaseCardFactory:
+				# 自注册ID
+				var id: String = resource.card_id
+				if _factories.has(id):
+					printerr("Duplicate card ID: ", id)
+				_factories[id] = resource
+				print("Register card factory: ", id)
 
 
 func create_card(card_id: String) -> Card:
