@@ -5,6 +5,7 @@ const CARD_DISPLAY_WIDTH := 200.0
 const HAND_DEFAULT_LEFT := 474.0
 const HAND_SAFE_LEFT := 300.0
 const HAND_SAFE_RIGHT := 1725.0
+const HAND_LIMIT_BUBBLE_SCENE := preload("res://scenes/ui/hand_limit_bubble.tscn")
 
 var player: Player
 var monster: Monster
@@ -33,6 +34,7 @@ var _settings_overlay: BattleSettingsOverlay = null
 var _defeat_overlay: DefeatOverlay = null
 var _pending_draw_animation_delays: Dictionary = {}
 var _cards_being_played: Dictionary = {}
+var _hand_limit_bubble: Control = null
 
 
 func _ready() -> void:
@@ -74,6 +76,8 @@ func _on_battle_started(new_player: Player) -> void:
 		player.cards_drawn.connect(_on_player_cards_drawn)
 	if not player.card_discarded.is_connected(_on_player_card_discarded):
 		player.card_discarded.connect(_on_player_card_discarded)
+	if not player.hand_limit_exceeded.is_connected(_on_player_hand_limit_exceeded):
+		player.hand_limit_exceeded.connect(_on_player_hand_limit_exceeded)
 	# 首场战斗的起手抽牌发生在 battle_started 之前，在这里补登记一次。
 	for index in range(player.hand.size()):
 		_pending_draw_animation_delays[player.hand[index].get_instance_id()] = index * 0.045
@@ -117,6 +121,19 @@ func _on_player_card_discarded(card: Card) -> void:
 	var hand_index := player.hand.find(card) if player else 0
 	var delay := maxf(float(hand_index), 0.0) * 0.035
 	_spawn_discard_animation(card, card_display.global_position, delay)
+
+
+func _on_player_hand_limit_exceeded(discarded_count: int) -> void:
+	if discarded_count <= 0 or not player or not is_instance_valid(player):
+		return
+	if _hand_limit_bubble and is_instance_valid(_hand_limit_bubble):
+		_hand_limit_bubble.queue_free()
+	_hand_limit_bubble = HAND_LIMIT_BUBBLE_SCENE.instantiate() as Control
+	add_child(_hand_limit_bubble)
+	var anchor_position := player.global_position
+	if player.world_ui:
+		anchor_position = player.world_ui.global_position
+	_hand_limit_bubble.show_at_global(anchor_position, discarded_count)
 
 
 func start_target_selection(card: Card) -> void:

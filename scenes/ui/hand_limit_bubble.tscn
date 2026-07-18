@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hand_limit_bubble.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/art/font/QingNiaoHuaGuangJianMeiHei-2.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="BubbleStyle"]
+bg_color = Color(0.018, 0.085, 0.12, 0.97)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.15, 0.78, 0.9, 0.98)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.82)
+shadow_size = 12
+
+[node name="HandLimitBubble" type="Control"]
+custom_minimum_size = Vector2(370, 108)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 370.0
+offset_bottom = 108.0
+z_index = 85
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Tail" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(168, 80, 202, 80, 185, 106)
+color = Color(0.018, 0.085, 0.12, 0.97)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 370.0
+offset_bottom = 88.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("BubbleStyle")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 12
+
+[node name="Message" type="Label" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.9, 0.76, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.025, 0.035, 1)
+theme_override_constants/outline_size = 4
+theme_override_constants/line_spacing = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "我的手牌已经满了！\n多抽的牌进入了弃牌堆"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
