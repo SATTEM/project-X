@@ -35,7 +35,7 @@ func show_pile(title: String, cards: Array) -> void:
 			continue
 		var card_display := card_display_scene.instantiate() as CardDisplay
 		card_display.set_card(card)
-		_set_preview_mouse_filter(card_display)
+		card_display.set_click_enabled(false)
 		_cards_grid.add_child(card_display)
 
 
@@ -47,13 +47,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
 		get_viewport().set_input_as_handled()
-
-
-func _set_preview_mouse_filter(node: Node) -> void:
-	if node is Control:
-		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	for child in node.get_children():
-		_set_preview_mouse_filter(child)
 
 
 func _layout_overlay() -> void:

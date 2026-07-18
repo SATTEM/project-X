@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/characters/monsters/monster_resource.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monster.tscn" id="2"]
-[ext_resource type="Texture2D" path="res://assets/art/monsters/caro-asercion/tarot-15-the-devil.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/art/monsters/portraits/triune_warden.png" id="3"]
 [ext_resource type="Script" path="res://scripts/utils/monster_strategy/energy/concrete_strategies/average_energy_strategy.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/utils/monster_strategy/play/concrete_strategies/fifo_strategy.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="6"]

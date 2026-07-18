@@ -36,6 +36,7 @@ var energy_threshold: int = 5  # 能量爆气阈值，达到此数值触发清�
 var card_pool: Dictionary[int, Array] = {} # 运行时牌池，Array[ElementCard]
 var hand: Array[ElementCard] = []
 var display_node: Node2D 
+var _idle_tween: Tween
 
 @export var summon_cost: int = 2  # 随从基础召唤费用,默认为2
 @export var intent_icon: Texture2D
@@ -137,6 +138,26 @@ func battle_init() -> void:
 		else:
 			# 没有动画，保持静态图
 			body_sprite.visible = true
+			display_node = body_sprite
+			_start_idle_breathing(body_sprite)
+
+
+func _start_idle_breathing(sprite: Node2D) -> void:
+	## 静态立绘使用轻微浮动，不修改 modulate，避免干扰目标选择高亮。
+	if _idle_tween and _idle_tween.is_valid():
+		_idle_tween.kill()
+	var base_scale := sprite.scale
+	var base_position := sprite.position
+	var breathing_scale := Vector2(base_scale.x * 1.025, base_scale.y * 0.985)
+	var raised_position := base_position + Vector2(0.0, -3.0)
+
+	_idle_tween = create_tween().set_loops()
+	_idle_tween.set_trans(Tween.TRANS_SINE)
+	_idle_tween.set_ease(Tween.EASE_IN_OUT)
+	_idle_tween.tween_property(sprite, "scale", breathing_scale, 1.5)
+	_idle_tween.parallel().tween_property(sprite, "position", raised_position, 1.5)
+	_idle_tween.tween_property(sprite, "scale", base_scale, 1.5)
+	_idle_tween.parallel().tween_property(sprite, "position", base_position, 1.5)
 
 
 func init_cards() -> void:

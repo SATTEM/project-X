@@ -5,10 +5,13 @@ signal closed
 
 const CONFIG_PATH := "user://audio_settings_ext.cfg"
 
+@export var title_text := "战斗设置"
+
 @onready var _dimmer: ColorRect = $Dimmer
 @onready var _dismiss_button: Button = $DismissButton
 @onready var _panel: PanelContainer = $Panel
 @onready var _close_button: Button = $Panel/Margin/VBox/Header/CloseButton
+@onready var _title_label: Label = $Panel/Margin/VBox/Header/Title
 @onready var _master_slider: HSlider = $Panel/Margin/VBox/SettingsGrid/MasterSlider
 @onready var _music_slider: HSlider = $Panel/Margin/VBox/SettingsGrid/MusicSlider
 @onready var _sfx_slider: HSlider = $Panel/Margin/VBox/SettingsGrid/SfxSlider
@@ -20,6 +23,7 @@ var _closing := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_title_label.text = title_text
 	_layout_overlay()
 	resized.connect(_layout_overlay)
 	_load_settings()
@@ -150,11 +154,6 @@ func _exit_tree() -> void:
 
 
 func _layout_overlay() -> void:
-	position = Vector2.ZERO
-	size = get_viewport_rect().size
-	_dimmer.position = Vector2.ZERO
-	_dimmer.size = size
-	_dismiss_button.position = Vector2.ZERO
-	_dismiss_button.size = size
-	_panel.position = Vector2(size.x * 0.29, size.y * 0.17)
-	_panel.size = Vector2(size.x * 0.42, size.y * 0.66)
+	var viewport_size := get_viewport_rect().size
+	_panel.position = Vector2(viewport_size.x * 0.29, viewport_size.y * 0.17)
+	_panel.size = Vector2(viewport_size.x * 0.42, viewport_size.y * 0.66)

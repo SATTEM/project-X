@@ -3,8 +3,11 @@ extends Character
 
 signal energy_changed(new_energy: int)
 signal piles_changed(draw_count: int, discard_count: int)
+signal cards_drawn(cards: Array[Card])
+signal card_discarded(card: Card)
 
 @export var texture: Texture2D
+@export_range(1, 20, 1) var max_hand_size: int = 7
 var energy: int # 当前能量
 var max_energy: int = 5 # 最大能量
 var hand: Array[Card] = [] # 手牌
@@ -116,21 +119,30 @@ func build_deck_from_ids(deck_ids: Array[String], summon_bindings: Array[String]
 
 func draw_card(amount: int) -> void:
 	## 从抽牌堆取牌加入手牌，若抽牌堆不足则洗入弃牌堆
-	## effect
+	var drawn_cards: Array[Card] = []
 	for i in range(amount):
 		if draw_pile.is_empty():
 			_reshuffle_discard_to_draw()
 
 		if not draw_pile.is_empty():
-			var card = draw_pile.pop_front() # 拿走第一张
-			hand.append(card)
+			var card: Card = draw_pile.pop_front() # 拿走第一张
+			if hand.size() < max_hand_size:
+				hand.append(card)
+				drawn_cards.append(card)
+			else:
+				# 手牌已满时，仍视为完成抽牌，但卡牌直接进入弃牌堆。
+				discard_pile.append(card)
+				card_discarded.emit(card)
 	_emit_piles_changed()
+	if not drawn_cards.is_empty():
+		cards_drawn.emit(drawn_cards)
 
 
 func discard(card: Card) -> void:
 	## 弃牌方法
 	discard_pile.append(card)
 	_emit_piles_changed()
+	card_discarded.emit(card)
 
 
 func is_energy_enough(card: Card) -> bool:

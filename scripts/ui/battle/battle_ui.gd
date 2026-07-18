@@ -1,6 +1,11 @@
 extends Control
 class_name BattleUI
 
+const CARD_DISPLAY_WIDTH := 200.0
+const HAND_DEFAULT_LEFT := 474.0
+const HAND_SAFE_LEFT := 300.0
+const HAND_SAFE_RIGHT := 1725.0
+
 var player: Player
 var monster: Monster
 
@@ -26,6 +31,8 @@ var _pending_card: Card = null
 var _pile_preview_open: bool = false
 var _settings_overlay: BattleSettingsOverlay = null
 var _defeat_overlay: DefeatOverlay = null
+var _pending_draw_animation_delays: Dictionary = {}
+var _cards_being_played: Dictionary = {}
 
 
 func _ready() -> void:
@@ -63,6 +70,13 @@ func _on_battle_started(new_player: Player) -> void:
 		player.energy_changed.connect(_on_player_energy_changed)
 	if not player.piles_changed.is_connected(_on_player_piles_changed):
 		player.piles_changed.connect(_on_player_piles_changed)
+	if not player.cards_drawn.is_connected(_on_player_cards_drawn):
+		player.cards_drawn.connect(_on_player_cards_drawn)
+	if not player.card_discarded.is_connected(_on_player_card_discarded):
+		player.card_discarded.connect(_on_player_card_discarded)
+	# 首场战斗的起手抽牌发生在 battle_started 之前，在这里补登记一次。
+	for index in range(player.hand.size()):
+		_pending_draw_animation_delays[player.hand[index].get_instance_id()] = index * 0.045
 	refresh_all_info()
 
 
@@ -82,6 +96,27 @@ func _on_player_energy_changed(_new_energy: int) -> void:
 func _on_player_piles_changed(draw_count: int, discard_count: int) -> void:
 	draw_pile_button.set_card_count(draw_count)
 	discard_pile_button.set_card_count(discard_count)
+
+
+func _on_player_cards_drawn(cards: Array[Card]) -> void:
+	for index in range(cards.size()):
+		var card := cards[index]
+		if card and is_instance_valid(card):
+			_pending_draw_animation_delays[card.get_instance_id()] = index * 0.045
+	call_deferred("refresh_all_info")
+
+
+func _on_player_card_discarded(card: Card) -> void:
+	if not card or not is_instance_valid(card):
+		return
+	if _cards_being_played.has(card.get_instance_id()):
+		return
+	var card_display := _find_card_display(card)
+	if not card_display:
+		return
+	var hand_index := player.hand.find(card) if player else 0
+	var delay := maxf(float(hand_index), 0.0) * 0.035
+	_spawn_discard_animation(card, card_display.global_position, delay)
 
 
 func start_target_selection(card: Card) -> void:
@@ -114,10 +149,9 @@ func _input(event: InputEvent) -> void:
 		var click_pos = get_viewport().get_mouse_position()
 		var target = _get_character_at_position(click_pos)
 		if target and BattleManager.is_valid_target(_pending_card, BattleManager.player, target):
-			# 打出卡牌
-			AudioManager.play_sfx("card_play")
-			BattleManager.request_play_card(_pending_card, BattleManager.player, target)
-			refresh_all_info()
+			var card_to_play := _pending_card
+			if _play_card_with_animation(card_to_play, target):
+				refresh_all_info()
 			exit_target_selection()
 			get_viewport().set_input_as_handled()
 		else:
@@ -194,14 +228,43 @@ func _refresh_run_stats() -> void:
 
 func _draw_hand_cards() -> void:
 	for child in hand_container.get_children():
+		hand_container.remove_child(child)
 		child.queue_free()
 
+	_layout_hand_container(player.hand.size())
 	for i in range(player.hand.size()):
 		var card = player.hand[i]
 		var card_ui = card_display_scene.instantiate()
 		card_ui.set_card(card)
 		card_ui.card_pressed.connect(_on_card_pressed)
 		hand_container.add_child(card_ui)
+	call_deferred("_start_pending_draw_animations")
+
+
+func _start_pending_draw_animations() -> void:
+	if _pending_draw_animation_delays.is_empty() or not is_instance_valid(draw_pile_button):
+		return
+	var draw_origin := draw_pile_button.get_global_rect().get_center()
+	for child in hand_container.get_children():
+		if not child is CardDisplay or not child.card:
+			continue
+		var card_id: int = child.card.get_instance_id()
+		if not _pending_draw_animation_delays.has(card_id):
+			continue
+		var delay: float = _pending_draw_animation_delays[card_id]
+		child.play_draw_animation(draw_origin, delay)
+		_pending_draw_animation_delays.erase(card_id)
+
+
+func _layout_hand_container(card_count: int) -> void:
+	## 1~5张保持原布局；6/7张只整体左移，不缩放卡牌。
+	if card_count <= 5:
+		hand_container.position.x = HAND_DEFAULT_LEFT
+		return
+	var separation := float(hand_container.get_theme_constant("separation"))
+	var total_width := CARD_DISPLAY_WIDTH * card_count + separation * maxi(card_count - 1, 0)
+	var centered_left := (HAND_SAFE_LEFT + HAND_SAFE_RIGHT - total_width) * 0.5
+	hand_container.position.x = maxf(HAND_SAFE_LEFT, centered_left)
 
 
 func _on_card_pressed(card: Card) -> void:
@@ -209,17 +272,66 @@ func _on_card_pressed(card: Card) -> void:
 	if not _can_play_card(card):
 		return
 	
-	AudioManager.play_sfx("card_play")
-	
 	# SELF 类型的卡牌直接自动以自己为目标
 	if card.target_type == GlobalEnums.TargetType.SELF:
 		if BattleManager.is_valid_target(card, player, player):
-			BattleManager.request_play_card(card, player, player)
-			refresh_all_info()
+			if _play_card_with_animation(card, player):
+				refresh_all_info()
 		return
 	
 	# 其他类型进入目标选择模式
 	start_target_selection(card)
+
+
+func _play_card_with_animation(card: Card, target: Character) -> bool:
+	## 先完成原有规则与结算，再播放独立视觉副本；动画失败不会影响战斗。
+	var card_display := _find_card_display(card)
+	var has_start_position := card_display != null
+	var start_position := card_display.global_position if card_display else Vector2.ZERO
+	var card_id := card.get_instance_id()
+	_cards_being_played[card_id] = true
+	var played := BattleManager.request_play_card(card, player, target)
+	_cards_being_played.erase(card_id)
+	if not played:
+		return false
+	AudioManager.play_sfx("card_play")
+	if has_start_position:
+		_spawn_play_animation(card, start_position, target)
+	return true
+
+
+func _find_card_display(card: Card) -> CardDisplay:
+	for child in hand_container.get_children():
+		if child is CardDisplay and child.card == card:
+			return child
+	return null
+
+
+func _create_motion_card(card: Card, start_position: Vector2) -> CardDisplay:
+	if not card_display_scene or not card or not is_instance_valid(card):
+		return null
+	var motion_card := card_display_scene.instantiate() as CardDisplay
+	motion_card.set_card(card)
+	add_child(motion_card)
+	motion_card.set_interactive(false)
+	motion_card.global_position = start_position
+	return motion_card
+
+
+func _spawn_discard_animation(card: Card, start_position: Vector2, delay: float) -> void:
+	var motion_card := _create_motion_card(card, start_position)
+	if motion_card:
+		motion_card.play_discard_animation(discard_pile_button.get_global_rect().get_center(), delay)
+
+
+func _spawn_play_animation(card: Card, start_position: Vector2, target: Character) -> void:
+	var motion_card := _create_motion_card(card, start_position)
+	if not motion_card:
+		return
+	var target_position := target.global_position
+	if target.world_ui:
+		target_position = target.world_ui.global_position
+	motion_card.play_card_animation(target_position)
 
 
 func _can_play_card(card: Card) -> bool:

@@ -56,10 +56,11 @@ content_margin_bottom = 1.0
 
 [node name="Menu" type="Control" unique_id=2110864657]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-pivot_offset = Vector2(-40, -80)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_7w7rl")
 card_display_scene = ExtResource("2_c2n5p")
 
@@ -132,64 +133,6 @@ text = "Quit
 
 "
 flat = true
-
-[node name="SettingsPanel" type="Panel" parent="." unique_id=2038785652]
-visible = false
-layout_mode = 0
-offset_left = 425.0
-offset_top = 171.0
-offset_right = 1478.0
-offset_bottom = 874.0
-
-[node name="Label" type="Label" parent="SettingsPanel" unique_id=562566061]
-layout_mode = 0
-offset_left = 55.0
-offset_top = 19.0
-offset_right = 235.0
-offset_bottom = 188.0
-theme_override_font_sizes/font_size = 60
-text = "主音量
-"
-
-[node name="CloseSettingsBtn" type="Button" parent="SettingsPanel" unique_id=2131847792]
-layout_mode = 0
-offset_left = 61.0
-offset_top = 580.0
-offset_right = 241.0
-offset_bottom = 671.0
-theme_override_font_sizes/font_size = 60
-text = "返回"
-flat = true
-
-[node name="MasterSlider" type="HSlider" parent="SettingsPanel" unique_id=1715159300]
-layout_mode = 0
-offset_left = 321.0
-offset_top = 9.0
-offset_right = 686.0
-offset_bottom = 121.0
-max_value = 1.0
-step = 0.01
-
-[node name="FullscreenCheck" type="CheckBox" parent="SettingsPanel" unique_id=1370832018]
-layout_mode = 0
-offset_right = 24.0
-offset_bottom = 24.0
-text = "全屏模式
-"
-
-[node name="FastModeCheck" type="CheckBox" parent="SettingsPanel" unique_id=575112917]
-layout_mode = 0
-offset_right = 24.0
-offset_bottom = 24.0
-text = "加速模式
-
-"
-
-[node name="ResetSaveBtn" type="Button" parent="SettingsPanel" unique_id=1417202054]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "清空存档"
 
 [node name="CatalogPanel" type="Panel" parent="." unique_id=382106765]
 visible = false
