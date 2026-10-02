@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://db67xy14yt5yf"]
+
+[ext_resource type="Script" uid="uid://qm2af0g8k612" path="res://scripts/ui/menu.gd" id="1_7w7rl"]
+[ext_resource type="Texture2D" uid="uid://cdkdiaine3wq0" path="res://assets/art/background/menu_background/menu_blue3.png" id="2_wedc3"]
+
+[sub_resource type="Theme" id="Theme_wedc3"]
+
+[node name="Menu" type="Control" unique_id=2110864657]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(-40, -80)
+script = ExtResource("1_7w7rl")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2117053532]
+layout_mode = 0
+offset_left = -11.0
+offset_top = -3.0
+offset_right = 472.0
+offset_bottom = 272.75
+scale = Vector2(4, 4)
+texture = ExtResource("2_wedc3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1755448008]
+layout_mode = 0
+offset_left = 142.03499
+offset_top = 226.0
+offset_right = 288.28497
+offset_bottom = 413.0
+scale = Vector2(3.5, 3.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1449082322]
+layout_mode = 2
+theme = SubResource("Theme_wedc3")
+theme_override_constants/separation = 8
+
+[node name="ContinueBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1312251256]
+layout_mode = 2
+text = "Continue"
+flat = true
+
+[node name="NewGameBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=890692929]
+layout_mode = 2
+text = "New Game"
+flat = true
+
+[node name="CardCatalogBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=266535685]
+layout_mode = 2
+text = "Card Catalog"
+flat = true
+
+[node name="SettingBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=574403261]
+layout_mode = 2
+text = "Setting"
+flat = true
+
+[node name="QuitBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=647335631]
+layout_mode = 2
+text = "Quit"
+flat = true

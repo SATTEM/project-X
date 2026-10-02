@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PowerBuff" format=3 uid="uid://lj1hru8gjlj3"]
+
+[ext_resource type="Script" uid="uid://oqin23aprxuh" path="res://scripts/effects/buff_effects/power_buff.gd" id="1_6laql"]
+
+[resource]
+script = ExtResource("1_6laql")
+buff_name = "力量涌动"
+duration = 3
+metadata/_custom_type_script = "uid://oqin23aprxuh"

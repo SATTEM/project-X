@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://op84qhrltwt8"]
+
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bcwh6lscdlxan" path="res://assets/art/card_arts/card_background.png" id="1_s0umg"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/gain_echo_multicast.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/10.png" id="4"]
+
+[resource]
+script = ExtResource("1")
+card_name = "回响符文"
+cost = 1
+effect_resources = Array[ExtResource("2")]([ExtResource("3")])
+texture = ExtResource("4")
+target_type = 0
+description = "本回合后续攻击牌的伤害效果触发两次。"
+card_id = "echo_rune"

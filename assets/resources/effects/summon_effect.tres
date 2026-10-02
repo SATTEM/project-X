@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SummonEffect" format=3 uid="uid://dqgl12vgnxxfh"]
+
+[ext_resource type="Script" uid="uid://crfpydshm8fo3" path="res://scripts/effects/concrete_effects/summon_effect.gd" id="1_tggrd"]
+
+[resource]
+script = ExtResource("1_tggrd")
+monster_id = "base"
+effect_name = "summon"
+metadata/_custom_type_script = "uid://crfpydshm8fo3"

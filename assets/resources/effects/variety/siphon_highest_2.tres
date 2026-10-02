@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ModifyElementEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/element_effects/modify_element_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+change_amount = -2
+use_highest_energy_element = true
+effect_name = "最高元素能量-2"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://t1bw4uegupkt"]
+
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_ie2ri"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="3_g1mja"]
+[ext_resource type="Resource" uid="uid://beadgfg5cbx2l" path="res://assets/resources/effects/effect_gain_power.tres" id="3_ie2ri"]
+[ext_resource type="Texture2D" uid="uid://clee8jqfbhi0b" path="res://assets/art/card_arts/card_texture/17.png" id="4_ie2ri"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g1mja"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[resource]
+script = ExtResource("3_g1mja")
+card_name = "力量涌动"
+cost = 1
+effect_resources = Array[ExtResource("2_ie2ri")]([ExtResource("3_ie2ri")])
+texture = ExtResource("4_ie2ri")
+background_texture = SubResource("CompressedTexture2D_g1mja")
+target_type = 0
+description = "获得力量增幅，所有伤害牌伤害+3，持续3回合。"
+card_id = "power_card"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"

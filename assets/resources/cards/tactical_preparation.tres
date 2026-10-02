@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://byhaypeepsn2c"]
+
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bcwh6lscdlxan" path="res://assets/art/card_arts/card_background.png" id="1_156o0"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/block_5.tres" id="3"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/draw_1.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/8.png" id="5"]
+
+[resource]
+script = ExtResource("1")
+card_name = "战术准备"
+cost = 1
+effect_resources = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+texture = ExtResource("5")
+target_type = 0
+description = "获得5点格挡，并抽1张牌。"
+card_id = "tactical_preparation"

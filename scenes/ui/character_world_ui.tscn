@@ -1,0 +1,134 @@
+[gd_scene format=3 uid="uid://qsmqy7ibycg4"]
+
+[ext_resource type="Script" uid="uid://d14i8eew0i607" path="res://scripts/ui/battle/character_world_ui.gd" id="1_22b7q"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/battle/shield_block.svg" id="2_block"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_block_frame"]
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.13, 0.84, 0.97, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_frame"]
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.58, 0.33, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="CharacterWorldUI" type="Control" unique_id=1872879632 node_paths=PackedStringArray("body_sprite", "health_bar_bg", "health_bar_fill", "health_frame", "block_frame", "block_container", "block_icon", "block_label", "intent_container", "intent_icon", "intent_label", "energy_container")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_22b7q")
+body_sprite = NodePath("body_sprite")
+health_bar_bg = NodePath("HealthBarBackground")
+health_bar_fill = NodePath("HealthBarFill")
+health_frame = NodePath("HealthFrame")
+block_frame = NodePath("BlockFrame")
+block_container = NodePath("BlockContainer")
+block_icon = NodePath("BlockContainer/BlockIcon")
+block_label = NodePath("BlockContainer/BlockLabel")
+intent_container = NodePath("IntentContainer")
+intent_icon = NodePath("IntentContainer/IntentIcon")
+intent_label = NodePath("IntentContainer/IntentLabel")
+energy_container = NodePath("EnergyContainer")
+
+[node name="body_sprite" type="Sprite2D" parent="." unique_id=677431078]
+
+[node name="BlockContainer" type="Control" parent="." unique_id=1216401321]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+z_index = 3
+mouse_filter = 2
+
+[node name="BlockIcon" type="TextureRect" parent="BlockContainer" unique_id=533583047]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_block")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BlockLabel" type="Label" parent="BlockContainer" unique_id=886974513]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.02, 0.08, 0.1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.16, 0.21, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "0"
+
+[node name="IntentContainer" type="Control" parent="." unique_id=1110697844]
+anchors_preset = 0
+offset_top = -100.0
+offset_bottom = -100.0
+
+[node name="IntentIcon" type="TextureRect" parent="IntentContainer" unique_id=1893640220]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="IntentLabel" type="Label" parent="IntentContainer" unique_id=1466693436]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "10000"
+
+[node name="HealthBarBackground" type="ColorRect" parent="." unique_id=443710483]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBarFill" type="ColorRect" parent="." unique_id=152581395]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthFrame" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+z_index = 1
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_health_frame")
+
+[node name="BlockFrame" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+z_index = 1
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_block_frame")
+
+[node name="EnergyContainer" type="Control" parent="." unique_id=2031746513]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

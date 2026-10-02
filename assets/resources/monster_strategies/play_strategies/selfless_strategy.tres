@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SelflessStrategy" format=3 uid="uid://c8q2co8vdldcf"]
+
+[ext_resource type="Script" uid="uid://bcr5lypuwapq2" path="res://scripts/utils/monster_strategy/play/concrete_strategies/SelflessStrategy.gd" id="1_qt1u3"]
+
+[resource]
+script = ExtResource("1_qt1u3")
+metadata/_custom_type_script = "uid://bcr5lypuwapq2"

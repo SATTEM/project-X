@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DamageEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/concrete_effects/damage_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+base_amount = 7
+effect_name = "damage"

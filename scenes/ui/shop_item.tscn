@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://c7b453b8obf04"]
+
+[ext_resource type="Script" uid="uid://xeh4unh6wvrt" path="res://scripts/ui/shop/shop_item.gd" id="1_obnp4"]
+
+
+[node name="ShopItem" type="Panel" unique_id=604955887]
+custom_minimum_size = Vector2(250, 350)
+layout_direction = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 447.0
+offset_right = -399.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_obnp4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1700914999]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer" unique_id=651848840]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="VBoxContainer" unique_id=1359859859]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Detail" type="Label" parent="VBoxContainer" unique_id=1412709982]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="BuyButton" type="Button" parent="VBoxContainer" unique_id=661611266]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DisableElementEffect" format=3 uid="uid://cqaw8jg17f66p"]
+
+[ext_resource type="Script" path="res://scripts/effects/element_effects/disable_element_effect.gd" id="1_f1ieo"]
+
+[resource]
+script = ExtResource("1_f1ieo")
+target_element = 1
+effect_name = "永久禁用敌方火元素槽"

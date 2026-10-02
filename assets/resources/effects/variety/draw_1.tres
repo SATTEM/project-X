@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DrawEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/concrete_effects/draw_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+base_amount = 1
+effect_name = "抽1张牌"

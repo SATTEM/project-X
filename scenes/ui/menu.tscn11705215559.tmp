@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://db67xy14yt5yf"]
+
+[ext_resource type="Script" uid="uid://qm2af0g8k612" path="res://scripts/ui/menu.gd" id="1_7w7rl"]
+[ext_resource type="PackedScene" uid="uid://gx4dfxkmwtlf" path="res://scenes/cards/card_display.tscn" id="2_c2n5p"]
+[ext_resource type="Texture2D" uid="uid://cdkdiaine3wq0" path="res://assets/art/background/menu_background/menu_blue3.png" id="2_wedc3"]
+
+[sub_resource type="Theme" id="Theme_wedc3"]
+
+[node name="Menu" type="Control" unique_id=2110864657]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(-40, -80)
+script = ExtResource("1_7w7rl")
+card_display_scene = ExtResource("2_c2n5p")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2117053532]
+z_index = -30
+layout_mode = 0
+offset_left = -11.0
+offset_top = -3.0
+offset_right = 472.0
+offset_bottom = 272.75
+scale = Vector2(4, 4)
+texture = ExtResource("2_wedc3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1755448008]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 0
+offset_left = 142.03499
+offset_top = 226.0
+offset_right = 288.28497
+offset_bottom = 413.0
+scale = Vector2(3.5, 3.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1449082322]
+clip_contents = true
+custom_minimum_size = Vector2(7, 120)
+layout_mode = 2
+theme = SubResource("Theme_wedc3")
+theme_override_constants/separation = 8
+
+[node name="ContinueBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1312251256]
+layout_mode = 2
+text = "Continue"
+flat = true
+
+[node name="NewGameBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=890692929]
+layout_mode = 2
+text = "New Game"
+flat = true
+
+[node name="CardCatalogBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=266535685]
+layout_mode = 2
+text = "Card Catalog"
+flat = true
+
+[node name="SettingBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=574403261]
+layout_mode = 2
+text = "Setting"
+flat = true
+
+[node name="QuitBtn" type="Button" parent="MarginContainer/VBoxContainer" unique_id=647335631]
+layout_mode = 2
+text = "Quit"
+flat = true
+
+[node name="SettingsPanel" type="Panel" parent="." unique_id=2038785652]
+visible = false
+layout_mode = 0
+offset_left = 425.0
+offset_top = 171.0
+offset_right = 1478.0
+offset_bottom = 874.0
+
+[node name="Label" type="Label" parent="SettingsPanel" unique_id=562566061]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 19.0
+offset_right = 235.0
+offset_bottom = 188.0
+theme_override_font_sizes/font_size = 60
+text = "主音量
+"
+
+[node name="CloseSettingsBtn" type="Button" parent="SettingsPanel" unique_id=2131847792]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 580.0
+offset_right = 241.0
+offset_bottom = 671.0
+theme_override_font_sizes/font_size = 60
+text = "返回"
+
+[node name="MasterSlider" type="HSlider" parent="SettingsPanel" unique_id=1715159300]
+layout_mode = 0
+offset_left = 321.0
+offset_top = 9.0
+offset_right = 686.0
+offset_bottom = 121.0
+max_value = 1.0
+step = 0.01
+
+[node name="CatalogPanel" type="Panel" parent="." unique_id=382106765]
+visible = false
+layout_mode = 0
+offset_left = -2.0
+offset_right = 1921.0
+offset_bottom = 1094.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CatalogPanel" unique_id=1890991146]
+layout_mode = 0
+offset_right = 1892.0
+offset_bottom = 1100.0
+
+[node name="GridContainer" type="GridContainer" parent="CatalogPanel/ScrollContainer" unique_id=1324068758]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 5
+
+[node name="CloseCatalogBtn" type="Button" parent="CatalogPanel" unique_id=650306391]
+layout_mode = 0
+offset_left = 1660.0
+offset_top = 960.0
+offset_right = 1921.0
+offset_bottom = 1104.0
+theme_override_font_sizes/font_size = 60
+text = "返回"

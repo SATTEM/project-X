@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="FIFOStrategy" format=3 uid="uid://6g5e7prbx77e"]
+
+[ext_resource type="Script" uid="uid://dg0fmnwc28tqw" path="res://scripts/utils/monster_strategy/play/concrete_strategies/FIFOStrategy.gd" id="1_oujkr"]
+
+[resource]
+script = ExtResource("1_oujkr")
+metadata/_custom_type_script = "uid://dg0fmnwc28tqw"

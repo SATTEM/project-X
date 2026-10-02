@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://bupdupsdt37ls"]
+
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bcwh6lscdlxan" path="res://assets/art/card_arts/card_background.png" id="1_yypua"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_20.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/3.png" id="4"]
+
+[resource]
+script = ExtResource("1")
+card_name = "裂骨重斩"
+cost = 2
+effect_resources = Array[ExtResource("2")]([ExtResource("3")])
+texture = ExtResource("4")
+description = "造成20点伤害。"
+card_id = "bone_crushing_slash"

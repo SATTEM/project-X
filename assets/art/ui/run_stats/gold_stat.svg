@@ -1,0 +1,9 @@
+<svg width="184" height="70" viewBox="0 0 184 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="184" y2="70" gradientUnits="userSpaceOnUse"><stop stop-color="#12384A"/><stop offset="1" stop-color="#071721"/></linearGradient><linearGradient id="edge" x1="0" y1="0" x2="184" y2="70" gradientUnits="userSpaceOnUse"><stop stop-color="#E8BA72"/><stop offset=".55" stop-color="#96542B"/><stop offset="1" stop-color="#EFD091"/></linearGradient></defs>
+  <path d="M10 3H174L181 10V60L174 67H10L3 60V10L10 3Z" fill="url(#bg)" stroke="url(#edge)" stroke-width="2"/>
+  <path d="M14 9H170L175 14V56L170 61H14L9 56V14L14 9Z" stroke="#43C8DE" stroke-opacity=".42"/>
+  <ellipse cx="40" cy="27" rx="17" ry="8" fill="#D49B3E" stroke="#F4D38A" stroke-width="2"/>
+  <path d="M23 27V39C23 44 57 44 57 39V27" fill="#B8782B" stroke="#F4D38A" stroke-width="2"/>
+  <ellipse cx="40" cy="39" rx="17" ry="8" fill="#C98B32" stroke="#F4D38A" stroke-width="2"/>
+  <path d="M40 22V32M35 27H45" stroke="#FFF0C7" stroke-width="2" stroke-linecap="round"/>
+</svg>

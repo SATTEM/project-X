@@ -1,0 +1,493 @@
+extends Node2D
+## 战斗管理器脚本
+
+# 动画信号
+signal card_play_requested(card: Card, source: Character, target: Character)
+signal damage_display_requested(character: Character, amount: int)
+signal block_display_requested(character: Character, amount: int)
+signal heal_display_requested(character: Character, amount: int)
+signal call_refresh()
+signal battle_finished(result: Dictionary)
+signal battle_started(player: Player)
+
+# 通过注册来获取卡牌和角色的引用
+# 战斗要素
+var player: Player
+var turn_queue: Array[Character]
+var active_character: Character = null
+var current_character_index: int = 0
+var current_player_state: PlayerState = null
+# 战斗信息和标志
+var battle_over: bool = false
+var turn_count: int = 0
+var can_next_turn: bool = false
+var is_active: bool = false
+var current_allies_count: int = 0
+var current_enemies_count: int = 0
+# 容器
+var card_container: Node2D
+var position_rows: Dictionary[GlobalEnums.PositionRow, Node2D] = {}
+
+func _ready() -> void:
+	## 初始化战斗管理器
+	card_container = Node2D.new()
+	add_child(card_container)
+	for row in GlobalEnums.PositionRow.values():
+		var row_node = Node2D.new()
+		row_node.name = str(row)
+		add_child(row_node)
+		position_rows[row] = row_node
+	# 动态调整行位置
+	_update_rows_position()
+	# 监听窗口大小变化
+	get_tree().root.size_changed.connect(_on_window_resized)
+
+
+func _on_window_resized():
+	_update_rows_position()
+
+
+func _on_character_died(character: Character) -> void:
+	## 当有角色死亡时调用此方法
+	## 检查是否为玩家，是则失败，否则胜利
+	if battle_over:
+		return
+	if character == player:
+		AudioManager.play_sfx("defeat")
+		print("You died!")
+		_end_battle(false)
+	else:
+		var idx = turn_queue.find(character)
+		if idx != -1:
+			turn_queue.remove_at(idx)
+			if idx <= current_character_index and current_character_index > 0:
+				current_character_index -= 1
+			if character.is_ally:
+				current_allies_count -= 1
+			else:
+				current_enemies_count -= 1
+		if character == active_character:
+			active_character = null
+			if current_character_index >= turn_queue.size():
+				current_character_index = 0
+			can_next_turn = true # 使回合继续
+		# 记录它所在的行，删除节点后需要重排列
+		var dead_row = character.current_row
+		character.queue_free()
+		# 重新排列该行
+		call_deferred("_arrange_row", dead_row)
+	
+	if current_enemies_count <= 0:
+		AudioManager.play_sfx("victory")
+		print("You win")
+		_end_battle(true)
+	return
+
+
+func _on_character_turn_ended(_character: Character) -> void:
+	## 角色回合结束，标记可以进入下一个回合
+	if battle_over:
+		return
+	can_next_turn = true	
+	return
+
+
+func _process(_delta: float) -> void:
+	## 每一帧检查按帧变化的逻辑标志
+	if can_next_turn and not battle_over:
+		if active_character:
+			print(active_character.name + "的回合结束")
+		current_character_index = (current_character_index + 1) % turn_queue.size()
+		can_next_turn = false
+		while (current_character_index < turn_queue.size() 
+				and turn_queue[current_character_index].is_dead):
+			turn_queue.remove_at(current_character_index)
+		if turn_queue.is_empty():
+			return
+		start_character_turn(turn_queue[current_character_index])
+
+
+func _update_rows_position():
+	## 更新行节点以及内部节点位置
+	var viewport_size = get_viewport_rect().size
+	var h = Settings.ui_design_height
+	var scale_y = viewport_size.y / h
+	# 设置行节点position.y
+	position_rows[GlobalEnums.PositionRow.ENEMY].position.y = h * 0.17 * scale_y
+	position_rows[GlobalEnums.PositionRow.FRONT].position.y = h * 0.39 * scale_y
+	position_rows[GlobalEnums.PositionRow.PLAYER].position.y = h * 0.57 * scale_y
+
+	# 每一行重新排列子单位
+	for row in GlobalEnums.PositionRow.values():
+		_arrange_row(row)
+
+
+func _arrange_row(row: GlobalEnums.PositionRow):
+	## 重排列某行单位
+	var row_node = position_rows[row]
+	var units: Array[Node2D] = []
+	for child in row_node.get_children():
+		if child is Character and not child.is_dead:
+			units.append(child as Node2D)
+	if units.size() == 0:
+		return
+	
+	var scale_x = get_viewport_rect().size.x / Settings.ui_design_width
+	# 在设计分辨率下计算每个单位的 X 坐标
+	var design_total_width = (units.size() - 1) * Settings.ui_design_monster_spacing
+	var design_start_x = (Settings.ui_design_width - design_total_width) / 2.0
+	
+	for i in units.size():
+		var design_x = design_start_x + i * Settings.ui_design_monster_spacing
+		units[i].position.x = design_x * scale_x
+		units[i].position.y = 0 # 采用行节点坐标
+
+
+func register_character(character: Character) -> void:
+	## 注册角色，并连接共有信号
+	if character is Player:
+		player = character
+		turn_queue.push_front(character)
+	elif character.is_ally:
+		var insert_index = 1
+		for i in range(1, turn_queue.size()):
+			if turn_queue[i].is_ally:
+				insert_index = i + 1
+			else:
+				break
+		turn_queue.insert(insert_index, character)
+		current_allies_count += 1
+	else:
+		turn_queue.push_back(character)
+		current_enemies_count += 1
+	# 连接信号
+	# 角色死亡
+	if not character.character_died.is_connected(_on_character_died):
+		character.character_died.connect(_on_character_died)
+	# 角色结束回合
+	if not character.turn_ended.is_connected(_on_character_turn_ended):
+		character.turn_ended.connect(_on_character_turn_ended)
+	# 特效转发
+	if not character.damage_display.has_connections():
+		character.damage_display.connect(func(c: Character, a: int): damage_display_requested.emit(c, a))
+		character.block_display.connect(func(c: Character, a: int): block_display_requested.emit(c, a))
+		character.heal_display.connect(func(c: Character, a: int): heal_display_requested.emit(c, a))
+	print("Registered: " + character.name)
+	return
+
+
+func start_battle(aPlayer: Player, enemies: Array[Monster], player_state: PlayerState = null):
+	## 战斗初始化方法
+	## 注册战斗开始时就存在的玩家、敌人
+	## 并完成对应初始化
+	# 清理逻辑
+	turn_queue.clear()      # 清空上局的死人队列
+	battle_over = false     # 重置战斗结束标志
+	turn_count = 0          # 回合数归零重计
+	can_next_turn = false   # 锁住回合流转逻辑
+	is_active = false
+	active_character = null
+	current_allies_count = 0
+	current_enemies_count = 0
+	_clear_card_container()
+	# 清理所有行上的旧单位
+	for row in position_rows:
+		for child in position_rows[row].get_children():
+			position_rows[row].remove_child(child)
+			if child != aPlayer:
+				child.queue_free()
+
+	# 处理玩家
+	# 将玩家节点移动到PLAYER行下
+	if aPlayer.get_parent():
+		aPlayer.get_parent().remove_child(aPlayer)
+	player = aPlayer
+	current_player_state = player_state
+	player.battle_init(player_state)
+	register_character(player)
+	position_rows[GlobalEnums.PositionRow.PLAYER].add_child(player)
+	
+	# 处理敌人，挂载到ENEMY行中并注册
+	for enemy in enemies:
+		position_rows[GlobalEnums.PositionRow.ENEMY].add_child(enemy)
+		register_character(enemy)
+		enemy.battle_init()
+	
+	is_active = true
+	current_character_index = 0
+	# 全部注册完后刷新行布局
+	_update_rows_position()
+	start_character_turn(turn_queue[current_character_index])
+	battle_started.emit(player)
+	return
+
+
+func start_battle_from_state(aPlayer: Player, player_state: PlayerState, enemies: Array[Monster]) -> void:
+	## 玩家从已有状态开始战斗
+	start_battle(aPlayer, enemies, player_state)
+
+
+func start_character_turn(character: Character) -> void:
+	## 开始某个角色的回合，若为玩家则等待输入
+	if battle_over:
+		return
+	active_character = character
+	if character is Player:
+		# 回合数加一
+		turn_count += 1
+	character.start_turn()
+	if character is Player:
+		# 玩家的操作逻辑在Player内执行
+		pass
+	else:
+		character.end_turn()
+
+
+func summon_minion(monster_id: String) -> bool:
+	## 根据ID召唤一个随从
+	if not _can_summion():
+		return false
+	var target_row = GlobalEnums.PositionRow.FRONT
+	var row_node = position_rows[target_row]
+	var minion = MonsterLibrary.create_monster(monster_id)
+	if not minion:
+		printerr("Fail to create minion: ", monster_id)
+		return false
+	# 初始化
+	minion.is_ally = true
+	row_node.add_child(minion)
+	minion.battle_init()
+	register_character(minion)
+	# 重排位置
+	_arrange_row(target_row)
+	return true
+
+
+func request_play_card(
+		card: Card,
+		source: Character,
+		target: Character
+	) -> bool:
+	## 请求打出一张卡牌， 所有规则检查集中在这里
+	# 排除非法场景
+	if not is_active:
+		return false
+	if source.is_dead or target.is_dead:
+		return false
+		
+	# 在检查费用之前，先让卡牌生成克隆并经过增幅池
+	var final_card = card
+	if source.has_method("process_card_through_buffs"):
+		final_card = source.process_card_through_buffs(card)
+
+	if not source.is_energy_enough(final_card):
+		# 如果费用不够打不出，清理临时卡
+		if final_card != card:
+			final_card.queue_free()
+		return false
+		
+	if not is_valid_target(final_card, source, target):
+		if final_card != card:
+			final_card.queue_free()
+		return false
+		
+	# 扣费 (使用的是被 Buff 修改后的费用)
+	source.spend_energy(final_card)
+	
+	# 卡牌从手牌移除 (移除的是玩家手里原始的牌，而不是克隆牌)
+	if source.hand.has(card):
+		source.hand.erase(card)
+	# 如果角色有弃牌堆，弃掉
+	if source.has_method("discard"):
+		source.discard(card)
+		
+	# 发射信号
+	card_play_requested.emit(final_card, source, target)
+	# 执行结算
+	final_card.play_card_on_target(source, target)
+	
+	# 结算完成后，把用完的临时克隆卡扔进垃圾桶
+	if final_card != card:
+		final_card.queue_free()
+		
+	return true
+
+
+func get_card_target() -> Character:
+	## 选择卡牌打击对象
+	## 随从打击敌人
+	## 敌人先尝试打击前排，前排没有单位则打击玩家
+	if not active_character:
+		return null
+	var attacker = active_character
+	# 怪物
+	if attacker is Monster:
+		# 己方随从攻击ENEMY行敌人
+		if attacker.is_ally:
+			for child in position_rows[GlobalEnums.PositionRow.ENEMY].get_children():
+				if child is Monster and not child.is_ally and not child.is_dead:
+					return child
+			return null
+
+		# 敌方单位优先攻击FRONT行
+		else:
+			# 先找FRONT行的友方单位
+			for child in position_rows[GlobalEnums.PositionRow.FRONT].get_children():
+				if child is Monster and child.is_ally and not child.is_dead:
+					return child
+			# 如果前线没人，就打玩家
+			if player and not player.is_dead:
+				return player
+			return null
+
+	return null
+
+
+func _can_summion() -> bool:
+	## 检查是否能召唤
+	# 随从固定出生在FRONT行
+	var target_row = GlobalEnums.PositionRow.FRONT
+	var row_node = position_rows[target_row]
+	# 检查该行上限
+	var count_in_row = 0
+	for child in row_node.get_children():
+		if child is Monster and not child.is_dead:
+			count_in_row += 1
+	if count_in_row >= Settings.position_row_front_count:
+		print("前排已满，无法召唤")
+		return false
+	return true
+
+
+func end_game() -> void:
+	## 结束战斗
+	_end_battle(false)
+	return
+
+
+func _end_battle(victory: bool) -> void:
+	if battle_over:
+		return
+	battle_over = true
+	is_active = false
+	can_next_turn = false
+	active_character = null
+	call_refresh.emit()
+	var selected = ""
+	var is_last_battle = (current_player_state.current_level_index == CampaignManager.campaign.size() - 1)
+	if victory and not is_last_battle:
+		# 有下一关，才弹奖励
+		var candidates = _build_rewards(true)
+		if candidates.size() > 0:
+			var battle_ui = get_tree().current_scene.get_node("UIContainer/BattleUI")
+			if battle_ui:
+				selected = await battle_ui.show_reward_and_wait(candidates, current_player_state)
+	var result = {
+		"victory": victory,
+		"remaining_hp": player.health if player else 0,
+		"rewards": [selected] if selected != "" else [],
+	}
+	battle_finished.emit(result)
+	print("Game end...")
+
+
+func _build_rewards(victory: bool) -> Array[String]:
+	## 生成奖励候选卡牌列表 (60%概率来自已解锁, 40% 未解锁)
+	if not victory:
+		return []
+		
+	# 获取全局所有的卡牌ID 和 已经解锁的卡牌ID
+	var all_cards: Array[String] = []
+	if CardLibrary.has_method("get_all_card_ids"):
+		all_cards = CardLibrary.get_all_card_ids()
+		
+	var unlocked_cards = GlobalUnlockManager.get_all_unlocked()
+
+	# 将所有卡牌分配进两个抽卡池
+	var locked_pool: Array[String] = []
+	var unlocked_pool: Array[String] = []
+	
+	for id in all_cards:
+		if unlocked_cards.has(id):
+			unlocked_pool.append(id)
+		else:
+			locked_pool.append(id)
+
+	var result: Array[String] = []
+
+	# 循环抽取 3 张不一样的卡牌
+	for i in range(3):
+		# 如果两个池子都被抽空了（极端情况：游戏总卡牌数不足 3 张），直接结束
+		if locked_pool.is_empty() and unlocked_pool.is_empty():
+			break
+			
+		var pick_unlocked = false
+		
+		# 规则校验
+		if locked_pool.is_empty():
+			# 如果未解锁池空了（全部都已经解锁），无视规则，强制从已解锁池抽取
+			pick_unlocked = true
+		elif unlocked_pool.is_empty():
+			# 如果已解锁池空了（玩家初始可能没有任何解锁卡），只能从未解锁池抽取
+			pick_unlocked = false
+		else:
+			# 正常情况：掷骰子，randf() 会生成 0.0 到 1.0 的小数
+			# 小于 0.6 即代表 60% 概率
+			pick_unlocked = (randf() < 0.6)
+
+		# 执行抽取，抽走后用 pop_front 剔除该卡，保证这三张牌绝对不一样
+		if pick_unlocked:
+			unlocked_pool.shuffle()
+			result.append(unlocked_pool.pop_front())
+		else:
+			locked_pool.shuffle()
+			result.append(locked_pool.pop_front())
+
+	print("生成的奖励卡牌: ", result)
+	return result
+
+
+func _clear_card_container() -> void:
+	if not card_container:
+		return
+	for child in card_container.get_children():
+		child.queue_free()
+
+
+func is_valid_target(card: Card, user: Character, target: Character) -> bool:
+	## 判断卡牌对象是否有效
+	# 前排保护：敌方怪物不能越过前排直接攻击玩家
+	if _is_protected_by_front_line(user, target):
+		return false
+	
+	match card.target_type:
+		GlobalEnums.TargetType.SELF:
+			return target == user
+		GlobalEnums.TargetType.ENEMY:
+			return target.is_ally != user.is_ally
+		GlobalEnums.TargetType.ALLY:
+			return target.is_ally == user.is_ally and target != user
+		GlobalEnums.TargetType.MONSTER:
+			return target is Monster
+		GlobalEnums.TargetType.ANY:
+			return true
+	return false
+
+
+func _is_protected_by_front_line(user: Character, target: Character) -> bool:
+	## 检查目标是否被前排保护（敌方不能越过前排攻击玩家）
+	# 只有敌方怪物攻击时才触发前排保护
+	if not (user is Monster and not user.is_ally):
+		return false
+	# 只有目标是玩家时才检查
+	if target != player:
+		return false
+	# 检查 FRONT 行是否有活着的友方单位
+	for child in position_rows[GlobalEnums.PositionRow.FRONT].get_children():
+		if child is Monster and child.is_ally and not child.is_dead:
+			return true  # 前排有单位保护，不能直接打玩家
+	return false
+
+
+func get_all_character() -> Array[Character]:
+	return turn_queue

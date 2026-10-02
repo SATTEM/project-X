@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dvfgaqmdcuuke"]
+
+[ext_resource type="Script" uid="uid://crbcne35iy8k2" path="res://scripts/characters/monsters/monster.gd" id="1_rvwux"]
+[ext_resource type="PackedScene" uid="uid://qsmqy7ibycg4" path="res://scenes/ui/character_world_ui.tscn" id="2_rvwux"]
+
+[node name="Monster" type="Node2D" unique_id=6973741]
+script = ExtResource("1_rvwux")
+
+[node name="CharacterWorldUI" parent="." unique_id=1872879632 instance=ExtResource("2_rvwux")]
+mouse_filter = 2

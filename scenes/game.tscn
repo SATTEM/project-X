@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bqrnme4das468"]
+
+[ext_resource type="Script" uid="uid://by7d7wgibiny2" path="res://scripts/managers/game_manager.gd" id="1_p57ef"]
+[ext_resource type="PackedScene" uid="uid://c648wudl7a2a4" path="res://scenes/characters/player.tscn" id="4_iywne"]
+[ext_resource type="PackedScene" uid="uid://cvfnmh8fpsbcc" path="res://scenes/ui/battle_ui.tscn" id="8_gee14"]
+
+[node name="Game" type="Node2D" unique_id=1334802041]
+script = ExtResource("1_p57ef")
+
+[node name="Player" parent="." unique_id=1281873703 instance=ExtResource("4_iywne")]
+
+[node name="UIContainer" type="Control" parent="." unique_id=1973617517]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BattleUI" parent="UIContainer" unique_id=455966288 instance=ExtResource("8_gee14")]
+layout_mode = 1

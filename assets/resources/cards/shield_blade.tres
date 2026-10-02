@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardResource" format=3]
+
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/damage_5.tres" id="3"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/block_4.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/card_arts/card_texture/4.png" id="5"]
+
+
+[resource]
+script = ExtResource("1")
+card_name = "盾刃"
+cost = 1
+effect_resources = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+texture = ExtResource("5")
+target_type = 1
+card_id = "shield_blade"
+description = "造成5点伤害，并获得4点格挡。"

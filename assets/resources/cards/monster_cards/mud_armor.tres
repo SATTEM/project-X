@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardResource" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/card_resource.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/effects/effect_resource.gd" id="2"]
+[ext_resource type="Resource" path="res://assets/resources/effects/monster_effects/block_7.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+card_name = "泥甲"
+cost = 1
+effect_resources = Array[ExtResource("2")]([ExtResource("3")])
+target_type = 0
+card_id = "monster_mud_armor"
+description = "获得7点格挡。"

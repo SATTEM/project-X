@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="GainBuffEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/gain_buff_effect.gd" id="1"]
+[ext_resource type="Resource" path="res://assets/resources/buffs/buff_echo_multicast.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+buff_to_apply = ExtResource("2")
+effect_name = "本回合后续攻击触发两次"

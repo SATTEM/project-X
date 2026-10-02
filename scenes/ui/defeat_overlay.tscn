@@ -1,0 +1,279 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/defeat_overlay.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.008, 0.035, 0.052, 0.985)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.72, 0.39, 0.18, 0.98)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.9)
+shadow_size = 28
+
+[sub_resource type="StyleBoxFlat" id="InnerBorderStyle"]
+bg_color = Color(0.015, 0.065, 0.09, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16, 0.55, 0.62, 0.45)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="SeparatorStyle"]
+bg_color = Color(0.76, 0.43, 0.2, 0.72)
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="PrimaryNormal"]
+bg_color = Color(0.2, 0.085, 0.035, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.82, 0.49, 0.21, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="PrimaryHover"]
+bg_color = Color(0.31, 0.14, 0.05, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.7, 0.31, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0.9, 0.45, 0.12, 0.25)
+shadow_size = 8
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="PrimaryPressed"]
+bg_color = Color(0.13, 0.055, 0.025, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.67, 0.34, 0.13, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="SecondaryNormal"]
+bg_color = Color(0.018, 0.075, 0.1, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.19, 0.52, 0.59, 0.9)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="SecondaryHover"]
+bg_color = Color(0.025, 0.12, 0.15, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.76, 0.82, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0.12, 0.65, 0.75, 0.2)
+shadow_size = 8
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="SecondaryPressed"]
+bg_color = Color(0.01, 0.05, 0.07, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.16, 0.42, 0.48, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxEmpty" id="FocusEmpty"]
+
+[node name="DefeatOverlay" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.0015, 0.007, 0.012, 0.84)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Panel" type="PanelContainer" parent="Root/Center"]
+custom_minimum_size = Vector2(680, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="Root/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 44
+theme_override_constants/margin_bottom = 34
+
+[node name="Content" type="VBoxContainer" parent="Root/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Eyebrow" type="Label" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.51, 0.7, 0.73, 1)
+theme_override_constants/outline_size = 5
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "旅程终结"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.65, 0.36, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.01, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/font_size = 54
+text = "战斗失败"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("SeparatorStyle")
+
+[node name="Message" type="Label" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.73, 0.81, 0.8, 1)
+theme_override_font_sizes/font_size = 21
+text = "本次远征已经结束。整理牌组，再次踏入深渊。"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="LayerValue" type="Label" parent="Root/Center/Panel/Margin/Content/Stats"]
+custom_minimum_size = Vector2(230, 82)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.84, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("InnerBorderStyle")
+text = "抵达层数\n第 1 层"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GoldValue" type="Label" parent="Root/Center/Panel/Margin/Content/Stats"]
+custom_minimum_size = Vector2(230, 82)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.84, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("InnerBorderStyle")
+text = "持有金币\n0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="Root/Center/Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(245, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.72, 1)
+theme_override_colors/font_hover_color = Color(1, 0.95, 0.8, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.78, 0.59, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("PrimaryNormal")
+theme_override_styles/hover = SubResource("PrimaryHover")
+theme_override_styles/pressed = SubResource("PrimaryPressed")
+theme_override_styles/focus = SubResource("FocusEmpty")
+text = "重新开始"
+
+[node name="MainMenuButton" type="Button" parent="Root/Center/Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(245, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.79, 0.9, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.91, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.66, 0.8, 0.81, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("SecondaryNormal")
+theme_override_styles/hover = SubResource("SecondaryHover")
+theme_override_styles/pressed = SubResource("SecondaryPressed")
+theme_override_styles/focus = SubResource("FocusEmpty")
+text = "返回主菜单"
+
+[node name="Hint" type="Label" parent="Root/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.52, 0.54, 1)
+theme_override_font_sizes/font_size = 16
+text = "重新开始将清除本次远征进度"
+horizontal_alignment = 1

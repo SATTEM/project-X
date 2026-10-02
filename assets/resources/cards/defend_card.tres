@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardResource" format=3 uid="uid://dijotk5lq86ru"]
+
+[ext_resource type="Script" uid="uid://d3c2mkhicllia" path="res://scripts/effects/effect_resource.gd" id="2_6lwob"]
+[ext_resource type="Resource" path="res://assets/resources/effects/variety/block_6.tres" id="3_ucmlr"]
+[ext_resource type="Texture2D" uid="uid://b5yuu5s3ykor4" path="res://assets/art/card_arts/card_texture/20.png" id="4_qe4t3"]
+[ext_resource type="Script" uid="uid://bkhjs6impq3th" path="res://scripts/cards/card_resource.gd" id="4_qs4fa"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ucmlr"]
+load_path = "res://.godot/imported/card_background.png-1b22d8a59e4128ebc614256c39f9d517.ctex"
+
+[resource]
+script = ExtResource("4_qs4fa")
+card_name = "格挡"
+cost = 1
+effect_resources = Array[ExtResource("2_6lwob")]([ExtResource("3_ucmlr")])
+texture = ExtResource("4_qe4t3")
+background_texture = SubResource("CompressedTexture2D_ucmlr")
+target_type = 0
+card_id = "defend_card"
+description = "获得6点格挡。"
+metadata/_custom_type_script = "uid://bkhjs6impq3th"

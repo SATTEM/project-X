@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://chb72eumeae3w"]
+
+[ext_resource type="Script" uid="uid://camp41gnmanag" path="res://scripts/managers/campaign_manager.gd" id="1_4361j"]
+
+[node name="CampaignManager" type="Node" unique_id=1799038192]
+script = ExtResource("1_4361j")
